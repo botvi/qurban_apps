@@ -1,210 +1,145 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linkskuy - Register</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduVerse — Daftar Akun</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg:#050a18;--card:#0d1526;--border:#1a2d55;--nb:#00c8ff;--np:#a855f7;--ng:#00ff88;--tx:#e2e8f0;--mu:#64748b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:20px;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.05) 1px,transparent 1px);background-size:50px 50px;animation:grid 25s linear infinite;pointer-events:none;}
+@keyframes grid{to{transform:translateY(50px)}}
+.orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.15;pointer-events:none;}
+.o1{width:450px;height:450px;background:var(--nb);top:-150px;right:-150px;}
+.o2{width:400px;height:400px;background:var(--np);bottom:-130px;left:-130px;}
 
-    <!-- favicon -->
-    <link rel="shortcut icon" href="{{ asset('linkskuy') }}/assets/images/logo.ico" type="image/x-icon">
+.card{background:rgba(13,21,38,.85);border:1px solid var(--border);border-radius:24px;padding:40px;width:100%;max-width:500px;position:relative;z-index:1;backdrop-filter:blur(16px);box-shadow:0 0 60px rgba(0,200,255,.08);}
 
-    <!-- custom css link -->
-    <link rel="stylesheet" href="{{ asset('linkskuy') }}/assets/css/style.css">
-    <link rel="stylesheet" href="{{ asset('linkskuy') }}/assets/css/authstyle.css">
-    
-    <style>
-      .error-message {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 5px;
-        display: block;
-      }
-      
-      .is-invalid {
-        border-color: #dc3545 !important;
-      }
-      
-      .alert {
-        margin-bottom: 20px;
-      }
-    </style>
+.brand{text-align:center;margin-bottom:28px;}
+.brand-logo{height:56px;object-fit:contain;margin-bottom:8px;}
+.brand-name{font-family:'Orbitron',monospace;font-size:1.4em;font-weight:900;background:linear-gradient(135deg,var(--nb),var(--np));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;}
+.brand-sub{color:var(--mu);font-size:.84em;margin-top:4px;}
 
-    <!-- google font link -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+.alert-err{background:rgba(255,79,123,.1);border:1px solid rgba(255,79,123,.4);color:#ff7fa0;padding:12px 16px;border-radius:12px;font-size:.85em;margin-bottom:16px;}
+.alert-err ul{list-style:none;padding:0;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:.78em;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--tx);padding:11px 14px;border-radius:11px;font-family:'Nunito';font-size:.9em;outline:none;transition:.2s;}
+.form-input:focus{border-color:var(--nb);box-shadow:0 0 12px rgba(0,200,255,.12);}
+.form-input::placeholder{color:var(--mu);}
+.form-hint{font-size:.73em;color:var(--mu);margin-top:4px;}
+.form-err{font-size:.73em;color:#ff7fa0;margin-top:4px;}
+
+.pw-wrap{position:relative;}
+.pw-wrap .form-input{padding-right:40px;}
+.pw-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--mu);cursor:pointer;transition:.2s;}
+.pw-toggle:hover{color:var(--nb);}
+
+.check-row{display:flex;align-items:flex-start;gap:10px;margin:14px 0;}
+.check-row input[type=checkbox]{width:16px;height:16px;margin-top:2px;accent-color:var(--nb);cursor:pointer;flex-shrink:0;}
+.check-row label{font-size:.83em;color:var(--mu);cursor:pointer;}
+.check-row a{color:var(--nb);text-decoration:none;}
+.check-row a:hover{color:var(--np);}
+
+.btn-reg{width:100%;padding:13px;background:linear-gradient(135deg,var(--nb),var(--np));color:#fff;border:none;border-radius:12px;font-family:'Orbitron',monospace;font-size:.88em;font-weight:700;letter-spacing:2px;cursor:pointer;transition:.3s;box-shadow:0 0 20px rgba(0,200,255,.2);}
+.btn-reg:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,200,255,.35);}
+
+.divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
+.footer-link{text-align:center;font-size:.85em;color:var(--mu);}
+.footer-link a{color:var(--nb);font-weight:700;text-decoration:none;}
+.footer-link a:hover{color:var(--np);}
+</style>
 </head>
-
 <body>
-    <!-- #MAIN -->
-    <main>
-        <!-- Register Container -->
-        <div class="login-container">
-            <!-- Register Form -->
-            <div class="login-form-container">
-                <div class="form-header">
-                    <h2 class="form-title">Buat Akun Baru</h2>
-                    <p class="form-subtitle">Daftar ke Linkskuy untuk mulai membuat link keren</p>
-                </div>
+<div class="orb o1"></div><div class="orb o2"></div>
 
-                <!-- Google Register Button -->
-                <a href="{{ route('google.login') }}" class="button-custom-shine"
-                    style="padding: 8px 18px; background-color: #ffffff; color: #000000; border-radius: 6px; border: 2px solid #222; font-size: 1rem; font-family: inherit; cursor: pointer; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: background 0.2s, color 0.2s, box-shadow 0.2s; display: flex; justify-content: center; align-items: center; text-align: center; width: 100%; margin-bottom: 20px;">
-                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
-                        class="google-icon">
-                    Daftar dengan Google
-                </a>
+<div class="card">
+    <div class="brand">
+        <img src="{{ asset('env/logo.png') }}" alt="EduVerse" class="brand-logo">
+        <div class="brand-name">EDUVERSE</div>
+        <div class="brand-sub">Buat akun untuk mulai belajar!</div>
+    </div>
 
-                <!-- Divider -->
-                <div class="divider">
-                    <span>atau</span>
-                </div>
+    @if($errors->any())
+    <div class="alert-err">
+        <ul>@foreach($errors->all() as $e)<li><i class="fas fa-exclamation-circle"></i> {{ $e }}</li>@endforeach</ul>
+    </div>
+    @endif
 
-                <form method="POST" action="{{ route('register') }}" class="login-form">
-                    @csrf
-                    
-                    @if ($errors->any())
-                        <div class="alert alert-danger" style="background-color: #fee; border: 1px solid #fcc; color: #c33; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                            <ul style="margin: 0; padding-left: 20px;">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    
-                    <!-- Nama Lengkap Field -->
-                    <div class="form-group">
-                        <label for="name" class="form-label">
-                            <ion-icon name="person-outline"></ion-icon>
-                            Nama Lengkap
-                        </label>
-                        <input type="text" id="name" name="name" class="form-input @error('name') is-invalid @enderror"
-                            placeholder="Masukkan nama lengkap Anda" value="{{ old('name') }}" required>
-                        @error('name')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <!-- Username Field -->
-                    <div class="form-group">
-                        <label for="username" class="form-label">
-                            <ion-icon name="at-outline"></ion-icon>
-                            Username
-                        </label>
-                        <input type="text" id="username" name="username" class="form-input @error('username') is-invalid @enderror"
-                            placeholder="Buat username unik" value="{{ old('username') }}" required>
-                        <small class="form-help">Username akan digunakan untuk login dan URL profil Anda</small>
-                        @error('username')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-                    
-                    <!-- WhatsApp Number Field -->
-                    <div class="form-group">
-                        <label for="no_wa" class="form-label">
-                            <ion-icon name="logo-whatsapp"></ion-icon>
-                            Nomor WhatsApp
-                        </label>
-                        <input type="tel" id="no_wa" name="no_wa" class="form-input @error('no_wa') is-invalid @enderror"
-                            placeholder="Contoh: 08123456789" value="{{ old('no_wa') }}" required>
-                        <small class="form-help">Nomor WhatsApp untuk verifikasi dan notifikasi</small>
-                        @error('no_wa')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <!-- Email Field -->
-                    <div class="form-group">
-                        <label for="email" class="form-label">
-                            <ion-icon name="mail-outline"></ion-icon>
-                            Email
-                        </label>
-                        <input type="email" id="email" name="email" class="form-input @error('email') is-invalid @enderror"
-                            placeholder="Masukkan alamat email" value="{{ old('email') }}" required>
-                        @error('email')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <!-- Password Field -->
-                    <div class="form-group">
-                        <label for="password" class="form-label">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                            Password
-                        </label>
-                        <div class="password-input-group">
-                            <input type="password" id="password" name="password" class="form-input @error('password') is-invalid @enderror"
-                                placeholder="Buat password yang kuat" required>
-                            <button type="button" class="password-toggle" data-password-toggle
-                                aria-label="Toggle password visibility">
-                                <ion-icon name="eye-outline"></ion-icon>
-                            </button>
-                        </div>
-                        <small class="form-help">Minimal 6 karakter</small>
-                        @error('password')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <!-- Confirm Password Field -->
-                    <div class="form-group">
-                        <label for="password_confirmation" class="form-label">
-                            <ion-icon name="shield-checkmark-outline"></ion-icon>
-                            Konfirmasi Password
-                        </label>
-                        <div class="password-input-group">
-                            <input type="password" id="password_confirmation" name="password_confirmation"
-                                class="form-input @error('password_confirmation') is-invalid @enderror" placeholder="Ulangi password Anda" required>
-                            <button type="button" class="password-toggle" data-password-toggle
-                                aria-label="Toggle password visibility">
-                                <ion-icon name="eye-outline"></ion-icon>
-                            </button>
-                        </div>
-                        @error('password_confirmation')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <!-- Terms & Conditions -->
-                    <div class="form-group">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="agree-terms" name="agree-terms" required>
-                            <span class="checkmark"></span>
-                            Saya setuju dengan <a href="#" class="terms-link">Syarat & Ketentuan</a> dan <a
-                                href="#" class="terms-link">Kebijakan Privasi</a>
-                        </label>
-                        @error('agree-terms')
-                            <small class="error-message">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-                    <!-- Register Button -->
-                    <button type="submit" class="button-custom-shine"
-                        style="padding: 8px 18px; background-color: #22c44d; color: #fff; border-radius: 6px; border: 2px solid #222; font-size: 1rem; font-family: inherit; cursor: pointer; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.07); transition: background 0.2s, color 0.2s, box-shadow 0.2s; display: flex; justify-content: center; align-items: center; text-align: center; width: 100%;">
-                        Daftar Sekarang
-                    </button>
-
-                    <!-- Login Link -->
-                    <div class="register-section">
-                        <p>Sudah punya akun? <a href="{{ route('login') }}" class="register-link">Masuk sekarang</a>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </main>
-
-    <!-- custom js link -->
-    <script src="{{ asset('linkskuy') }}/assets/js/auth.js"></script>
     @include('sweetalert::alert')
 
-    <!-- ionicon link -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons/5.5.2/dist/ionicons/ionicons.js"></script>
-</body>
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
 
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-user"></i> Nama Lengkap</label>
+                <input type="text" name="name" class="form-input" placeholder="Nama lengkap" value="{{ old('name') }}" required>
+                @error('name')<div class="form-err">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-at"></i> Username</label>
+                <input type="text" name="username" class="form-input" placeholder="Username unik" value="{{ old('username') }}" required>
+                @error('username')<div class="form-err">{{ $message }}</div>@enderror
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" name="email" class="form-input" placeholder="Alamat email" value="{{ old('email') }}" required>
+                @error('email')<div class="form-err">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fab fa-whatsapp"></i> No. WhatsApp</label>
+                <input type="tel" name="no_wa" class="form-input" placeholder="08xxxxxxxxx" value="{{ old('no_wa') }}" required>
+                @error('no_wa')<div class="form-err">{{ $message }}</div>@enderror
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                <div class="pw-wrap">
+                    <input type="password" name="password" id="pw1" class="form-input" placeholder="Min. 6 karakter" required>
+                    <button type="button" class="pw-toggle" onclick="togglePw('pw1','i1')"><i id="i1" class="fas fa-eye"></i></button>
+                </div>
+                @error('password')<div class="form-err">{{ $message }}</div>@enderror
+            </div>
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-shield-alt"></i> Konfirmasi</label>
+                <div class="pw-wrap">
+                    <input type="password" name="password_confirmation" id="pw2" class="form-input" placeholder="Ulangi password" required>
+                    <button type="button" class="pw-toggle" onclick="togglePw('pw2','i2')"><i id="i2" class="fas fa-eye"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="check-row">
+            <input type="checkbox" id="terms" name="agree-terms" required>
+            <label for="terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> EduVerse</label>
+        </div>
+
+        <button type="submit" class="btn-reg"><i class="fas fa-rocket"></i> &nbsp; DAFTAR SEKARANG</button>
+    </form>
+
+    <hr class="divider">
+    <div class="footer-link">Sudah punya akun? <a href="{{ route('login') }}">Masuk sekarang</a></div>
+</div>
+
+<script>
+function togglePw(id, iconId){
+    var p=document.getElementById(id);
+    var i=document.getElementById(iconId);
+    p.type=p.type==='password'?'text':'password';
+    i.className=p.type==='password'?'fas fa-eye':'fas fa-eye-slash';
+}
+</script>
+</body>
 </html>

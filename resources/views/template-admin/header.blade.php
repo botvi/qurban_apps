@@ -14,8 +14,8 @@
                     </a>
                 </li>
                 <li class="dropdown pc-h-item d-inline-flex d-md-none">
-                    <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown"
-                        href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                    <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#"
+                        role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="ti ti-search"></i>
                     </a>
                     <div class="dropdown-menu pc-h-dropdown drp-search">
@@ -40,7 +40,7 @@
         <div class="ms-auto">
             <ul class="list-unstyled">
                 <li class="dropdown pc-h-item">
-                   
+
                     <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
                         <div class="dropdown-header d-flex align-items-center justify-content-between">
                             <h5 class="m-0">Message</h5>
@@ -114,9 +114,8 @@
                     </div>
                 </li>
                 <li class="dropdown pc-h-item header-user-profile">
-                    <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
-                        href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside"
-                        aria-expanded="false">
+                    <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
+                        role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
                         @php
                             $fotoProfile = Auth::user()->foto_profile ?? null;
                             if ($fotoProfile) {
@@ -144,18 +143,21 @@
                                     <h6 class="mb-1">{{ Auth::user()->name }}</h6>
                                     <span>{{ Auth::user()->role }}</span>
                                 </div>
-                              
+
                             </div>
                         </div>
                         <div class="d-flex justify-content-between px-3 py-2">
                             <a href="{{ route('profil-superadmin') }}" class="btn btn-outline-primary w-100 me-2">
                                 <i class="ti ti-user"></i> Profil
                             </a>
-                            <a href="/logout" class="btn btn-outline-danger w-100 ms-2">
-                                <i class="ti ti-power"></i> Logout
-                            </a>
+                            <form method="POST" action="/logout">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-danger w-100 ms-2">
+                                    <i class="ti ti-power"></i> Logout
+                                </button>
+                            </form>
                         </div>
-                    
+
                     </div>
                 </li>
             </ul>

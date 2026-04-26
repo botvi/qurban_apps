@@ -1,8 +1,10 @@
 <nav class="pc-sidebar">
     <div class="navbar-wrapper">
         <div class="m-header justify-content-center">
-            <a href="/dashboard-superadmin" class="b-brand text-primary">
-                <img src="{{ asset('env') }}/hitam.png" alt="Logo" style="height: 60px;">
+            <a href="/dashboard-superadmin" class="b-brand text-primary" style="display:flex;align-items:center;gap:10px;">
+                {{-- <img src="{{ asset('env/logo.png') }}" alt="EduVerse" style="height: 50px;object-fit:contain;"> --}}
+                <span
+                    style="font-family:'Orbitron',monospace;font-size:1.1em;font-weight:900;background:linear-gradient(90deg,#00c8ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;">EDUVERSE</span>
             </a>
         </div>
         @if (Auth::user()->role == 'superadmin')
@@ -16,31 +18,51 @@
                     </li>
 
                     <li class="pc-item pc-caption">
-                        <label>Data Linkskuy</label>
+                        <label>Data EduVerse</label>
                         <i class="ti ti-dashboard"></i>
                     </li>
+
+
                     <li class="pc-item">
-                        <a href="{{ route('whatsapp-api.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-brand-whatsapp"></i></span>
-                            <span class="pc-mtext">API Whatsapp</span>
+                        <a href="{{ route('mapel.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-bookmark"></i></span>
+                            <span class="pc-mtext">Master Mapel</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="{{ route('manage-testimoni.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-message-circle"></i></span>
-                            <span class="pc-mtext">Testimon Pelanggan</span>
+                        <a href="{{ route('materi.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-book"></i></span>
+                            <span class="pc-mtext">Master Materi</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="{{ route('manage-pelanggan.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-user"></i></span>
-                            <span class="pc-mtext">Pelanggan</span>
+                        <a href="{{ route('quiz.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-list"></i></span>
+                            <span class="pc-mtext">Master Quiz</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="{{ route('brand.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-briefcase"></i></span>
-                            <span class="pc-mtext">Manage Brand</span>
+                        <a href="{{ route('ujian.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-file-text"></i></span>
+                            <span class="pc-mtext">Master Ujian</span>
+                        </a>
+                    </li>
+                    <li class="pc-item">
+                        <a href="{{ route('siswa.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-users"></i></span>
+                            <span class="pc-mtext">Data Siswa</span>
+                        </a>
+                    </li>
+                    <li class="pc-item">
+                        <a href="{{ route('nilai-quiz.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-chart-bar"></i></span>
+                            <span class="pc-mtext">Nilai Quiz</span>
+                        </a>
+                    </li>
+                    <li class="pc-item">
+                        <a href="{{ route('nilai-ujian.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-chart-pie"></i></span>
+                            <span class="pc-mtext">Nilai Ujian</span>
                         </a>
                     </li>
                 </ul>
