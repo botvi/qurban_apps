@@ -171,7 +171,23 @@
             </div>
             
             <div class="materi-body">
-                {!! $materi->isi_materi !!}
+                @if($materi->isi_materi)
+                    <div class="pdf-container" style="position: relative; overflow: hidden; padding-top: 141.42%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <iframe src="{{ asset('uploads/pdf/' . $materi->isi_materi) }}#toolbar=0" 
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="{{ asset('uploads/pdf/' . $materi->isi_materi) }}" target="_blank" class="btn-nav" style="border-color: #FF6B6B; color: #FF6B6B;">
+                            <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                        </a>
+                    </div>
+                @else
+                    <div class="alert">
+                        <i class="fas fa-file-pdf"></i> File materi belum tersedia.
+                    </div>
+                @endif
             </div>
             
             <div class="action-area">

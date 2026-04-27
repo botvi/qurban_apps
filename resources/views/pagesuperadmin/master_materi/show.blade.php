@@ -38,9 +38,18 @@
                 <p>{{ $materi->deskripsi }}</p>
               </div>
               <div class="mb-3">
-                <strong>Isi Materi:</strong>
-                <div class="mt-2" style="border: 1px solid #ddd; padding: 20px; border-radius: 5px; background: #fff;">
-                    {!! $materi->isi_materi !!}
+                <strong>Isi Materi (PDF):</strong>
+                <div class="mt-2" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #f8f9fa;">
+                    @if($materi->isi_materi)
+                        <iframe src="{{ asset('uploads/pdf/' . $materi->isi_materi) }}" width="100%" height="600px" style="border: none;"></iframe>
+                        <div class="mt-2">
+                            <a href="{{ asset('uploads/pdf/' . $materi->isi_materi) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
+                            </a>
+                        </div>
+                    @else
+                        <p class="text-danger">File PDF tidak ditemukan.</p>
+                    @endif
                 </div>
               </div>
             </div>

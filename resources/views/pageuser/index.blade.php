@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduVerse — Menu Utama</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg:       #050a18;
-            --card:     #0d1526;
-            --border:   #1a2d55;
-            --neon-b:   #00c8ff;
-            --neon-p:   #a855f7;
-            --neon-g:   #00ff88;
-            --neon-y:   #ffd700;
-            --neon-r:   #ff4f7b;
-            --text:     #e2e8f0;
-            --muted:    #64748b;
+            --bg: #050a18;
+            --card: #0d1526;
+            --border: #1a2d55;
+            --neon-b: #00c8ff;
+            --neon-p: #a855f7;
+            --neon-g: #00ff88;
+            --neon-y: #ffd700;
+            --neon-r: #ff4f7b;
+            --text: #e2e8f0;
+            --muted: #64748b;
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Nunito', sans-serif;
@@ -41,16 +48,21 @@
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(0,200,255,0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,200,255,0.05) 1px, transparent 1px);
+                linear-gradient(rgba(0, 200, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 200, 255, 0.05) 1px, transparent 1px);
             background-size: 50px 50px;
             animation: gridMove 20s linear infinite;
             pointer-events: none;
         }
 
         @keyframes gridMove {
-            from { transform: translateY(0); }
-            to   { transform: translateY(50px); }
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(50px);
+            }
         }
 
         /* Glow orbs */
@@ -62,24 +74,57 @@
             opacity: 0.15;
             animation: float 8s ease-in-out infinite;
         }
-        .orb1 { width:400px;height:400px;background:var(--neon-b);top:-100px;left:-100px; animation-delay:0s; }
-        .orb2 { width:350px;height:350px;background:var(--neon-p);bottom:-80px;right:-80px; animation-delay:3s; }
-        .orb3 { width:250px;height:250px;background:var(--neon-g);top:40%;left:60%; animation-delay:6s; }
+
+        .orb1 {
+            width: 400px;
+            height: 400px;
+            background: var(--neon-b);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 350px;
+            height: 350px;
+            background: var(--neon-p);
+            bottom: -80px;
+            right: -80px;
+            animation-delay: 3s;
+        }
+
+        .orb3 {
+            width: 250px;
+            height: 250px;
+            background: var(--neon-g);
+            top: 40%;
+            left: 60%;
+            animation-delay: 6s;
+        }
 
         @keyframes float {
-            0%,100% { transform: translate(0,0); }
-            50%      { transform: translate(20px, -20px); }
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, -20px);
+            }
         }
 
         /* TOP BAR */
         .topbar {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 14px 28px;
-            background: rgba(5,10,24,0.8);
+            background: rgba(5, 10, 24, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 100;
@@ -95,7 +140,11 @@
             letter-spacing: 2px;
         }
 
-        .topbar-right { display:flex; gap:10px; align-items:center; }
+        .topbar-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
 
         .btn-out {
             background: transparent;
@@ -113,6 +162,7 @@
             align-items: center;
             gap: 6px;
         }
+
         .btn-out:hover {
             background: var(--neon-r);
             color: #fff;
@@ -149,18 +199,21 @@
             margin-bottom: 6px;
         }
 
-        /* MENU GRID */
         .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
-            max-width: 700px;
-            width: 90%;
+            max-width: 760px;
+            width: 95%;
+            margin: 0 auto;
             z-index: 1;
         }
 
         @media (max-width: 600px) {
-            .menu-grid { grid-template-columns: repeat(2, 1fr); gap:14px; }
+            .menu-grid {
+                gap: 14px;
+            }
         }
 
         .menu-card {
@@ -175,6 +228,21 @@
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            flex: 1 1 200px;
+            max-width: 230px;
+        }
+
+        @media (max-width: 600px) {
+            .menu-card {
+                flex: 1 1 140px;
+                max-width: 45%;
+                min-height: 140px;
+            }
         }
 
         .menu-card::before {
@@ -186,8 +254,13 @@
             border-radius: 20px;
         }
 
-        .menu-card:hover { transform: translateY(-8px); }
-        .menu-card:hover::before { opacity: 1; }
+        .menu-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .menu-card:hover::before {
+            opacity: 1;
+        }
 
         .menu-card .icon {
             font-size: 2.6em;
@@ -204,84 +277,134 @@
         }
 
         /* Card variants */
-        .mc-blue   { border-color: var(--neon-b); }
-        .mc-blue .icon { color: var(--neon-b); }
-        .mc-blue:hover { box-shadow: 0 0 30px rgba(0,200,255,0.3); border-color: var(--neon-b); background: rgba(0,200,255,0.07); }
+        .mc-blue {
+            border-color: var(--neon-b);
+        }
 
-        .mc-purple { border-color: var(--neon-p); }
-        .mc-purple .icon { color: var(--neon-p); }
-        .mc-purple:hover { box-shadow: 0 0 30px rgba(168,85,247,0.3); background: rgba(168,85,247,0.07); }
+        .mc-blue .icon {
+            color: var(--neon-b);
+        }
 
-        .mc-red    { border-color: var(--neon-r); }
-        .mc-red .icon { color: var(--neon-r); }
-        .mc-red:hover { box-shadow: 0 0 30px rgba(255,79,123,0.3); background: rgba(255,79,123,0.07); }
+        .mc-blue:hover {
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+            border-color: var(--neon-b);
+            background: rgba(0, 200, 255, 0.07);
+        }
 
-        .mc-green  { border-color: var(--neon-g); }
-        .mc-green .icon { color: var(--neon-g); }
-        .mc-green:hover { box-shadow: 0 0 30px rgba(0,255,136,0.3); background: rgba(0,255,136,0.07); }
+        .mc-purple {
+            border-color: var(--neon-p);
+        }
 
-        .mc-yellow { border-color: var(--neon-y); }
-        .mc-yellow .icon { color: var(--neon-y); }
-        .mc-yellow:hover { box-shadow: 0 0 30px rgba(255,215,0,0.3); background: rgba(255,215,0,0.07); }
+        .mc-purple .icon {
+            color: var(--neon-p);
+        }
+
+        .mc-purple:hover {
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+            background: rgba(168, 85, 247, 0.07);
+        }
+
+        .mc-red {
+            border-color: var(--neon-r);
+        }
+
+        .mc-red .icon {
+            color: var(--neon-r);
+        }
+
+        .mc-red:hover {
+            box-shadow: 0 0 30px rgba(255, 79, 123, 0.3);
+            background: rgba(255, 79, 123, 0.07);
+        }
+
+        .mc-green {
+            border-color: var(--neon-g);
+        }
+
+        .mc-green .icon {
+            color: var(--neon-g);
+        }
+
+        .mc-green:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            background: rgba(0, 255, 136, 0.07);
+        }
+
+        .mc-yellow {
+            border-color: var(--neon-y);
+        }
+
+        .mc-yellow .icon {
+            color: var(--neon-y);
+        }
+
+        .mc-yellow:hover {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.07);
+        }
     </style>
 </head>
+
 <body>
 
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
 
-<div class="topbar">
-    <span class="logo">⬡ EDUVERSE</span>
-    <div class="topbar-right">
-        @if(Auth::check())
-            <span style="color:var(--muted);font-size:0.9em;"><i class="fas fa-user-astronaut"></i> {{ Auth::user()->name }}</span>
-            <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display:none;">@csrf</form>
-            <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn-out">
-                <i class="fas fa-power-off"></i> Keluar
-            </a>
-        @else
-            <a href="{{ route('login') }}" class="btn-out" style="border-color:var(--neon-b);color:var(--neon-b);">
-                <i class="fas fa-sign-in-alt"></i> Masuk
-            </a>
-        @endif
+    <div class="topbar">
+        <span class="logo">⬡ EDUVERSE</span>
+        <div class="topbar-right">
+            @if (Auth::check())
+                <span style="color:var(--muted);font-size:0.9em;"><i class="fas fa-user-astronaut"></i>
+                    {{ Auth::user()->name }}</span>
+                <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display:none;">@csrf</form>
+                <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"
+                    class="btn-out">
+                    <i class="fas fa-power-off"></i> Keluar
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-out" style="border-color:var(--neon-b);color:var(--neon-b);">
+                    <i class="fas fa-sign-in-alt"></i> Masuk
+                </a>
+            @endif
+        </div>
     </div>
-</div>
 
-<div class="hero" style="margin-top:80px;">
-    @if(Auth::check())
-        <div class="greeting"><i class="fas fa-bolt"></i> Halo, {{ Auth::user()->name }}!</div>
-    @endif
-    <h1>EDUVERSE</h1>
-    <p>Platform Belajar Interaktif Generasi Z</p>
-</div>
+    <div class="hero" style="margin-top:80px;">
+        @if (Auth::check())
+            <div class="greeting"><i class="fas fa-bolt"></i> Halo, {{ Auth::user()->name }}!</div>
+        @endif
+        <h1>EDUVERSE</h1>
+        <p>Platform Belajar Interaktif Generasi Z</p>
+    </div>
 
-<div class="menu-grid">
-    <a href="{{ route('user.materi.index') }}" class="menu-card mc-blue">
-        <span class="icon"><i class="fas fa-book-open"></i></span>
-        <div class="label">Materi Belajar</div>
-    </a>
+    <div class="menu-grid">
+        <a href="{{ route('user.materi.index') }}" class="menu-card mc-blue">
+            <span class="icon"><i class="fas fa-book-open"></i></span>
+            <div class="label">Materi Belajar</div>
+        </a>
 
-    <a href="{{ route('user.ujian.index') }}" class="menu-card mc-purple">
-        <span class="icon"><i class="fas fa-file-signature"></i></span>
-        <div class="label">Ujian</div>
-    </a>
+        <a href="{{ route('user.ujian.index') }}" class="menu-card mc-purple">
+            <span class="icon"><i class="fas fa-file-signature"></i></span>
+            <div class="label">Ujian</div>
+        </a>
 
-    <a href="{{ route('user.nilaiquiz') }}" class="menu-card mc-red">
-        <span class="icon"><i class="fas fa-trophy"></i></span>
-        <div class="label">Papan Nilai</div>
-    </a>
+        <a href="{{ route('user.nilaiquiz') }}" class="menu-card mc-red">
+            <span class="icon"><i class="fas fa-trophy"></i></span>
+            <div class="label">Papan Nilai</div>
+        </a>
 
-    <a href="{{ route('user.game') }}" class="menu-card mc-green">
-        <span class="icon"><i class="fas fa-gamepad"></i></span>
-        <div class="label">Mini Game</div>
-    </a>
+        <a href="{{ route('user.game') }}" class="menu-card mc-green">
+            <span class="icon"><i class="fas fa-gamepad"></i></span>
+            <div class="label">Mini Game</div>
+        </a>
 
-    <a href="{{ route('user.profil') }}" class="menu-card mc-yellow">
-        <span class="icon"><i class="fas fa-user-astronaut"></i></span>
-        <div class="label">Profil</div>
-    </a>
-</div>
+        <a href="{{ route('user.profil') }}" class="menu-card mc-yellow">
+            <span class="icon"><i class="fas fa-user-astronaut"></i></span>
+            <div class="label">Profil</div>
+        </a>
+    </div>
 
 </body>
+
 </html>

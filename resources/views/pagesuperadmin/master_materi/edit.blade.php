@@ -29,7 +29,7 @@
               <h5>Form Edit Materi</h5>
             </div>
             <div class="card-body">
-              <form action="{{ route('materi.update', $materi->id) }}" method="POST">
+              <form action="{{ route('materi.update', $materi->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -54,11 +54,17 @@
                   <input type="text" name="deskripsi" class="form-control" value="{{ $materi->deskripsi }}" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Isi Materi</label>
-                  <textarea name="isi_materi" id="tinymce-editor" class="form-control" rows="5">{{ $materi->isi_materi }}</textarea>
+                  <label class="form-label">Update File Materi (PDF)</label>
+                  <input type="file" name="isi_materi" class="form-control" accept="application/pdf">
+                  @if($materi->isi_materi)
+                    <div class="mt-2">
+                        <small>File saat ini: <a href="{{ asset('uploads/pdf/'.$materi->isi_materi) }}" target="_blank">{{ $materi->isi_materi }}</a></small>
+                    </div>
+                  @endif
+                  <small class="text-muted">Biarkan kosong jika tidak ingin mengubah file PDF. (Maks. 10MB)</small>
                 </div>
                 <div class="card-footer text-end">
-                  <button type="submit" class="btn btn-primary me-2">Submit</button>
+                  <button type="submit" class="btn btn-primary me-2">Update</button>
                   <a href="{{ route('materi.index') }}" class="btn btn-light">Kembali</a>
                 </div>
               </form>
@@ -68,53 +74,4 @@
       </div>
     </div>
   </section>
-@endsection
-
-@section('script')
-<!-- TinyMCE js -->
-<script src="{{ asset('admin') }}/assets/js/plugins/tinymce/tinymce.min.js"></script>
-<script>
-    tinymce.init({
-        height: '400',
-        selector: '#tinymce-editor',
-        content_style: 'body { font-family: "Inter", sans-serif; }',
-        menubar: false,
-        toolbar: [
-            'styleselect fontselect fontsizeselect',
-            'undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify',
-            'bullist numlist | outdent indent | blockquote subscript superscript | advlist | autolink | lists charmap | print preview | code'
-        ],
-        plugins: 'advlist autolink link image lists charmap print preview code',
-        images_upload_handler: function (blobInfo, success, failure) {
-            return new Promise((resolve, reject) => {
-                var xhr, formData;
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '{{ route('materi.upload.image') }}');
-                var token = '{{ csrf_token() }}';
-                xhr.setRequestHeader("X-CSRF-TOKEN", token);
-
-                xhr.onload = function() {
-                    var json;
-                    if (xhr.status != 200) {
-                        if (typeof failure === 'function') failure('HTTP Error: ' + xhr.status);
-                        reject('HTTP Error: ' + xhr.status);
-                        return;
-                    }
-                    json = JSON.parse(xhr.responseText);
-                    if (!json || typeof json.location != 'string') {
-                        if (typeof failure === 'function') failure('Invalid JSON: ' + xhr.responseText);
-                        reject('Invalid JSON: ' + xhr.responseText);
-                        return;
-                    }
-                    if (typeof success === 'function') success(json.location);
-                    resolve(json.location);
-                };
-                formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-                xhr.send(formData);
-            });
-        }
-    });
-</script>
 @endsection

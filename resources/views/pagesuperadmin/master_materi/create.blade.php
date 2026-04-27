@@ -29,7 +29,7 @@
               <h5>Form Tambah Materi</h5>
             </div>
             <div class="card-body">
-              <form action="{{ route('materi.store') }}" method="POST">
+              <form action="{{ route('materi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                   <label class="form-label">Mata Pelajaran</label>
@@ -53,8 +53,9 @@
                   <input type="text" name="deskripsi" class="form-control" placeholder="Deskripsi Singkat" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Isi Materi</label>
-                  <textarea name="isi_materi" id="tinymce-editor" class="form-control" rows="5" placeholder="Isi Materi"></textarea>
+                  <label class="form-label">Upload File Materi (PDF)</label>
+                  <input type="file" name="isi_materi" class="form-control" accept="application/pdf" required>
+                  <small class="text-muted">Hanya file PDF yang diperbolehkan (Maks. 10MB)</small>
                 </div>
                 <div class="card-footer text-end">
                   <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -67,53 +68,4 @@
       </div>
     </div>
   </section>
-@endsection
-
-@section('script')
-<!-- TinyMCE js -->
-<script src="{{ asset('admin') }}/assets/js/plugins/tinymce/tinymce.min.js"></script>
-<script>
-    tinymce.init({
-        height: '400',
-        selector: '#tinymce-editor',
-        content_style: 'body { font-family: "Inter", sans-serif; }',
-        menubar: false,
-        toolbar: [
-            'styleselect fontselect fontsizeselect',
-            'undo redo | cut copy paste | bold italic | link image | alignleft aligncenter alignright alignjustify',
-            'bullist numlist | outdent indent | blockquote subscript superscript | advlist | autolink | lists charmap | print preview | code'
-        ],
-        plugins: 'advlist autolink link image lists charmap print preview code',
-        images_upload_handler: function (blobInfo, success, failure) {
-            return new Promise((resolve, reject) => {
-                var xhr, formData;
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '{{ route('materi.upload.image') }}');
-                var token = '{{ csrf_token() }}';
-                xhr.setRequestHeader("X-CSRF-TOKEN", token);
-
-                xhr.onload = function() {
-                    var json;
-                    if (xhr.status != 200) {
-                        if (typeof failure === 'function') failure('HTTP Error: ' + xhr.status);
-                        reject('HTTP Error: ' + xhr.status);
-                        return;
-                    }
-                    json = JSON.parse(xhr.responseText);
-                    if (!json || typeof json.location != 'string') {
-                        if (typeof failure === 'function') failure('Invalid JSON: ' + xhr.responseText);
-                        reject('Invalid JSON: ' + xhr.responseText);
-                        return;
-                    }
-                    if (typeof success === 'function') success(json.location);
-                    resolve(json.location);
-                };
-                formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-                xhr.send(formData);
-            });
-        }
-    });
-</script>
 @endsection

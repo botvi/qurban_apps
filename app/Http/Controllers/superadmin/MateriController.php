@@ -31,10 +31,19 @@ class MateriController extends Controller
             'bab' => 'required',
             'judul' => 'required',
             'deskripsi' => 'required',
-            'isi_materi' => 'required',
+            'isi_materi' => 'required|mimes:pdf|max:10240',
         ]);
 
-        Materi::create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('isi_materi')) {
+            $file = $request->file('isi_materi');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/pdf'), $filename);
+            $data['isi_materi'] = $filename;
+        }
+
+        Materi::create($data);
         Alert::success('Success', 'Materi berhasil ditambahkan');
         return redirect()->route('materi.index');
     }
@@ -57,16 +66,35 @@ class MateriController extends Controller
             'bab' => 'required',
             'judul' => 'required',
             'deskripsi' => 'required',
-            'isi_materi' => 'required',
+            'isi_materi' => 'nullable|mimes:pdf|max:10240',
         ]);
 
-        $materi->update($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('isi_materi')) {
+            // Delete old file if exists
+            if ($materi->isi_materi && file_exists(public_path('uploads/pdf/' . $materi->isi_materi))) {
+                unlink(public_path('uploads/pdf/' . $materi->isi_materi));
+            }
+
+            $file = $request->file('isi_materi');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/pdf'), $filename);
+            $data['isi_materi'] = $filename;
+        } else {
+            $data['isi_materi'] = $materi->isi_materi;
+        }
+
+        $materi->update($data);
         Alert::success('Success', 'Materi berhasil diupdate');
         return redirect()->route('materi.index');
     }
 
     public function destroy(Materi $materi)
     {
+        if ($materi->isi_materi && file_exists(public_path('uploads/pdf/' . $materi->isi_materi))) {
+            unlink(public_path('uploads/pdf/' . $materi->isi_materi));
+        }
         $materi->delete();
         Alert::success('Success', 'Materi berhasil dihapus');
         return back();
