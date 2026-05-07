@@ -12,7 +12,7 @@ class MateriController extends Controller
 {
     public function index()
     {
-        $materis_grouped = Materi::with('mapel')->orderBy('mapel_id')->orderBy('id', 'asc')->get()->groupBy(function($m) {
+        $materis_grouped = Materi::with('mapel')->orderBy('mapel_id')->orderBy('id', 'asc')->get()->groupBy(function ($m) {
             return $m->mapel ? $m->mapel->nama_mapel . ' - Kelas ' . $m->mapel->kelas : 'Lainnya';
         });
         return view('pagesuperadmin.master_materi.index', compact('materis_grouped'));
@@ -31,7 +31,8 @@ class MateriController extends Controller
             'bab' => 'required',
             'judul' => 'required',
             'deskripsi' => 'required',
-            'isi_materi' => 'required|mimes:pdf|max:10240',
+            'isi_materi' => 'required|mimes:pdf',
+            'link_youtube' => 'nullable|url',
         ]);
 
         $data = $request->all();
@@ -66,7 +67,8 @@ class MateriController extends Controller
             'bab' => 'required',
             'judul' => 'required',
             'deskripsi' => 'required',
-            'isi_materi' => 'nullable|mimes:pdf|max:10240',
+            'isi_materi' => 'nullable|mimes:pdf',
+            'link_youtube' => 'nullable|url',
         ]);
 
         $data = $request->all();

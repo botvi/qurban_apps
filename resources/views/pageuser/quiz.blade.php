@@ -101,14 +101,26 @@
                 @php $orig = $q['original_index'] ?? $index; @endphp
                 <div class="question-card">
                     <div class="q-num">SOAL {{ $index + 1 }}</div>
-                    <div class="q-text">{!! $q['pertanyaan'] !!}</div>
+                    @if(!empty($q['gambar_pertanyaan']))
+                        <div style="margin-bottom: 15px;"><img src="{{ asset($q['gambar_pertanyaan']) }}" style="max-width: 100%; border-radius: 8px;" alt="Gambar Pertanyaan"></div>
+                    @endif
+                    @if(!empty($q['pertanyaan']))
+                        <div class="q-text">{!! $q['pertanyaan'] !!}</div>
+                    @endif
                     <div class="options-grid">
                         @foreach(['a'=>'A','b'=>'B','c'=>'C','d'=>'D'] as $val => $lbl)
                         <label class="option-label">
-                            <input type="radio" name="jawaban[{{ $orig }}]" value="{{ $val }}" {{ $index===0 && $val==='a' ? '' : '' }} required>
+                            <input type="radio" name="jawaban[{{ $orig }}]" value="{{ $val }}" required>
                             <div class="option-box">
                                 <span class="opt-letter">{{ $lbl }}</span>
-                                <span>{{ $q[$val] }}</span>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    @if(!empty($q['gambar_'.$val]))
+                                        <img src="{{ asset($q['gambar_'.$val]) }}" style="max-width: 150px; border-radius: 4px;" alt="Pilihan {{ $lbl }}">
+                                    @endif
+                                    @if(!empty($q[$val]))
+                                        <span>{{ $q[$val] }}</span>
+                                    @endif
+                                </div>
                             </div>
                         </label>
                         @endforeach

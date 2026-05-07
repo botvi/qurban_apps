@@ -28,24 +28,48 @@ class UjianController extends Controller
             'mapel_id'   => 'required|exists:mapels,id',
             'judul'      => 'required|string|max:255',
             'status'     => 'required|in:dimulai,belum dimulai',
-            'pertanyaan' => 'required|array',
-            'a'          => 'required|array',
-            'b'          => 'required|array',
-            'c'          => 'required|array',
-            'd'          => 'required|array',
+            'pertanyaan' => 'nullable|array',
+            'a'          => 'nullable|array',
+            'b'          => 'nullable|array',
+            'c'          => 'nullable|array',
+            'd'          => 'nullable|array',
             'jawaban'    => 'required|array',
+            'gambar_pertanyaan' => 'nullable|array',
+            'gambar_pertanyaan.*' => 'nullable|image|max:2048',
+            'gambar_a' => 'nullable|array',
+            'gambar_a.*' => 'nullable|image|max:2048',
+            'gambar_b' => 'nullable|array',
+            'gambar_b.*' => 'nullable|image|max:2048',
+            'gambar_c' => 'nullable|array',
+            'gambar_c.*' => 'nullable|image|max:2048',
+            'gambar_d' => 'nullable|array',
+            'gambar_d.*' => 'nullable|image|max:2048',
         ]);
 
         $soal = [];
-        for ($i = 0; $i < count($request->pertanyaan); $i++) {
-            $soal[] = [
-                'pertanyaan' => $request->pertanyaan[$i],
-                'a'          => $request->a[$i],
-                'b'          => $request->b[$i],
-                'c'          => $request->c[$i],
-                'd'          => $request->d[$i],
-                'jawaban'    => $request->jawaban[$i],
+        $jawabanCount = count($request->jawaban ?? []);
+        for ($i = 0; $i < $jawabanCount; $i++) {
+            $item = [
+                'pertanyaan' => $request->pertanyaan[$i] ?? null,
+                'a'          => $request->a[$i] ?? null,
+                'b'          => $request->b[$i] ?? null,
+                'c'          => $request->c[$i] ?? null,
+                'd'          => $request->d[$i] ?? null,
+                'jawaban'    => $request->jawaban[$i] ?? null,
             ];
+
+            $fileFields = ['gambar_pertanyaan', 'gambar_a', 'gambar_b', 'gambar_c', 'gambar_d'];
+            foreach ($fileFields as $field) {
+                if ($request->hasFile("{$field}.{$i}")) {
+                    $file = $request->file("{$field}.{$i}");
+                    $filename = time() . "_{$field}_{$i}_" . $file->getClientOriginalName();
+                    $file->move(public_path('uploads/ujians'), $filename);
+                    $item[$field] = 'uploads/ujians/' . $filename;
+                } else {
+                    $item[$field] = $request->input("old_{$field}.{$i}") ?? null;
+                }
+            }
+            $soal[] = $item;
         }
 
         Ujian::create([
@@ -71,24 +95,48 @@ class UjianController extends Controller
             'mapel_id'   => 'required|exists:mapels,id',
             'judul'      => 'required|string|max:255',
             'status'     => 'required|in:dimulai,belum dimulai',
-            'pertanyaan' => 'required|array',
-            'a'          => 'required|array',
-            'b'          => 'required|array',
-            'c'          => 'required|array',
-            'd'          => 'required|array',
+            'pertanyaan' => 'nullable|array',
+            'a'          => 'nullable|array',
+            'b'          => 'nullable|array',
+            'c'          => 'nullable|array',
+            'd'          => 'nullable|array',
             'jawaban'    => 'required|array',
+            'gambar_pertanyaan' => 'nullable|array',
+            'gambar_pertanyaan.*' => 'nullable|image|max:2048',
+            'gambar_a' => 'nullable|array',
+            'gambar_a.*' => 'nullable|image|max:2048',
+            'gambar_b' => 'nullable|array',
+            'gambar_b.*' => 'nullable|image|max:2048',
+            'gambar_c' => 'nullable|array',
+            'gambar_c.*' => 'nullable|image|max:2048',
+            'gambar_d' => 'nullable|array',
+            'gambar_d.*' => 'nullable|image|max:2048',
         ]);
 
         $soal = [];
-        for ($i = 0; $i < count($request->pertanyaan); $i++) {
-            $soal[] = [
-                'pertanyaan' => $request->pertanyaan[$i],
-                'a'          => $request->a[$i],
-                'b'          => $request->b[$i],
-                'c'          => $request->c[$i],
-                'd'          => $request->d[$i],
-                'jawaban'    => $request->jawaban[$i],
+        $jawabanCount = count($request->jawaban ?? []);
+        for ($i = 0; $i < $jawabanCount; $i++) {
+            $item = [
+                'pertanyaan' => $request->pertanyaan[$i] ?? null,
+                'a'          => $request->a[$i] ?? null,
+                'b'          => $request->b[$i] ?? null,
+                'c'          => $request->c[$i] ?? null,
+                'd'          => $request->d[$i] ?? null,
+                'jawaban'    => $request->jawaban[$i] ?? null,
             ];
+
+            $fileFields = ['gambar_pertanyaan', 'gambar_a', 'gambar_b', 'gambar_c', 'gambar_d'];
+            foreach ($fileFields as $field) {
+                if ($request->hasFile("{$field}.{$i}")) {
+                    $file = $request->file("{$field}.{$i}");
+                    $filename = time() . "_{$field}_{$i}_" . $file->getClientOriginalName();
+                    $file->move(public_path('uploads/ujians'), $filename);
+                    $item[$field] = 'uploads/ujians/' . $filename;
+                } else {
+                    $item[$field] = $request->input("old_{$field}.{$i}") ?? null;
+                }
+            }
+            $soal[] = $item;
         }
 
         $ujian->update([

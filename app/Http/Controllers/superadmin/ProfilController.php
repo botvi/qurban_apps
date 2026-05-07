@@ -23,15 +23,15 @@ class ProfilController extends Controller
         $user = User::find(auth()->user()->id);
 
         $validator = Validator::make($request->all(), [
-            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'name' => 'required', 
+            'foto_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+            'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'username' => 'required|unique:users,username,' . $user->id,
             'no_wa' => 'required',
             'password' => 'nullable|min:8|confirmed',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             Alert::error('Terjadi kesalahan! ' . $validator->errors()->first());
             return redirect()->back();
         }
@@ -52,7 +52,7 @@ class ProfilController extends Controller
             $data['foto_profile'] = $filename;
         }
 
-        if($request->filled('password')) {
+        if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
 

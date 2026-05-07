@@ -53,6 +53,10 @@
                   <input type="text" name="deskripsi" class="form-control" placeholder="Deskripsi Singkat" required>
                 </div>
                 <div class="form-group">
+                  <label class="form-label">Link YouTube (Opsional)</label>
+                  <input type="url" name="link_youtube" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="form-group">
                   <label class="form-label">Upload File Materi (PDF)</label>
                   <input type="file" name="isi_materi" class="form-control" accept="application/pdf" required>
                   <small class="text-muted">Hanya file PDF yang diperbolehkan (Maks. 10MB)</small>

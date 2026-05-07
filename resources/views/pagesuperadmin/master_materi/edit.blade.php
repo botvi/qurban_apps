@@ -54,6 +54,10 @@
                   <input type="text" name="deskripsi" class="form-control" value="{{ $materi->deskripsi }}" required>
                 </div>
                 <div class="form-group">
+                  <label class="form-label">Link YouTube (Opsional)</label>
+                  <input type="url" name="link_youtube" class="form-control" value="{{ $materi->link_youtube }}" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="form-group">
                   <label class="form-label">Update File Materi (PDF)</label>
                   <input type="file" name="isi_materi" class="form-control" accept="application/pdf">
                   @if($materi->isi_materi)

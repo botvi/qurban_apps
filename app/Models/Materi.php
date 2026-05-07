@@ -15,6 +15,7 @@ class Materi extends Model
         'judul',
         'deskripsi',
         'isi_materi',
+        'link_youtube',
     ];
 
     public function mapel()

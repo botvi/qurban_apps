@@ -171,6 +171,33 @@
             </div>
             
             <div class="materi-body">
+                @php
+                    $youtubeEmbed = null;
+                    if ($materi->link_youtube) {
+                        $url = $materi->link_youtube;
+                        if (str_contains($url, 'youtube.com/watch')) {
+                            parse_str(parse_url($url, PHP_URL_QUERY), $queryVars);
+                            if (isset($queryVars['v'])) {
+                                $youtubeEmbed = 'https://www.youtube.com/embed/' . $queryVars['v'];
+                            }
+                        } elseif (str_contains($url, 'youtu.be/')) {
+                            $path = parse_url($url, PHP_URL_PATH);
+                            $videoId = ltrim($path, '/');
+                            $youtubeEmbed = 'https://www.youtube.com/embed/' . $videoId;
+                        } else {
+                            $youtubeEmbed = $url;
+                        }
+                    }
+                @endphp
+                @if($youtubeEmbed)
+                    <div class="youtube-container" style="position: relative; overflow: hidden; padding-top: 56.25%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                        <iframe src="{{ $youtubeEmbed }}" 
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                @endif
+
                 @if($materi->isi_materi)
                     <div class="pdf-container" style="position: relative; overflow: hidden; padding-top: 141.42%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                         <iframe src="{{ asset('uploads/pdf/' . $materi->isi_materi) }}#toolbar=0" 

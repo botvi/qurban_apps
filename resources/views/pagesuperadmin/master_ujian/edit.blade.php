@@ -24,7 +24,7 @@
 
       <div class="row justify-content-center">
         <div class="col-sm-12">
-          <form action="{{ route('ujian.update', $ujian->id) }}" method="POST">
+          <form action="{{ route('ujian.update', $ujian->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="card mb-3">
@@ -68,25 +68,55 @@
                       </div>
                       <div class="card-body">
                         <div class="form-group mb-3">
-                          <label class="form-label">Pertanyaan</label>
-                          <textarea name="pertanyaan[]" class="form-control" rows="3" required>{{ $soal['pertanyaan'] ?? '' }}</textarea>
+                          <label class="form-label">Gambar Pertanyaan (Opsional)</label>
+                          <input type="hidden" name="old_gambar_pertanyaan[]" value="{{ $soal['gambar_pertanyaan'] ?? '' }}">
+                          @if(!empty($soal['gambar_pertanyaan']))
+                              <div class="mb-2"><img src="{{ asset($soal['gambar_pertanyaan']) }}" alt="Gambar" width="150"></div>
+                          @endif
+                          <input type="file" name="gambar_pertanyaan[]" class="form-control" accept="image/*">
+                          <label class="form-label mt-2">Pertanyaan</label>
+                          <textarea name="pertanyaan[]" class="form-control" rows="3">{{ $soal['pertanyaan'] ?? '' }}</textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan A</label>
-                              <input type="text" name="a[]" class="form-control" value="{{ $soal['a'] ?? '' }}" required>
+                              <label class="form-label">Gambar Pilihan A (Opsional)</label>
+                              <input type="hidden" name="old_gambar_a[]" value="{{ $soal['gambar_a'] ?? '' }}">
+                              @if(!empty($soal['gambar_a']))
+                                  <div class="mb-1"><img src="{{ asset($soal['gambar_a']) }}" alt="Gambar A" width="100"></div>
+                              @endif
+                              <input type="file" name="gambar_a[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan A</label>
+                              <input type="text" name="a[]" class="form-control" value="{{ $soal['a'] ?? '' }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan B</label>
-                              <input type="text" name="b[]" class="form-control" value="{{ $soal['b'] ?? '' }}" required>
+                              <label class="form-label">Gambar Pilihan B (Opsional)</label>
+                              <input type="hidden" name="old_gambar_b[]" value="{{ $soal['gambar_b'] ?? '' }}">
+                              @if(!empty($soal['gambar_b']))
+                                  <div class="mb-1"><img src="{{ asset($soal['gambar_b']) }}" alt="Gambar B" width="100"></div>
+                              @endif
+                              <input type="file" name="gambar_b[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan B</label>
+                              <input type="text" name="b[]" class="form-control" value="{{ $soal['b'] ?? '' }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan C</label>
-                              <input type="text" name="c[]" class="form-control" value="{{ $soal['c'] ?? '' }}" required>
+                              <label class="form-label">Gambar Pilihan C (Opsional)</label>
+                              <input type="hidden" name="old_gambar_c[]" value="{{ $soal['gambar_c'] ?? '' }}">
+                              @if(!empty($soal['gambar_c']))
+                                  <div class="mb-1"><img src="{{ asset($soal['gambar_c']) }}" alt="Gambar C" width="100"></div>
+                              @endif
+                              <input type="file" name="gambar_c[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan C</label>
+                              <input type="text" name="c[]" class="form-control" value="{{ $soal['c'] ?? '' }}">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan D</label>
-                              <input type="text" name="d[]" class="form-control" value="{{ $soal['d'] ?? '' }}" required>
+                              <label class="form-label">Gambar Pilihan D (Opsional)</label>
+                              <input type="hidden" name="old_gambar_d[]" value="{{ $soal['gambar_d'] ?? '' }}">
+                              @if(!empty($soal['gambar_d']))
+                                  <div class="mb-1"><img src="{{ asset($soal['gambar_d']) }}" alt="Gambar D" width="100"></div>
+                              @endif
+                              <input type="file" name="gambar_d[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan D</label>
+                              <input type="text" name="d[]" class="form-control" value="{{ $soal['d'] ?? '' }}">
                             </div>
                             <div class="col-md-12 form-group">
                               <label class="form-label">Kunci Jawaban</label>
@@ -109,25 +139,35 @@
                       </div>
                       <div class="card-body">
                         <div class="form-group mb-3">
-                          <label class="form-label">Pertanyaan</label>
-                          <textarea name="pertanyaan[]" class="form-control" rows="3" required></textarea>
+                          <label class="form-label">Gambar Pertanyaan (Opsional)</label>
+                          <input type="file" name="gambar_pertanyaan[]" class="form-control" accept="image/*">
+                          <label class="form-label mt-2">Pertanyaan</label>
+                          <textarea name="pertanyaan[]" class="form-control" rows="3"></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan A</label>
-                              <input type="text" name="a[]" class="form-control" required>
+                              <label class="form-label">Gambar Pilihan A (Opsional)</label>
+                              <input type="file" name="gambar_a[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan A</label>
+                              <input type="text" name="a[]" class="form-control">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan B</label>
-                              <input type="text" name="b[]" class="form-control" required>
+                              <label class="form-label">Gambar Pilihan B (Opsional)</label>
+                              <input type="file" name="gambar_b[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan B</label>
+                              <input type="text" name="b[]" class="form-control">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan C</label>
-                              <input type="text" name="c[]" class="form-control" required>
+                              <label class="form-label">Gambar Pilihan C (Opsional)</label>
+                              <input type="file" name="gambar_c[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan C</label>
+                              <input type="text" name="c[]" class="form-control">
                             </div>
                             <div class="col-md-6 form-group mb-3">
-                              <label class="form-label">Pilihan D</label>
-                              <input type="text" name="d[]" class="form-control" required>
+                              <label class="form-label">Gambar Pilihan D (Opsional)</label>
+                              <input type="file" name="gambar_d[]" class="form-control mb-1" accept="image/*">
+                              <label class="form-label mt-1">Pilihan D</label>
+                              <input type="text" name="d[]" class="form-control">
                             </div>
                             <div class="col-md-12 form-group">
                               <label class="form-label">Kunci Jawaban</label>

@@ -24,7 +24,7 @@
 
       <div class="row justify-content-center">
         <div class="col-sm-12">
-          <form action="{{ route('ujian.store') }}" method="POST">
+          <form action="{{ route('ujian.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card mb-3">
               <div class="card-header">
@@ -63,25 +63,35 @@
                   </div>
                   <div class="card-body">
                     <div class="form-group mb-3">
-                      <label class="form-label">Pertanyaan</label>
-                      <textarea name="pertanyaan[]" class="form-control" rows="3" placeholder="Masukkan pertanyaan..." required></textarea>
+                      <label class="form-label">Gambar Pertanyaan (Opsional)</label>
+                      <input type="file" name="gambar_pertanyaan[]" class="form-control" accept="image/*">
+                      <label class="form-label mt-2">Pertanyaan</label>
+                      <textarea name="pertanyaan[]" class="form-control" rows="3" placeholder="Masukkan pertanyaan..."></textarea>
                     </div>
                     <div class="row">
                         <div class="col-md-6 form-group mb-3">
-                          <label class="form-label">Pilihan A</label>
-                          <input type="text" name="a[]" class="form-control" placeholder="Teks pilihan A" required>
+                          <label class="form-label">Gambar Pilihan A (Opsional)</label>
+                          <input type="file" name="gambar_a[]" class="form-control mb-1" accept="image/*">
+                          <label class="form-label mt-1">Pilihan A</label>
+                          <input type="text" name="a[]" class="form-control" placeholder="Teks pilihan A">
                         </div>
                         <div class="col-md-6 form-group mb-3">
-                          <label class="form-label">Pilihan B</label>
-                          <input type="text" name="b[]" class="form-control" placeholder="Teks pilihan B" required>
+                          <label class="form-label">Gambar Pilihan B (Opsional)</label>
+                          <input type="file" name="gambar_b[]" class="form-control mb-1" accept="image/*">
+                          <label class="form-label mt-1">Pilihan B</label>
+                          <input type="text" name="b[]" class="form-control" placeholder="Teks pilihan B">
                         </div>
                         <div class="col-md-6 form-group mb-3">
-                          <label class="form-label">Pilihan C</label>
-                          <input type="text" name="c[]" class="form-control" placeholder="Teks pilihan C" required>
+                          <label class="form-label">Gambar Pilihan C (Opsional)</label>
+                          <input type="file" name="gambar_c[]" class="form-control mb-1" accept="image/*">
+                          <label class="form-label mt-1">Pilihan C</label>
+                          <input type="text" name="c[]" class="form-control" placeholder="Teks pilihan C">
                         </div>
                         <div class="col-md-6 form-group mb-3">
-                          <label class="form-label">Pilihan D</label>
-                          <input type="text" name="d[]" class="form-control" placeholder="Teks pilihan D" required>
+                          <label class="form-label">Gambar Pilihan D (Opsional)</label>
+                          <input type="file" name="gambar_d[]" class="form-control mb-1" accept="image/*">
+                          <label class="form-label mt-1">Pilihan D</label>
+                          <input type="text" name="d[]" class="form-control" placeholder="Teks pilihan D">
                         </div>
                         <div class="col-md-12 form-group">
                           <label class="form-label">Kunci Jawaban</label>
