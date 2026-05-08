@@ -80,7 +80,9 @@ Route::group(['middleware' => ['role:superadmin']], function () {
         ->names('ujian')
         ->parameters(['master-ujian' => 'ujian']);
     Route::resource('siswa', SiswaController::class);
+    Route::get('nilai-quiz/print', [NilaiQuizController::class, 'print'])->name('nilai-quiz.print');
     Route::resource('nilai-quiz', NilaiQuizController::class)->only(['index', 'destroy']);
+    Route::get('nilai-ujian/print', [App\Http\Controllers\superadmin\NilaiUjianController::class, 'print'])->name('nilai-ujian.print');
     Route::resource('nilai-ujian', App\Http\Controllers\superadmin\NilaiUjianController::class)->only(['index', 'destroy']);
 });
 

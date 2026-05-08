@@ -27,8 +27,40 @@
           <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Tabel Nilai Ujian</h5>
+                <div>
+                    <a href="{{ route('nilai-ujian.print', request()->query()) }}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-print"></i> Cetak Laporan</a>
+                </div>
             </div>
             <div class="card-body">
+              <form action="{{ route('nilai-ujian.index') }}" method="GET" class="mb-4 pb-3 border-bottom">
+                  <div class="row align-items-end">
+                      <div class="col-md-3">
+                          <label>Kelas</label>
+                          <select name="kelas" class="form-control">
+                              <option value="">Semua Kelas</option>
+                              <option value="7" {{ request('kelas') == '7' ? 'selected' : '' }}>Kelas 7</option>
+                              <option value="8" {{ request('kelas') == '8' ? 'selected' : '' }}>Kelas 8</option>
+                              <option value="9" {{ request('kelas') == '9' ? 'selected' : '' }}>Kelas 9</option>
+                          </select>
+                      </div>
+                      <div class="col-md-4">
+                          <label>Mata Pelajaran</label>
+                          <select name="mapel_id" class="form-control">
+                              <option value="">Semua Mapel</option>
+                              @foreach($mapels as $mapel)
+                              <option value="{{ $mapel->id }}" {{ request('mapel_id') == $mapel->id ? 'selected' : '' }}>{{ $mapel->nama_mapel }} - Kelas {{ $mapel->kelas }}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                      <div class="col-md-3">
+                          <label>Waktu Pengerjaan</label>
+                          <input type="date" name="tanggal" class="form-control" value="{{ request('tanggal') }}">
+                      </div>
+                      <div class="col-md-2">
+                          <button type="submit" class="btn btn-secondary w-100"><i class="fas fa-filter"></i> Filter</button>
+                      </div>
+                  </div>
+              </form>
               <div class="dt-responsive table-responsive">
                 <table id="simpletable" class="table table-striped table-bordered nowrap">
                   <thead>
