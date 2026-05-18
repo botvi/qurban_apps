@@ -38,9 +38,9 @@
                           <label>Kelas</label>
                           <select name="kelas" class="form-control">
                               <option value="">Semua Kelas</option>
-                              <option value="7" {{ request('kelas') == '7' ? 'selected' : '' }}>Kelas 7</option>
-                              <option value="8" {{ request('kelas') == '8' ? 'selected' : '' }}>Kelas 8</option>
-                              <option value="9" {{ request('kelas') == '9' ? 'selected' : '' }}>Kelas 9</option>
+                              <option value="VII" {{ request('kelas') == 'VII' ? 'selected' : '' }}>Kelas VII</option>
+                              <option value="VIII" {{ request('kelas') == 'VIII' ? 'selected' : '' }}>Kelas VIII</option>
+                              <option value="IX" {{ request('kelas') == 'IX' ? 'selected' : '' }}>Kelas IX</option>
                           </select>
                       </div>
                       <div class="col-md-4">
