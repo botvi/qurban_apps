@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduVerse — Memory Match</title>
+    <title>SMP Negeri 1 Benai — Memory Match</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;700;900&display=swap"
@@ -589,7 +589,7 @@
     <div class="orb o2"></div>
 
     <div class="topbar">
-        <span class="logo">⬡ EDUVERSE</span>
+        <span class="logo">⬡ SMP NEGERI 1 BENAI</span>
         <div class="topbar-right">
             <button class="btn-sm mute-btn" id="muteBtn" onclick="toggleMute()"><i class="fas fa-volume-up"
                     id="muteIcon"></i> Musik</button>

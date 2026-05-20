@@ -2,9 +2,9 @@
     <div class="navbar-wrapper">
         <div class="m-header justify-content-center">
             <a href="/dashboard-superadmin" class="b-brand text-primary" style="display:flex;align-items:center;gap:10px;">
-                {{-- <img src="{{ asset('env/logo.png') }}" alt="EduVerse" style="height: 50px;object-fit:contain;"> --}}
+                {{-- <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" style="height: 50px;object-fit:contain;"> --}}
                 <span
-                    style="font-family:'Orbitron',monospace;font-size:1.1em;font-weight:900;background:linear-gradient(90deg,#00c8ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;">EDUVERSE</span>
+                    style="font-family:'Orbitron',monospace;font-size:1.1em;font-weight:900;background:linear-gradient(90deg,#00c8ff,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;">SMP NEGERI 1 BENAI</span>
             </a>
         </div>
         @if (Auth::user()->role == 'superadmin')
@@ -18,7 +18,7 @@
                     </li>
 
                     <li class="pc-item pc-caption">
-                        <label>Data EduVerse</label>
+                        <label>Data SMP Negeri 1 Benai</label>
                         <i class="ti ti-dashboard"></i>
                     </li>
 

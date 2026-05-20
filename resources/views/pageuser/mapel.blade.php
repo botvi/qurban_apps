@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduVerse — Peta Level</title>
+    <title>SMP Negeri 1 Benai — Peta Level</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -87,7 +87,7 @@
 <div class="orb orb1"></div><div class="orb orb2"></div>
 
 <div class="topbar">
-    <span class="logo">⬡ EDUVERSE</span>
+    <span class="logo">⬡ SMP NEGERI 1 BENAI</span>
     <div class="nav-btns">
         <a href="{{ route('user.materi.index') }}" class="btn-nav"><i class="fas fa-arrow-left"></i> Mapel</a>
         @if(Auth::check())

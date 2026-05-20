@@ -83,7 +83,13 @@
                       <td>{{ $item->ujian->judul ?? '-' }}</td>
                       <td>{{ $item->ujian->mapel->nama_mapel ?? '-' }}</td>
                       <td>{{ $item->ujian->mapel->kelas ?? '-' }}</td>
-                      <td>{{ $item->nilai_ujian }}</td>
+                      <td>
+                          @if($item->nilai_ujian < 72)
+                              <span class="badge bg-danger">Tidak Lulus ({{ $item->nilai_ujian }})</span>
+                          @else
+                              <span class="badge bg-success">Lulus ({{ $item->nilai_ujian }})</span>
+                          @endif
+                      </td>
                       <td>{{ $item->created_at->format('d M Y H:i') }}</td>
                       <td>
                         <form action="{{ route('nilai-ujian.destroy', $item->id) }}" method="POST" style="display:inline;" class="delete-form">

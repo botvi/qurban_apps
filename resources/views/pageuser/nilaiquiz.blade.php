@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduVerse — Papan Nilai</title>
+    <title>SMP Negeri 1 Benai — Papan Nilai</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -78,7 +78,7 @@
 <div class="orb orb1"></div><div class="orb orb2"></div>
 
 <div class="topbar">
-    <span class="logo">⬡ EDUVERSE</span>
+    <span class="logo">⬡ SMP NEGERI 1 BENAI</span>
     <div class="nav-btns">
         <a href="{{ route('index') }}" class="btn-nav"><i class="fas fa-home"></i> Menu</a>
         @if(Auth::check())
@@ -91,7 +91,7 @@
 <div class="container">
     <div class="page-header">
         <h1><i class="fas fa-trophy"></i> Papan Nilai</h1>
-        <p>Rekap nilai kuis kamu selama belajar di EduVerse</p>
+        <p>Rekap nilai kuis kamu selama belajar di SMP Negeri 1 Benai</p>
     </div>
 
     @if(count($nilaiQuizzes) > 0)
@@ -105,11 +105,16 @@
                 <div>
                     <div class="materi-bab">{{ $nilai->materi->bab ?? 'Bab' }}</div>
                     <div class="materi-judul">{{ $nilai->materi->judul ?? 'Kuis' }}</div>
-                    <div class="stars">
+                    <div class="stars" style="margin-bottom: 8px;">
                         @for($s=1;$s<=3;$s++)
                             <i class="fas fa-star {{ $s > $stars ? 'empty' : '' }}"></i>
                         @endfor
                     </div>
+                    @if($score < 72)
+                        <span style="background:var(--neon-r);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:bold;letter-spacing:1px;box-shadow:0 0 8px var(--neon-r);">TIDAK LULUS</span>
+                    @else
+                        <span style="background:var(--neon-g);color:#050a18;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:bold;letter-spacing:1px;box-shadow:0 0 8px var(--neon-g);">LULUS</span>
+                    @endif
                 </div>
                 <div class="score-circle {{ $cls }}">
                     <div class="score-num">{{ round($score) }}</div>

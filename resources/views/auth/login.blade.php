@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduVerse — Login</title>
+    <title>SMP Negeri 1 Benai — Login</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap"
         rel="stylesheet">
@@ -277,9 +277,9 @@
 
     <div class="card">
         <div class="brand">
-            <img src="{{ asset('env/logo.png') }}" alt="EduVerse" class="brand-logo">
-            <div class="brand-name">EDUVERSE</div>
-            <div class="brand-sub">Platform Belajar Interaktif Generasi Z</div>
+            <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo">
+            <div class="brand-name">SMP NEGERI 1 BENAI</div>
+            <div class="brand-sub">Platform Pembelajaran Digital Terpadu</div>
         </div>
 
         @if ($errors->any())

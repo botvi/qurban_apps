@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduVerse — Daftar Akun</title>
+<title>SMP Negeri 1 Benai — Daftar Akun</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -61,8 +61,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="card">
     <div class="brand">
-        <img src="{{ asset('env/logo.png') }}" alt="EduVerse" class="brand-logo">
-        <div class="brand-name">EDUVERSE</div>
+        <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo">
+        <div class="brand-name">SMP NEGERI 1 BENAI</div>
         <div class="brand-sub">Buat akun untuk mulai belajar!</div>
     </div>
 
@@ -123,7 +123,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
         <div class="check-row">
             <input type="checkbox" id="terms" name="agree-terms" required>
-            <label for="terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> EduVerse</label>
+            <label for="terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> SMP Negeri 1 Benai</label>
         </div>
 
         <button type="submit" class="btn-reg"><i class="fas fa-rocket"></i> &nbsp; DAFTAR SEKARANG</button>

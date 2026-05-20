@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduVerse — Menu Utama</title>
+    <title>SMP Negeri 1 Benai — Menu Utama</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap"
         rel="stylesheet">
@@ -352,7 +352,7 @@
     <div class="orb orb3"></div>
 
     <div class="topbar">
-        <span class="logo">⬡ EDUVERSE</span>
+        <span class="logo">⬡ SMP NEGERI 1 BENAI</span>
         <div class="topbar-right">
             @if (Auth::check())
                 <span style="color:var(--muted);font-size:0.9em;"><i class="fas fa-user-astronaut"></i>
@@ -374,8 +374,8 @@
         @if (Auth::check())
             <div class="greeting"><i class="fas fa-bolt"></i> Halo, {{ Auth::user()->name }}!</div>
         @endif
-        <h1>EDUVERSE</h1>
-        <p>Platform Belajar Interaktif Generasi Z</p>
+        <h1>SMP NEGERI 1 BENAI</h1>
+        <p>Platform Pembelajaran Digital Terpadu</p>
     </div>
 
     <div class="menu-grid">
