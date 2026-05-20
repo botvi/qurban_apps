@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,21 +10,25 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         .header {
             text-align: center;
             margin-bottom: 20px;
             border-bottom: 3px solid #000;
             padding-bottom: 10px;
         }
+
         .header h1 {
             margin: 0;
             font-size: 24px;
             text-transform: uppercase;
         }
+
         .header p {
             margin: 5px 0 0;
             font-size: 14px;
         }
+
         .title {
             text-align: center;
             margin: 20px 0;
@@ -32,24 +37,34 @@
             text-transform: uppercase;
             text-decoration: underline;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid #000;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px;
             text-align: center;
         }
-        td:nth-child(2), td:nth-child(3) {
+
+        td:nth-child(2),
+        td:nth-child(3) {
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         @media print {
             .no-print {
                 display: none;
@@ -57,19 +72,23 @@
         }
     </style>
 </head>
+
 <body onload="window.print()">
 
-    <table style="width: 100%; margin-bottom: 20px; border-bottom: 3px solid #000; padding-bottom: 10px; border-collapse: collapse;">
+    <table
+        style="width: 100%; margin-bottom: 20px; border-bottom: 3px solid #000; padding-bottom: 10px; border-collapse: collapse;">
         <tr>
             <td style="width: 15%; text-align: left; border: none;">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq9BqgIl6ON8ljjfpIV1tbRhV2cA_K_iYzcg&s" alt="Logo Kiri" style="width: 90px; height: auto;">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq9BqgIl6ON8ljjfpIV1tbRhV2cA_K_iYzcg&s"
+                    alt="Logo Kiri" style="width: 90px; height: auto;">
             </td>
             <td style="width: 70%; text-align: center; border: none;">
                 <h1 style="margin: 0; font-size: 24px; text-transform: uppercase;">SMP NEGERI 1 BENAI</h1>
                 <p style="margin: 5px 0 0; font-size: 14px;">Kecamatan Benai, Kabupaten Kuantan Singingi, Riau</p>
             </td>
             <td style="width: 15%; text-align: right; border: none;">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7k6wFKW3yD7f2pNt_5xgz1oOjPHI5USNrGR3dCRGwOVcY90xPcQWFJGXIl6j_kh2Om3B-gc-0tPAFVhHVxFOwx-7J2LK2fIxc_U7mPiURK1Vj7f_w-DjnCP2O2IAfkC7P4VLPrfZTDh1Z/s400/Kab+Kuantan+Singingi+%255Bbagilogo.com%255D.png" alt="Logo Kanan" style="width: 80px; height: auto;">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7k6wFKW3yD7f2pNt_5xgz1oOjPHI5USNrGR3dCRGwOVcY90xPcQWFJGXIl6j_kh2Om3B-gc-0tPAFVhHVxFOwx-7J2LK2fIxc_U7mPiURK1Vj7f_w-DjnCP2O2IAfkC7P4VLPrfZTDh1Z/s400/Kab+Kuantan+Singingi+%255Bbagilogo.com%255D.png"
+                    alt="Logo Kanan" style="width: 80px; height: auto;">
             </td>
         </tr>
     </table>
@@ -85,18 +104,26 @@
                 <th>Siswa</th>
                 <th>Materi</th>
                 <th>Nilai</th>
+                <th>Keterangan</th>
                 <th>Waktu Dikerjakan</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($nilais as $i => $item)
-            <tr>
-                <td>{{ $i+1 }}</td>
-                <td>{{ $item->user->name ?? 'Unknown' }}</td>
-                <td>{{ $item->materi->judul ?? 'Unknown' }}</td>
-                <td>{{ $item->nilai_quiz }}</td>
-                <td>{{ $item->created_at->format('d M Y H:i') }}</td>
-            </tr>
+            @foreach ($nilais as $i => $item)
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ $item->user->name ?? 'Unknown' }}</td>
+                    <td>{{ $item->materi->judul ?? 'Unknown' }}</td>
+                    <td>{{ $item->nilai_quiz }}</td>
+                    <td>
+                        @if ($item->nilai_quiz < 72)
+                            <span class="badge bg-danger">Tidak Lulus</span>
+                        @else
+                            <span class="badge bg-success">Lulus</span>
+                        @endif
+                    </td>
+                    <td>{{ $item->created_at->format('d M Y H:i') }}</td>
+                </tr>
             @endforeach
         </tbody>
     </table>
@@ -108,4 +135,5 @@
     </div>
 
 </body>
+
 </html>

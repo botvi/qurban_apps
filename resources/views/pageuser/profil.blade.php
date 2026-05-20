@@ -7,17 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root{--bg:#050a18;--card:#0d1526;--border:#1a2d55;--neon-b:#00c8ff;--neon-p:#a855f7;--neon-g:#00ff88;--neon-y:#ffd700;--neon-r:#ff4f7b;--text:#e2e8f0;--muted:#64748b;}
+        :root{--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--neon-b:#0ea5e9;--neon-p:#8b5cf6;--neon-g:#10b981;--neon-y:#eab308;--neon-r:#f43f5e;--text:#0f172a;--muted:#64748b;}
         *{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
-        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.04) 1px,transparent 1px);background-size:50px 50px;animation:gridMove 20s linear infinite;pointer-events:none;}
+        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(14,165,233,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.1) 1px,transparent 1px);background-size:50px 50px;animation:gridMove 20s linear infinite;pointer-events:none;}
         @keyframes gridMove{from{transform:translateY(0)}to{transform:translateY(50px)}}
         .orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;opacity:.12;animation:float 8s ease-in-out infinite;}
         .orb1{width:350px;height:350px;background:var(--neon-b);top:-80px;left:-80px;}
         .orb2{width:300px;height:300px;background:var(--neon-y);bottom:-60px;right:-60px;animation-delay:4s;}
         @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(15px,-15px)}}
 
-        .topbar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:rgba(5,10,24,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;}
+        .topbar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;}
         .logo{font-family:'Orbitron',monospace;font-size:1.2em;font-weight:900;background:linear-gradient(90deg,var(--neon-b),var(--neon-p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px;}
         .btn-nav{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.88em;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
         .btn-nav:hover{border-color:var(--neon-b);color:var(--neon-b);}
@@ -52,7 +52,7 @@
 
         .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left;}
 
-        .info-box{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px 16px;}
+        .info-box{background:rgba(0,0,0,0.03);border:1px solid var(--border);border-radius:14px;padding:14px 16px;}
         .info-box.full{grid-column:span 2;}
         .info-label{font-size:0.7em;color:var(--neon-b);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
         .info-value{font-family:'Orbitron',monospace;font-size:1em;font-weight:700;color:var(--text);}

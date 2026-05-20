@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #050a18;
-            --card: #0d1526;
-            --border: #1a2d55;
-            --nb: #00c8ff;
-            --np: #a855f7;
-            --ng: #00ff88;
-            --tx: #e2e8f0;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --nb: #0ea5e9;
+            --np: #8b5cf6;
+            --ng: #10b981;
+            --tx: #0f172a;
             --mu: #64748b;
         }
 
@@ -43,7 +43,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: linear-gradient(rgba(0, 200, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 255, .05) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(14, 165, 233, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, .1) 1px, transparent 1px);
             background-size: 50px 50px;
             animation: grid 25s linear infinite;
             pointer-events: none;
@@ -94,7 +94,7 @@
         }
 
         .card {
-            background: rgba(13, 21, 38, .85);
+            background: rgba(255, 255, 255, .9);
             border: 1px solid var(--border);
             border-radius: 24px;
             padding: 44px 40px;
@@ -178,7 +178,7 @@
 
         .form-input {
             width: 100%;
-            background: rgba(255, 255, 255, .04);
+            background: rgba(0, 0, 0, .03);
             border: 1px solid var(--border);
             color: var(--tx);
             padding: 12px 16px;
@@ -277,7 +277,7 @@
 
     <div class="card">
         <div class="brand">
-            <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo">
+            {{-- <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo"> --}}
             <div class="brand-name">SMP NEGERI 1 BENAI</div>
             <div class="brand-sub">Platform Pembelajaran Digital Terpadu</div>
         </div>

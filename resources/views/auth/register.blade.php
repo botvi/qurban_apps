@@ -7,16 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--bg:#050a18;--card:#0d1526;--border:#1a2d55;--nb:#00c8ff;--np:#a855f7;--ng:#00ff88;--tx:#e2e8f0;--mu:#64748b;}
+:root{--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--nb:#0ea5e9;--np:#8b5cf6;--ng:#10b981;--tx:#0f172a;--mu:#64748b;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:20px;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.05) 1px,transparent 1px);background-size:50px 50px;animation:grid 25s linear infinite;pointer-events:none;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(14,165,233,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,.1) 1px,transparent 1px);background-size:50px 50px;animation:grid 25s linear infinite;pointer-events:none;}
 @keyframes grid{to{transform:translateY(50px)}}
 .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.15;pointer-events:none;}
 .o1{width:450px;height:450px;background:var(--nb);top:-150px;right:-150px;}
 .o2{width:400px;height:400px;background:var(--np);bottom:-130px;left:-130px;}
 
-.card{background:rgba(13,21,38,.85);border:1px solid var(--border);border-radius:24px;padding:40px;width:100%;max-width:500px;position:relative;z-index:1;backdrop-filter:blur(16px);box-shadow:0 0 60px rgba(0,200,255,.08);}
+.card{background:rgba(255,255,255,.9);border:1px solid var(--border);border-radius:24px;padding:40px;width:100%;max-width:500px;position:relative;z-index:1;backdrop-filter:blur(16px);box-shadow:0 0 60px rgba(0,200,255,.08);}
 
 .brand{text-align:center;margin-bottom:28px;}
 .brand-logo{height:56px;object-fit:contain;margin-bottom:8px;}
@@ -30,7 +30,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 @media(max-width:500px){.form-row{grid-template-columns:1fr;}}
 .form-group{margin-bottom:14px;}
 .form-label{display:block;font-size:.78em;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
-.form-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--tx);padding:11px 14px;border-radius:11px;font-family:'Nunito';font-size:.9em;outline:none;transition:.2s;}
+.form-input{width:100%;background:rgba(0,0,0,.03);border:1px solid var(--border);color:var(--tx);padding:11px 14px;border-radius:11px;font-family:'Nunito';font-size:.9em;outline:none;transition:.2s;}
 .form-input:focus{border-color:var(--nb);box-shadow:0 0 12px rgba(0,200,255,.12);}
 .form-input::placeholder{color:var(--mu);}
 .form-hint{font-size:.73em;color:var(--mu);margin-top:4px;}
@@ -61,7 +61,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="card">
     <div class="brand">
-        <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo">
+        {{-- <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo"> --}}
         <div class="brand-name">SMP NEGERI 1 BENAI</div>
         <div class="brand-sub">Buat akun untuk mulai belajar!</div>
     </div>

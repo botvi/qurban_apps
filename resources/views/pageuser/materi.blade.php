@@ -11,15 +11,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #050a18;
-            --card: #0d1526;
-            --border: #1a2d55;
-            --neon-b: #00c8ff;
-            --neon-p: #a855f7;
-            --neon-g: #00ff88;
-            --neon-y: #ffd700;
-            --neon-r: #ff4f7b;
-            --text: #e2e8f0;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e2e8f0;
+            --neon-b: #0ea5e9;
+            --neon-p: #8b5cf6;
+            --neon-g: #10b981;
+            --neon-y: #eab308;
+            --neon-r: #f43f5e;
+            --text: #0f172a;
             --muted: #64748b;
         }
 
@@ -41,7 +41,7 @@
             content: '';
             position: fixed;
             inset: 0;
-            background-image: linear-gradient(rgba(0, 200, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 255, 0.04) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
             animation: gridMove 20s linear infinite;
             pointer-events: none;
@@ -102,7 +102,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 14px 28px;
-            background: rgba(5, 10, 24, 0.88);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 100;

@@ -11,9 +11,9 @@
             margin: 0;
             padding: 0;
             font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
             min-height: 100vh;
-            color: #333;
+            color: #0f172a;
         }
 
         .navbar {
@@ -31,7 +31,7 @@
         .back-btn {
             font-family: 'Fredoka One', cursive;
             text-decoration: none;
-            color: #FF6B6B;
+            color: #0ea5e9;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
@@ -62,18 +62,18 @@
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 4px dashed #FECFEF;
+            border-bottom: 4px dashed #bae6fd;
         }
 
         .materi-header h1 {
             font-family: 'Fredoka One', cursive;
-            color: #FF6B6B;
+            color: #0ea5e9;
             font-size: 2.5rem;
             margin: 0 0 10px 0;
         }
 
         .materi-header .bab-badge {
-            background: #4ECDC4;
+            background: #8b5cf6;
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
@@ -131,9 +131,8 @@
             margin-left: 10px;
         }
         
-        /* Alert */
         .alert {
-            background: #FF6B6B;
+            background: #ef4444;
             color: white;
             padding: 15px 30px;
             border-radius: 30px;
@@ -141,7 +140,7 @@
             font-weight: bold;
             font-size: 1.2rem;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
         }
     </style>
 </head>
@@ -151,7 +150,7 @@
         <a href="{{ route('user.materi.index') }}" class="back-btn">
             <i class="fas fa-arrow-left"></i> Peta Belajar
         </a>
-        <div style="font-family: 'Fredoka One'; color: #4ECDC4; font-size: 1.2rem;">
+        <div style="font-family: 'Fredoka One'; color: #0ea5e9; font-size: 1.2rem;">
             Zona Belajar
         </div>
     </nav>
@@ -206,7 +205,7 @@
                         </iframe>
                     </div>
                     <div class="text-center mt-3">
-                        <a href="{{ asset('uploads/pdf/' . $materi->isi_materi) }}" target="_blank" class="btn-nav" style="border-color: #FF6B6B; color: #FF6B6B;">
+                        <a href="{{ asset('uploads/pdf/' . $materi->isi_materi) }}" target="_blank" class="btn-nav" style="border-color: #0ea5e9; color: #0ea5e9;">
                             <i class="fas fa-external-link-alt"></i> Buka di Tab Baru
                         </a>
                     </div>
