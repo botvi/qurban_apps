@@ -13,6 +13,7 @@ class NilaiUjian extends Model
         'user_id',
         'ujian_id',
         'nilai_ujian',
+        'is_remedial',
     ];
 
     public function user()

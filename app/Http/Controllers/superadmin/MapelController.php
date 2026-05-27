@@ -24,7 +24,7 @@ class MapelController extends Controller
     {
         $request->validate([
             'nama_mapel' => 'required',
-            'kelas' => 'required|in:VII,VIII,IX',
+            'kelas' => 'required|in:VII A,VII B,VII C,VIII A,VIII B,VIII C,IX A,IX B,IX C',
         ]);
 
         Mapel::create($request->all());
@@ -41,7 +41,7 @@ class MapelController extends Controller
     {
         $request->validate([
             'nama_mapel' => 'required',
-            'kelas' => 'required|in:VII,VIII,IX',
+            'kelas' => 'required|in:VII A,VII B,VII C,VIII A,VIII B,VIII C,IX A,IX B,IX C',
         ]);
 
         $mapel->update($request->all());

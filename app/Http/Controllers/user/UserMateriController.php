@@ -122,13 +122,16 @@ class UserMateriController extends Controller
         
         $quiz = $materi->quizzes->first();
         
+        $user_id = Auth::id() ?? 1;
+        $sudahDikerjakan = NilaiQuiz::where('user_id', $user_id)->where('materi_id', $id)->exists();
+
         $soals = is_array($quiz->soal) ? $quiz->soal : [];
         foreach ($soals as $index => $soal) {
             $soals[$index]['original_index'] = $index;
         }
         shuffle($soals);
         
-        return view('pageuser.quiz', compact('materi', 'quiz', 'soals'));
+        return view('pageuser.quiz', compact('materi', 'quiz', 'soals', 'sudahDikerjakan'));
     }
 
     public function submitQuiz(Request $request, $id)
@@ -158,9 +161,86 @@ class UserMateriController extends Controller
 
         NilaiQuiz::updateOrCreate(
             ['user_id' => $user_id, 'materi_id' => $id],
-            ['nilai_quiz' => $nilai]
+            ['nilai_quiz' => $nilai, 'is_remedial' => false]
         );
 
         return redirect()->route('user.materi.mapel', $materi->mapel_id)->with('success', "Quiz Selesai! Nilai Anda: " . round($nilai));
+    }
+
+    /**
+     * Tampilkan halaman kuis remedial (nilai < 72)
+     */
+    public function remedialQuiz($id)
+    {
+        $materi = Materi::with('quizzes')->findOrFail($id);
+
+        if ($materi->quizzes->isEmpty()) {
+            return redirect()->route('user.materi.show', $id)->with('error', 'Quiz belum tersedia untuk bab ini.');
+        }
+
+        $user_id = Auth::id() ?? 1;
+        $nilaiRecord = NilaiQuiz::where('user_id', $user_id)->where('materi_id', $id)->first();
+
+        if (!$nilaiRecord) {
+            return redirect()->route('user.nilaiquiz')->with('error', 'Anda belum mengerjakan quiz ini.');
+        }
+        if ($nilaiRecord->nilai_quiz >= 72) {
+            return redirect()->route('user.nilaiquiz')->with('error', 'Nilai Anda sudah memenuhi KKM, remedial tidak diperlukan.');
+        }
+
+        $quiz = $materi->quizzes->first();
+        $soals = is_array($quiz->soal) ? $quiz->soal : [];
+        foreach ($soals as $index => $soal) {
+            $soals[$index]['original_index'] = $index;
+        }
+        shuffle($soals);
+
+        $isRemedial = true;
+        return view('pageuser.quiz', compact('materi', 'quiz', 'soals', 'isRemedial'));
+    }
+
+    /**
+     * Submit kuis remedial — nilai di-cap maksimal 72
+     */
+    public function submitRemedialQuiz(Request $request, $id)
+    {
+        $materi = Materi::with('quizzes')->findOrFail($id);
+        $quiz = $materi->quizzes->first();
+
+        if (!$quiz) {
+            return redirect()->route('user.materi.mapel', $materi->mapel_id);
+        }
+
+        $user_id = Auth::id() ?? 1;
+        $nilaiRecord = NilaiQuiz::where('user_id', $user_id)->where('materi_id', $id)->first();
+
+        if (!$nilaiRecord || $nilaiRecord->nilai_quiz >= 72) {
+            return redirect()->route('user.nilaiquiz')->with('error', 'Tidak dapat melakukan remedial.');
+        }
+
+        $soals = $quiz->soal;
+        $jawabanUser = $request->input('jawaban', []);
+
+        $benar = 0;
+        $total = count($soals);
+
+        foreach ($soals as $index => $soal) {
+            if (isset($jawabanUser[$index]) && $jawabanUser[$index] === $soal['jawaban']) {
+                $benar++;
+            }
+        }
+
+        $nilaiMentah = ($total > 0) ? ($benar / $total) * 100 : 0;
+
+        // Cap nilai remedial maksimal 72
+        $nilaiFinal = min($nilaiMentah, 72);
+
+        $nilaiRecord->update([
+            'nilai_quiz'  => $nilaiFinal,
+            'is_remedial' => true,
+        ]);
+
+        return redirect()->route('user.nilaiquiz')
+            ->with('success', "Remedial Selesai! Nilai Anda: " . round($nilaiFinal) . ($nilaiMentah > 72 ? " (dikap maks. 72)" : ""));
     }
 }

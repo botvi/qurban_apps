@@ -90,11 +90,16 @@
 
 <div class="container">
     <div class="quiz-header">
-        <h1>Kuis: {{ $materi->judul }}</h1>
-        <p>Jawab semua pertanyaan dengan teliti. Semangat!</p>
+        <h1>{{ isset($isRemedial) && $isRemedial ? '🔄 Remedial: ' : 'Kuis: ' }}{{ $materi->judul }}</h1>
+        <p>{{ isset($isRemedial) && $isRemedial ? 'Kerjakan ulang kuis ini. Nilai maksimal yang bisa didapat: 72.' : 'Jawab semua pertanyaan dengan teliti. Semangat!' }}</p>
+        @if(isset($isRemedial) && $isRemedial)
+            <div style="margin-top:12px;display:inline-block;background:rgba(234,179,8,0.15);border:1px solid var(--neon-y);color:var(--neon-y);padding:6px 18px;border-radius:20px;font-size:0.82em;font-weight:700;letter-spacing:1px;">
+                <i class="fas fa-exclamation-triangle"></i> MODE REMEDIAL — Maks. Nilai 72
+            </div>
+        @endif
     </div>
 
-    <form action="{{ route('user.materi.submit_quiz', $materi->id) }}" method="POST">
+    <form action="{{ isset($isRemedial) && $isRemedial ? route('user.materi.submit_remedial_quiz', $materi->id) : route('user.materi.submit_quiz', $materi->id) }}" method="POST">
         @csrf
         @if(isset($soals) && is_array($soals) && count($soals) > 0)
             @foreach($soals as $index => $q)
@@ -128,7 +133,13 @@
                 </div>
             @endforeach
             <div class="submit-area">
-                <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> &nbsp; KUMPULKAN KUIS</button>
+                @if(isset($sudahDikerjakan) && $sudahDikerjakan && !(isset($isRemedial) && $isRemedial))
+                    <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(16,185,129,0.1);border:1px solid var(--neon-g);color:var(--neon-g);padding:14px 30px;border-radius:50px;font-family:'Orbitron',monospace;font-size:0.9em;font-weight:700;letter-spacing:1px;">
+                        <i class="fas fa-check-circle"></i> KUIS SUDAH DIKERJAKAN
+                    </div>
+                @else
+                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> &nbsp; KUMPULKAN KUIS</button>
+                @endif
             </div>
         @else
             <div style="text-align:center;padding:60px;color:var(--muted);">

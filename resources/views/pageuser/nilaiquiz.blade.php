@@ -72,6 +72,24 @@
         .empty-state{text-align:center;padding:60px 20px;color:var(--muted);}
         .empty-state i{font-size:4rem;color:var(--border);margin-bottom:20px;display:block;}
         .empty-state p{font-size:1.1em;font-weight:700;}
+
+        .btn-remedial{
+            display:inline-flex;align-items:center;gap:6px;
+            margin-top:12px;padding:8px 18px;border-radius:50px;
+            background:linear-gradient(135deg,var(--neon-y),#f97316);
+            color:#000;font-family:'Orbitron',monospace;font-size:0.72em;
+            font-weight:700;letter-spacing:1px;text-decoration:none;
+            box-shadow:0 0 14px rgba(234,179,8,0.4);
+            transition:all .3s;
+        }
+        .btn-remedial:hover{transform:translateY(-3px);box-shadow:0 0 22px rgba(234,179,8,0.6);}
+
+        .badge-remedial{
+            display:inline-block;margin-top:6px;
+            background:rgba(234,179,8,0.15);border:1px solid var(--neon-y);
+            color:var(--neon-y);padding:2px 10px;border-radius:20px;
+            font-size:0.7em;font-weight:700;letter-spacing:1px;
+        }
     </style>
 </head>
 <body>
@@ -100,6 +118,8 @@
                 $score = $nilai->nilai_quiz;
                 $stars = $score >= 75 ? 3 : ($score >= 50 ? 2 : 1);
                 $cls   = $score >= 75 ? 'high' : ($score >= 50 ? 'mid' : 'low');
+                $belowKkm = $score < 72;
+                $sudahRemedial = $nilai->is_remedial;
             @endphp
             <div class="nilai-card score-{{ $cls }}">
                 <div>
@@ -114,6 +134,13 @@
                         <span style="background:var(--neon-r);color:#fff;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:bold;letter-spacing:1px;box-shadow:0 0 8px var(--neon-r);">TIDAK LULUS</span>
                     @else
                         <span style="background:var(--neon-g);color:#050a18;padding:2px 8px;border-radius:4px;font-size:0.75em;font-weight:bold;letter-spacing:1px;box-shadow:0 0 8px var(--neon-g);">LULUS</span>
+                    @endif
+                    @if($sudahRemedial)
+                        <div class="badge-remedial"><i class="fas fa-redo"></i> REMEDIAL</div>
+                    @elseif($belowKkm)
+                        <a href="{{ route('user.materi.remedial_quiz', $nilai->materi_id) }}" class="btn-remedial">
+                            <i class="fas fa-redo"></i> REMEDIAL
+                        </a>
                     @endif
                 </div>
                 <div class="score-circle {{ $cls }}">

@@ -65,6 +65,12 @@
                             <span class="pc-mtext">Nilai Ujian</span>
                         </a>
                     </li>
+                    <li class="pc-item">
+                        <a href="{{ route('nilai-akhir.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-trophy"></i></span>
+                            <span class="pc-mtext">Nilai Akhir</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         @endif

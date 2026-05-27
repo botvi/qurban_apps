@@ -19,6 +19,7 @@ use App\Http\Controllers\superadmin\{
     SiswaController,
     NilaiQuizController,
     MapelController,
+    NilaiAkhirController,
 };
 use App\Http\Controllers\user\{
     PreviewController,
@@ -84,6 +85,9 @@ Route::group(['middleware' => ['role:superadmin']], function () {
     Route::resource('nilai-quiz', NilaiQuizController::class)->only(['index', 'destroy']);
     Route::get('nilai-ujian/print', [App\Http\Controllers\superadmin\NilaiUjianController::class, 'print'])->name('nilai-ujian.print');
     Route::resource('nilai-ujian', App\Http\Controllers\superadmin\NilaiUjianController::class)->only(['index', 'destroy']);
+
+    Route::get('nilai-akhir', [NilaiAkhirController::class, 'index'])->name('nilai-akhir.index');
+    Route::get('nilai-akhir/print', [NilaiAkhirController::class, 'print'])->name('nilai-akhir.print');
 });
 
 
@@ -97,6 +101,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/materi-belajar/bab/{id}', [UserMateriController::class, 'show'])->name('user.materi.show');
     Route::get('/materi-belajar/bab/{id}/quiz', [UserMateriController::class, 'quiz'])->name('user.materi.quiz');
     Route::post('/materi-belajar/bab/{id}/quiz', [UserMateriController::class, 'submitQuiz'])->name('user.materi.submit_quiz');
+    Route::get('/materi-belajar/bab/{id}/remedial', [UserMateriController::class, 'remedialQuiz'])->name('user.materi.remedial_quiz');
+    Route::post('/materi-belajar/bab/{id}/remedial', [UserMateriController::class, 'submitRemedialQuiz'])->name('user.materi.submit_remedial_quiz');
 
     Route::get('/profil', [UserMateriController::class, 'profil'])->name('user.profil');
     Route::get('/nilaiquiz', [UserMateriController::class, 'papanNilai'])->name('user.nilaiquiz');
@@ -104,6 +110,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ujian', [App\Http\Controllers\user\UserUjianController::class, 'index'])->name('user.ujian.index');
     Route::get('/ujian/{id}', [App\Http\Controllers\user\UserUjianController::class, 'show'])->name('user.ujian.show');
     Route::post('/ujian/{id}/submit', [App\Http\Controllers\user\UserUjianController::class, 'submit'])->name('user.ujian.submit');
+    Route::get('/ujian/{id}/remedial', [App\Http\Controllers\user\UserUjianController::class, 'showRemedial'])->name('user.ujian.remedial');
+    Route::post('/ujian/{id}/remedial', [App\Http\Controllers\user\UserUjianController::class, 'submitRemedial'])->name('user.ujian.remedial.submit');
 
     Route::get('/game', [App\Http\Controllers\user\GameController::class, 'index'])->name('user.game');
     Route::post('/game/save', [App\Http\Controllers\user\GameController::class, 'saveProgress'])->name('user.game.save');

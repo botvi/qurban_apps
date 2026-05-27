@@ -38,9 +38,21 @@
                 <div class="form-group">
                   <label class="form-label">Kelas</label>
                   <select name="kelas" class="form-control" required>
-                      <option value="VII">VII</option>
-                      <option value="VIII">VIII</option>
-                      <option value="IX">IX</option>
+                      <optgroup label="Kelas VII">
+                        <option value="VII A">VII A</option>
+                        <option value="VII B">VII B</option>
+                        <option value="VII C">VII C</option>
+                      </optgroup>
+                      <optgroup label="Kelas VIII">
+                        <option value="VIII A">VIII A</option>
+                        <option value="VIII B">VIII B</option>
+                        <option value="VIII C">VIII C</option>
+                      </optgroup>
+                      <optgroup label="Kelas IX">
+                        <option value="IX A">IX A</option>
+                        <option value="IX B">IX B</option>
+                        <option value="IX C">IX C</option>
+                      </optgroup>
                   </select>
                 </div>
                 <div class="card-footer text-end">

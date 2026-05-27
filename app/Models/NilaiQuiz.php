@@ -13,6 +13,7 @@ class NilaiQuiz extends Model
         'user_id',
         'materi_id',
         'nilai_quiz',
+        'is_remedial',
     ];
 
     public function user()

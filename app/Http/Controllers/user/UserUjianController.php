@@ -86,9 +86,85 @@ class UserUjianController extends Controller
             'user_id'     => $user_id,
             'ujian_id'    => $id,
             'nilai_ujian' => $nilai,
+            'is_remedial' => false,
         ]);
 
         return redirect()->route('user.ujian.index')
             ->with('success', "Ujian Selesai! Nilai Anda: {$nilai}");
+    }
+
+    /**
+     * Tampilkan halaman ujian remedial (nilai < 72)
+     */
+    public function showRemedial($id)
+    {
+        $ujian = Ujian::with('mapel')
+            ->where('id', $id)
+            ->where('status', 'dimulai')
+            ->firstOrFail();
+
+        $user_id = Auth::id();
+
+        // Pastikan siswa sudah punya nilai dan nilainya < 72
+        $nilaiUjian = NilaiUjian::where('user_id', $user_id)->where('ujian_id', $id)->first();
+        if (!$nilaiUjian) {
+            return redirect()->route('user.ujian.index')->with('error', 'Anda belum mengerjakan ujian ini.');
+        }
+        if ($nilaiUjian->nilai_ujian >= 72) {
+            return redirect()->route('user.ujian.index')->with('error', 'Nilai Anda sudah memenuhi KKM, remedial tidak diperlukan.');
+        }
+
+        $soals = is_array($ujian->soal) ? $ujian->soal : [];
+        foreach ($soals as $index => $soal) {
+            $soals[$index]['original_index'] = $index;
+        }
+        shuffle($soals);
+
+        $isRemedial = true;
+        return view('pageuser.ujian.show', compact('ujian', 'soals', 'isRemedial'));
+    }
+
+    /**
+     * Submit ujian remedial — nilai di-cap maksimal 72
+     */
+    public function submitRemedial(Request $request, $id)
+    {
+        $ujian = Ujian::where('id', $id)->where('status', 'dimulai')->firstOrFail();
+
+        $user_id = Auth::id();
+
+        // Pastikan siswa punya nilai dan nilainya < 72
+        $nilaiUjian = NilaiUjian::where('user_id', $user_id)->where('ujian_id', $id)->first();
+        if (!$nilaiUjian) {
+            return redirect()->route('user.ujian.index')->with('error', 'Data nilai tidak ditemukan.');
+        }
+        if ($nilaiUjian->nilai_ujian >= 72) {
+            return redirect()->route('user.ujian.index')->with('error', 'Nilai Anda sudah memenuhi KKM.');
+        }
+
+        $soals       = $ujian->soal;
+        $jawabanUser = $request->input('jawaban', []);
+
+        $benar = 0;
+        $total = count($soals);
+
+        foreach ($soals as $index => $soal) {
+            if (isset($jawabanUser[$index]) && $jawabanUser[$index] === $soal['jawaban']) {
+                $benar++;
+            }
+        }
+
+        $nilaiMentah = ($total > 0) ? round(($benar / $total) * 100) : 0;
+
+        // Cap nilai remedial maksimal 72
+        $nilaiFinal = min($nilaiMentah, 72);
+
+        $nilaiUjian->update([
+            'nilai_ujian' => $nilaiFinal,
+            'is_remedial' => true,
+        ]);
+
+        return redirect()->route('user.ujian.index')
+            ->with('success', "Remedial Selesai! Nilai Anda: {$nilaiFinal}" . ($nilaiMentah > 72 ? " (dikap maks. 72)" : ""));
     }
 }

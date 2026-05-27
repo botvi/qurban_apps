@@ -58,15 +58,20 @@
 
 <div class="container">
     <div class="exam-header">
-        <h1>{{ $ujian->judul }}</h1>
+        <h1>{{ isset($isRemedial) && $isRemedial ? '🔄 Remedial: ' : '' }}{{ $ujian->judul }}</h1>
         <div class="exam-meta">
             <span class="meta-chip"><i class="fas fa-book"></i> {{ $ujian->mapel->nama_mapel ?? '-' }}</span>
             <span class="meta-chip"><i class="fas fa-users"></i> Kelas {{ $ujian->mapel->kelas ?? '-' }}</span>
             <span class="meta-chip"><i class="fas fa-list"></i> {{ count($soals) }} Soal</span>
         </div>
+        @if(isset($isRemedial) && $isRemedial)
+            <div style="margin-top:14px;display:inline-block;background:rgba(234,179,8,0.15);border:1px solid var(--neon-y);color:var(--neon-y);padding:6px 18px;border-radius:20px;font-size:0.82em;font-weight:700;letter-spacing:1px;">
+                <i class="fas fa-exclamation-triangle"></i> MODE REMEDIAL &mdash; Maks. Nilai 72
+            </div>
+        @endif
     </div>
 
-    <form action="{{ route('user.ujian.submit', $ujian->id) }}" method="POST">
+    <form action="{{ isset($isRemedial) && $isRemedial ? route('user.ujian.remedial.submit', $ujian->id) : route('user.ujian.submit', $ujian->id) }}" method="POST">
         @csrf
         @if(count($soals) > 0)
             @foreach($soals as $index => $q)
