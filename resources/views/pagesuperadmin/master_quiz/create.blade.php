@@ -26,23 +26,69 @@
         <div class="col-sm-12">
           <form action="{{ route('quiz.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            {{-- ===================== PILIH MATERI MULTI ===================== --}}
             <div class="card mb-3">
-              <div class="card-header">
-                <h5>Materi Quiz</h5>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>Pilih Materi</h5>
+                <small class="text-muted">Centang beberapa kelas sekaligus — soal yang sama akan disalin ke semua kelas</small>
               </div>
               <div class="card-body">
-                <div class="form-group">
-                    <label class="form-label">Pilih Materi</label>
-                    <select name="materi_id" class="form-control" required>
-                        <option value="">-- Pilih Materi --</option>
-                        @foreach($materis as $materi)
-                        <option value="{{ $materi->id }}">{{ $materi->mapel ? $materi->mapel->nama_mapel . ' - Kelas ' . $materi->mapel->kelas . ' - ' : '' }}{{ $materi->bab }} ({{ $materi->judul }})</option>
-                        @endforeach
-                    </select>
+                <label class="form-label fw-semibold">
+                  Materi / Kelas <span class="text-danger">*</span>
+                </label>
+                <p class="text-muted small mb-2">
+                  Pilih satu atau lebih kelas yang akan mendapatkan quiz dengan soal yang sama.
+                </p>
+
+                {{-- Tombol bantu --}}
+                <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
+                  <input type="text" id="searchMateri" class="form-control" style="max-width:220px;" placeholder="🔍 Cari nama materi...">
+                  <button type="button" class="btn btn-sm btn-outline-primary" id="pilihSemuaMateri">✔ Pilih Semua</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" id="hapusSemuaMateri">✖ Hapus Semua</button>
                 </div>
+
+                <div class="border rounded p-3" style="max-height:280px; overflow-y:auto;" id="materiCheckboxList">
+                  @php
+                    // Kelompokkan materi berdasarkan judul materi
+                    $materiGrouped = $materis->groupBy(function($m) {
+                        return ($m->mapel ? $m->mapel->nama_mapel : '?') . ' — ' . $m->bab . ' (' . $m->judul . ')';
+                    });
+                  @endphp
+
+                  @foreach ($materiGrouped as $groupLabel => $items)
+                    <div class="materi-group mb-2">
+                      <strong class="text-primary small">{{ $groupLabel }}</strong>
+                      <div class="ps-2 mt-1 d-flex flex-wrap gap-3">
+                        @foreach ($items as $materi)
+                          <div class="form-check materi-item" data-nama="{{ strtolower($groupLabel) }}">
+                            <input class="form-check-input materi-check" type="checkbox"
+                              name="materi_ids[]"
+                              value="{{ $materi->id }}"
+                              id="materi_{{ $materi->id }}"
+                              {{ in_array($materi->id, old('materi_ids', [])) ? 'checked' : '' }}>
+                            <label class="form-check-label small" for="materi_{{ $materi->id }}">
+                              Kelas {{ $materi->mapel ? $materi->mapel->kelas : '-' }}
+                            </label>
+                          </div>
+                        @endforeach
+                      </div>
+                    </div>
+                    <hr class="my-1">
+                  @endforeach
+
+                  @if($materis->isEmpty())
+                    <p class="text-muted">Belum ada materi. <a href="{{ route('materi.create') }}">Tambah materi dulu</a>.</p>
+                  @endif
+                </div>
+
+                @error('materi_ids')
+                  <small class="text-danger d-block mt-1">{{ $message }}</small>
+                @enderror
               </div>
             </div>
 
+            {{-- ===================== SOAL ===================== --}}
             <div id="soal-container">
                 <!-- Soal Item 1 -->
                 <div class="card mb-3 soal-item">
@@ -118,6 +164,7 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== Tambah / hapus soal =====
     const container = document.getElementById('soal-container');
     const btnAdd = document.getElementById('btn-add-soal');
 
@@ -138,11 +185,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const items = container.querySelectorAll('.soal-item');
         const firstItem = items[0];
         const newItem = firstItem.cloneNode(true);
-        
+
         // Clear inputs in cloned element
         const inputs = newItem.querySelectorAll('input, textarea');
         inputs.forEach(input => input.value = '');
-        
+
         const selects = newItem.querySelectorAll('select');
         selects.forEach(select => select.selectedIndex = 0);
 
@@ -157,6 +204,25 @@ document.addEventListener('DOMContentLoaded', function() {
             item.remove();
             updateSoalUI();
         }
+    });
+
+    // ===== Pilih semua / hapus semua materi =====
+    document.getElementById('pilihSemuaMateri').addEventListener('click', function() {
+        document.querySelectorAll('.materi-check').forEach(cb => {
+            if (cb.closest('.materi-item').style.display !== 'none') cb.checked = true;
+        });
+    });
+    document.getElementById('hapusSemuaMateri').addEventListener('click', function() {
+        document.querySelectorAll('.materi-check').forEach(cb => cb.checked = false);
+    });
+
+    // ===== Filter / search materi =====
+    document.getElementById('searchMateri').addEventListener('input', function() {
+        const keyword = this.value.toLowerCase().trim();
+        document.querySelectorAll('.materi-group').forEach(group => {
+            const nama = group.querySelector('strong').textContent.toLowerCase();
+            group.style.display = nama.includes(keyword) ? '' : 'none';
+        });
     });
 });
 </script>

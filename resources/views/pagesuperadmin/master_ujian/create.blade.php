@@ -26,34 +26,87 @@
         <div class="col-sm-12">
           <form action="{{ route('ujian.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            {{-- ===================== INFO UJIAN ===================== --}}
             <div class="card mb-3">
-              <div class="card-header">
+              <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>Info Ujian</h5>
+                <small class="text-muted">Centang beberapa kelas sekaligus — soal yang sama akan disalin ke semua kelas</small>
               </div>
               <div class="card-body">
+
                 <div class="form-group mb-3">
-                    <label class="form-label">Judul Ujian</label>
+                    <label class="form-label fw-semibold">Judul Ujian</label>
                     <input type="text" name="judul" class="form-control" placeholder="Masukkan judul ujian..." value="{{ old('judul') }}" required>
                 </div>
+
                 <div class="form-group mb-3">
-                    <label class="form-label">Mapel / Kelas</label>
-                    <select name="mapel_id" class="form-control" required>
-                        <option value="">-- Pilih Mapel --</option>
-                        @foreach($mapels as $mapel)
-                        <option value="{{ $mapel->id }}">{{ $mapel->nama_mapel }} - Kelas {{ $mapel->kelas }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Status Ujian</label>
+                    <label class="form-label fw-semibold">Status Ujian</label>
                     <select name="status" class="form-control" required>
                         <option value="belum dimulai">Belum Dimulai</option>
                         <option value="dimulai">Dimulai</option>
                     </select>
                 </div>
+
+                {{-- ===================== PILIH MAPEL MULTI ===================== --}}
+                <div class="form-group mb-0">
+                  <label class="form-label fw-semibold">
+                    Mapel / Kelas <span class="text-danger">*</span>
+                  </label>
+                  <p class="text-muted small mb-2">
+                    Centang semua kelas yang akan mengikuti ujian dengan soal yang sama ini sekaligus.
+                  </p>
+
+                  {{-- Tombol bantu --}}
+                  <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
+                    <input type="text" id="searchMapel" class="form-control" style="max-width:220px;" placeholder="🔍 Cari nama mapel...">
+                    <button type="button" class="btn btn-sm btn-outline-primary" id="pilihSemuaMapel">✔ Pilih Semua</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="hapusSemuaMapel">✖ Hapus Semua</button>
+                    <button type="button" class="btn btn-sm btn-outline-info" onclick="pilihTingkat('VII')">Kelas VII</button>
+                    <button type="button" class="btn btn-sm btn-outline-info" onclick="pilihTingkat('VIII')">Kelas VIII</button>
+                    <button type="button" class="btn btn-sm btn-outline-info" onclick="pilihTingkat('IX')">Kelas IX</button>
+                  </div>
+
+                  <div class="border rounded p-3" style="max-height:280px; overflow-y:auto;" id="mapelCheckboxList">
+                    @php
+                      $mapelGrouped = $mapels->groupBy('nama_mapel');
+                    @endphp
+
+                    @foreach ($mapelGrouped as $namaMapel => $items)
+                      <div class="mapel-group mb-2">
+                        <strong class="text-primary small">{{ $namaMapel }}</strong>
+                        <div class="ps-2 mt-1 d-flex flex-wrap gap-3">
+                          @foreach ($items as $mapel)
+                            <div class="form-check mapel-item" data-nama="{{ strtolower($namaMapel) }}" data-kelas="{{ $mapel->kelas }}">
+                              <input class="form-check-input mapel-check" type="checkbox"
+                                name="mapel_ids[]"
+                                value="{{ $mapel->id }}"
+                                id="mapel_{{ $mapel->id }}"
+                                {{ in_array($mapel->id, old('mapel_ids', [])) ? 'checked' : '' }}>
+                              <label class="form-check-label small" for="mapel_{{ $mapel->id }}">
+                                Kelas {{ $mapel->kelas }}
+                              </label>
+                            </div>
+                          @endforeach
+                        </div>
+                      </div>
+                      <hr class="my-1">
+                    @endforeach
+
+                    @if($mapels->isEmpty())
+                      <p class="text-muted">Belum ada mata pelajaran. <a href="{{ route('mapel.create') }}">Tambah mapel dulu</a>.</p>
+                    @endif
+                  </div>
+
+                  @error('mapel_ids')
+                    <small class="text-danger d-block mt-1">{{ $message }}</small>
+                  @enderror
+                </div>
+
               </div>
             </div>
 
+            {{-- ===================== SOAL ===================== --}}
             <div id="soal-container">
                 <!-- Soal Item 1 -->
                 <div class="card mb-3 soal-item">
@@ -129,8 +182,9 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== Tambah / hapus soal =====
     const container = document.getElementById('soal-container');
-    const btnAdd = document.getElementById('btn-add-soal');
+    const btnAdd    = document.getElementById('btn-add-soal');
 
     function updateSoalUI() {
         const items = container.querySelectorAll('.soal-item');
@@ -143,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btnAdd.addEventListener('click', function() {
         const firstItem = container.querySelectorAll('.soal-item')[0];
-        const newItem = firstItem.cloneNode(true);
+        const newItem   = firstItem.cloneNode(true);
         newItem.querySelectorAll('input, textarea').forEach(el => el.value = '');
         newItem.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
         container.appendChild(newItem);
@@ -156,6 +210,36 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.closest('.soal-item').remove();
             updateSoalUI();
         }
+    });
+
+    // ===== Pilih semua / hapus semua mapel =====
+    document.getElementById('pilihSemuaMapel').addEventListener('click', function() {
+        document.querySelectorAll('.mapel-check').forEach(cb => {
+            if (cb.closest('.mapel-item').style.display !== 'none') cb.checked = true;
+        });
+    });
+    document.getElementById('hapusSemuaMapel').addEventListener('click', function() {
+        document.querySelectorAll('.mapel-check').forEach(cb => cb.checked = false);
+    });
+
+    // ===== Filter tingkat kelas =====
+    window.pilihTingkat = function(tingkat) {
+        document.querySelectorAll('.mapel-item').forEach(item => {
+            const kelas = item.dataset.kelas || '';
+            if (kelas.startsWith(tingkat)) {
+                const cb = item.querySelector('.mapel-check');
+                cb.checked = !cb.checked;
+            }
+        });
+    };
+
+    // ===== Search mapel =====
+    document.getElementById('searchMapel').addEventListener('input', function() {
+        const keyword = this.value.toLowerCase().trim();
+        document.querySelectorAll('.mapel-group').forEach(group => {
+            const nama = group.querySelector('strong').textContent.toLowerCase();
+            group.style.display = nama.includes(keyword) ? '' : 'none';
+        });
     });
 });
 </script>
