@@ -48,9 +48,12 @@ class NilaiAkhirController extends Controller
                 // --- Rata-rata Quiz ---
                 $materiIds = Materi::where('mapel_id', $mapel->id)->pluck('id');
 
-                $nilaiQuizzes = NilaiQuiz::where('user_id', $user_id)
+                $quizRecords = NilaiQuiz::where('user_id', $user_id)
                     ->whereIn('materi_id', $materiIds)
-                    ->pluck('nilai_quiz');
+                    ->get();
+
+                $nilaiQuizzes = $quizRecords->pluck('nilai_quiz');
+                $quizAdaRemedial = $quizRecords->contains('is_remedial', true);
 
                 $rataQuiz = $nilaiQuizzes->count() > 0
                     ? round($nilaiQuizzes->avg(), 2)
@@ -62,11 +65,13 @@ class NilaiAkhirController extends Controller
                     ->first();
 
                 $nilaiUTS = null;
+                $utsAdaRemedial = false;
                 if ($ujianUTS) {
                     $rec = NilaiUjian::where('user_id', $user_id)
                         ->where('ujian_id', $ujianUTS->id)
                         ->first();
                     $nilaiUTS = $rec ? $rec->nilai_ujian : null;
+                    $utsAdaRemedial = $rec ? (bool) $rec->is_remedial : false;
                 }
 
                 // --- Nilai UAS ---
@@ -75,11 +80,13 @@ class NilaiAkhirController extends Controller
                     ->first();
 
                 $nilaiUAS = null;
+                $uasAdaRemedial = false;
                 if ($ujianUAS) {
                     $rec = NilaiUjian::where('user_id', $user_id)
                         ->where('ujian_id', $ujianUAS->id)
                         ->first();
                     $nilaiUAS = $rec ? $rec->nilai_ujian : null;
+                    $uasAdaRemedial = $rec ? (bool) $rec->is_remedial : false;
                 }
 
                 // --- Nilai Akhir ---
@@ -93,13 +100,14 @@ class NilaiAkhirController extends Controller
                 }
 
                 $hasil[] = [
-                    'siswa'       => $siswa,
-                    'mapel'       => $mapel,
-                    'rata_quiz'   => $rataQuiz,
-                    'nilai_uts'   => $nilaiUTS,
-                    'nilai_uas'   => $nilaiUAS,
-                    'nilai_akhir' => $nilaiAkhir,
-                    'lulus'       => $nilaiAkhir !== null && $nilaiAkhir >= 72,
+                    'siswa'        => $siswa,
+                    'mapel'        => $mapel,
+                    'rata_quiz'    => $rataQuiz,
+                    'nilai_uts'    => $nilaiUTS,
+                    'nilai_uas'    => $nilaiUAS,
+                    'nilai_akhir'  => $nilaiAkhir,
+                    'lulus'        => $nilaiAkhir !== null && $nilaiAkhir >= 72,
+                    'ada_remedial' => $quizAdaRemedial || $utsAdaRemedial || $uasAdaRemedial,
                 ];
             }
         }
@@ -135,24 +143,31 @@ class NilaiAkhirController extends Controller
             foreach ($mapelSiswa as $mapel) {
                 $materiIds = Materi::where('mapel_id', $mapel->id)->pluck('id');
 
-                $nilaiQuizzes = NilaiQuiz::where('user_id', $user_id)
+                $quizRecords = NilaiQuiz::where('user_id', $user_id)
                     ->whereIn('materi_id', $materiIds)
-                    ->pluck('nilai_quiz');
+                    ->get();
+
+                $nilaiQuizzes = $quizRecords->pluck('nilai_quiz');
+                $quizAdaRemedial = $quizRecords->contains('is_remedial', true);
 
                 $rataQuiz = $nilaiQuizzes->count() > 0 ? round($nilaiQuizzes->avg(), 2) : null;
 
                 $ujianUTS = Ujian::where('mapel_id', $mapel->id)->whereRaw('LOWER(judul) LIKE ?', ['%uts%'])->first();
                 $nilaiUTS = null;
+                $utsAdaRemedial = false;
                 if ($ujianUTS) {
                     $rec = NilaiUjian::where('user_id', $user_id)->where('ujian_id', $ujianUTS->id)->first();
                     $nilaiUTS = $rec ? $rec->nilai_ujian : null;
+                    $utsAdaRemedial = $rec ? (bool) $rec->is_remedial : false;
                 }
 
                 $ujianUAS = Ujian::where('mapel_id', $mapel->id)->whereRaw('LOWER(judul) LIKE ?', ['%uas%'])->first();
                 $nilaiUAS = null;
+                $uasAdaRemedial = false;
                 if ($ujianUAS) {
                     $rec = NilaiUjian::where('user_id', $user_id)->where('ujian_id', $ujianUAS->id)->first();
                     $nilaiUAS = $rec ? $rec->nilai_ujian : null;
+                    $uasAdaRemedial = $rec ? (bool) $rec->is_remedial : false;
                 }
 
                 $nilaiAkhir = null;
@@ -161,13 +176,14 @@ class NilaiAkhirController extends Controller
                 }
 
                 $hasil[] = [
-                    'siswa'       => $siswa,
-                    'mapel'       => $mapel,
-                    'rata_quiz'   => $rataQuiz,
-                    'nilai_uts'   => $nilaiUTS,
-                    'nilai_uas'   => $nilaiUAS,
-                    'nilai_akhir' => $nilaiAkhir,
-                    'lulus'       => $nilaiAkhir !== null && $nilaiAkhir >= 72,
+                    'siswa'        => $siswa,
+                    'mapel'        => $mapel,
+                    'rata_quiz'    => $rataQuiz,
+                    'nilai_uts'    => $nilaiUTS,
+                    'nilai_uas'    => $nilaiUAS,
+                    'nilai_akhir'  => $nilaiAkhir,
+                    'lulus'        => $nilaiAkhir !== null && $nilaiAkhir >= 72,
+                    'ada_remedial' => $quizAdaRemedial || $utsAdaRemedial || $uasAdaRemedial,
                 ];
             }
         }

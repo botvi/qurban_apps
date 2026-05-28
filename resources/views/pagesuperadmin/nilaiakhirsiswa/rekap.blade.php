@@ -144,9 +144,17 @@
                                             <td class="text-center">
                                                 @if($row['nilai_akhir'] !== null)
                                                     @if($row['lulus'])
-                                                        <span class="badge bg-success"><i class="fas fa-check-circle"></i> LULUS</span>
+                                                        @if($row['ada_remedial'] ?? false)
+                                                            <span class="badge" style="background-color:#f39c12;font-size:0.85em;"><i class="fas fa-check-circle"></i> LULUS<br><small>Setelah Remedial</small></span>
+                                                        @else
+                                                            <span class="badge bg-success"><i class="fas fa-check-circle"></i> LULUS</span>
+                                                        @endif
                                                     @else
-                                                        <span class="badge bg-danger"><i class="fas fa-times-circle"></i> TIDAK LULUS</span>
+                                                        @if($row['ada_remedial'] ?? false)
+                                                            <span class="badge bg-danger"><i class="fas fa-sync-alt"></i> REMEDIAL<br><small>Belum Lulus</small></span>
+                                                        @else
+                                                            <span class="badge bg-danger"><i class="fas fa-times-circle"></i> TIDAK LULUS<br><small>Perlu Remedial</small></span>
+                                                        @endif
                                                     @endif
                                                 @else
                                                     <span class="badge bg-secondary">Belum Ada Data</span>

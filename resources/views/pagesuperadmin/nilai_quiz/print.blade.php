@@ -70,6 +70,11 @@
                 display: none;
             }
         }
+
+        .ket-lulus        { color: #166534; font-weight: bold; }
+        .ket-gagal        { color: #991b1b; font-weight: bold; }
+        .ket-remedial-ok  { color: #92400e; font-weight: bold; }
+        .ket-perlu        { color: #374151; font-weight: bold; }
     </style>
 </head>
 
@@ -116,10 +121,18 @@
                     <td>{{ $item->materi->judul ?? 'Unknown' }}</td>
                     <td>{{ $item->nilai_quiz }}</td>
                     <td>
-                        @if ($item->nilai_quiz < 72)
-                            <span class="badge bg-danger">Tidak Lulus</span>
+                        @if ($item->is_remedial)
+                            @if ($item->nilai_quiz >= 72)
+                                <span class="ket-remedial-ok">&#10003; Lulus Setelah Remedial</span>
+                            @else
+                                <span class="ket-gagal">&#8635; Remedial &ndash; Belum Lulus</span>
+                            @endif
                         @else
-                            <span class="badge bg-success">Lulus</span>
+                            @if ($item->nilai_quiz >= 72)
+                                <span class="ket-lulus">&#10003; Lulus</span>
+                            @else
+                                <span class="ket-perlu">&#9888; Perlu Remedial</span>
+                            @endif
                         @endif
                     </td>
                     <td>{{ $item->created_at->format('d M Y H:i') }}</td>

@@ -77,6 +77,7 @@
                                             <th>Siswa</th>
                                             <th>Materi</th>
                                             <th>Nilai</th>
+                                            <th>Keterangan</th>
                                             <th>Waktu Dikerjakan</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -94,6 +95,25 @@
                                                     @else
                                                         <span class="badge bg-success">Lulus
                                                             ({{ $item->nilai_quiz }})</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($item->is_remedial)
+                                                        @if ($item->nilai_quiz >= 72)
+                                                            {{-- Sudah remedial dan lulus --}}
+                                                            <span class="badge" style="background-color:#f39c12;">&#10003; Lulus Setelah Remedial</span>
+                                                        @else
+                                                            {{-- Sedang/sudah remedial tapi masih belum lulus --}}
+                                                            <span class="badge bg-danger">&#8635; Remedial – Belum Lulus</span>
+                                                        @endif
+                                                    @else
+                                                        @if ($item->nilai_quiz >= 72)
+                                                            {{-- Lulus normal tanpa remedial --}}
+                                                            <span class="badge bg-success">&#10003; Lulus</span>
+                                                        @else
+                                                            {{-- Belum remedial, nilai kurang --}}
+                                                            <span class="badge bg-secondary">&#9888; Perlu Remedial</span>
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->created_at->format('d M Y H:i') }}</td>

@@ -53,9 +53,10 @@
             font-size: 11px;
         }
 
-        .lulus  { color: #166534; font-weight: bold; }
-        .gagal  { color: #991b1b; font-weight: bold; }
-        .empty  { color: #999; }
+        .lulus        { color: #166534; font-weight: bold; }
+        .gagal        { color: #991b1b; font-weight: bold; }
+        .remedial-ok  { color: #92400e; font-weight: bold; }
+        .empty        { color: #999; }
 
         @media print {
             .no-print { display: none; }
@@ -116,11 +117,21 @@
                     <td><strong>{{ $row['nilai_akhir'] !== null ? $row['nilai_akhir'] : '-' }}</strong></td>
                     <td>
                         @if($row['nilai_akhir'] !== null)
-                            <span class="{{ $row['lulus'] ? 'lulus' : 'gagal' }}">
-                                {{ $row['lulus'] ? 'LULUS' : 'TIDAK LULUS' }}
-                            </span>
+                            @if($row['lulus'])
+                                @if($row['ada_remedial'] ?? false)
+                                    <span class="remedial-ok">&#10003; LULUS Setelah Remedial</span>
+                                @else
+                                    <span class="lulus">&#10003; LULUS</span>
+                                @endif
+                            @else
+                                @if($row['ada_remedial'] ?? false)
+                                    <span class="gagal">&#8635; REMEDIAL &ndash; Belum Lulus</span>
+                                @else
+                                    <span class="gagal">&#9888; TIDAK LULUS &ndash; Perlu Remedial</span>
+                                @endif
+                            @endif
                         @else
-                            <span class="empty">–</span>
+                            <span class="empty">&ndash;</span>
                         @endif
                     </td>
                 </tr>
