@@ -89,32 +89,82 @@ class MateriController extends Controller
     public function update(Request $request, Materi $materi)
     {
         $request->validate([
-            'mapel_id' => 'required|exists:mapels,id',
-            'bab' => 'required',
-            'judul' => 'required',
-            'deskripsi' => 'required',
-            'isi_materi' => 'nullable|mimes:pdf',
+            'mapel_ids'    => 'required|array|min:1',
+            'mapel_ids.*'  => 'required|exists:mapels,id',
+            'bab'          => 'required',
+            'judul'        => 'required',
+            'deskripsi'    => 'required',
+            'isi_materi'   => 'nullable|mimes:pdf|max:10240',
             'link_youtube' => 'nullable|url',
+        ], [
+            'mapel_ids.required' => 'Pilih minimal satu mata pelajaran / kelas.',
         ]);
 
-        $data = $request->all();
+        $mapelIds    = $request->input('mapel_ids');
+        $mapelLama   = $materi->mapel_id;
 
+        // Tentukan mapel utama: jika mapel lama masih dicentang → pakai itu,
+        // jika tidak → pakai yang pertama dipilih
+        $mapelPrimary = in_array($mapelLama, $mapelIds) ? $mapelLama : $mapelIds[0];
+
+        // Handle upload / retain file PDF
+        $newFilename = null;
         if ($request->hasFile('isi_materi')) {
-            // Delete old file if exists
+            // Hapus file lama
             if ($materi->isi_materi && file_exists(public_path('uploads/pdf/' . $materi->isi_materi))) {
                 unlink(public_path('uploads/pdf/' . $materi->isi_materi));
             }
-
-            $file = $request->file('isi_materi');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/pdf'), $filename);
-            $data['isi_materi'] = $filename;
-        } else {
-            $data['isi_materi'] = $materi->isi_materi;
+            $file        = $request->file('isi_materi');
+            $newFilename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/pdf'), $newFilename);
         }
 
-        $materi->update($data);
-        Alert::success('Success', 'Materi berhasil diupdate');
+        $baseFilename = $newFilename ?? $materi->isi_materi;
+
+        // Update record utama
+        $materi->update([
+            'mapel_id'     => $mapelPrimary,
+            'bab'          => $request->bab,
+            'judul'        => $request->judul,
+            'deskripsi'    => $request->deskripsi,
+            'link_youtube' => $request->link_youtube,
+            'isi_materi'   => $baseFilename,
+        ]);
+
+        // Duplikasi ke mapel tambahan
+        $dupCount = 0;
+        foreach ($mapelIds as $idx => $mapelId) {
+            if ($mapelId == $mapelPrimary) continue; // sudah diupdate
+
+            // Salin file PDF agar nama unik per kelas
+            $copyFilename = $baseFilename;
+            if ($baseFilename) {
+                $copyFilename = time() . '_dup' . ($dupCount + 1) . '_' . basename($baseFilename);
+                if (file_exists(public_path('uploads/pdf/' . $baseFilename))) {
+                    copy(
+                        public_path('uploads/pdf/' . $baseFilename),
+                        public_path('uploads/pdf/' . $copyFilename)
+                    );
+                }
+            }
+
+            Materi::create([
+                'mapel_id'     => $mapelId,
+                'bab'          => $request->bab,
+                'judul'        => $request->judul,
+                'deskripsi'    => $request->deskripsi,
+                'link_youtube' => $request->link_youtube,
+                'isi_materi'   => $copyFilename,
+            ]);
+            $dupCount++;
+        }
+
+        $msg = 'Materi berhasil diupdate.';
+        if ($dupCount > 0) {
+            $msg .= " Diduplikasi ke {$dupCount} kelas baru.";
+        }
+
+        Alert::success('Success', $msg);
         return redirect()->route('materi.index');
     }
 
