@@ -28,24 +28,16 @@
             @csrf
             @method('PUT')
             <div class="card mb-3">
-              <div class="card-header">
+              <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>Info Ujian</h5>
+                <small class="text-muted">
+                  Mapel aktif sudah tercentang. Centang mapel lain untuk <strong>menduplikasi</strong> ujian ke kelas tersebut.
+                </small>
               </div>
               <div class="card-body">
                 <div class="form-group mb-3">
                     <label class="form-label">Judul Ujian</label>
                     <input type="text" name="judul" class="form-control" value="{{ $ujian->judul }}" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label class="form-label">Mapel / Kelas</label>
-                    <select name="mapel_id" class="form-control" required>
-                        <option value="">-- Pilih Mapel --</option>
-                        @foreach($mapels as $mapel)
-                        <option value="{{ $mapel->id }}" {{ $ujian->mapel_id == $mapel->id ? 'selected' : '' }}>
-                            {{ $mapel->nama_mapel }} - Kelas {{ $mapel->kelas }}
-                        </option>
-                        @endforeach
-                    </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Status Ujian</label>
@@ -54,6 +46,70 @@
                         <option value="dimulai" {{ $ujian->status == 'dimulai' ? 'selected' : '' }}>Dimulai</option>
                     </select>
                 </div>
+
+                {{-- ===================== PILIH MAPEL MULTI ===================== --}}
+                <div class="form-group mt-3">
+                    <label class="form-label fw-semibold">
+                        Mapel / Kelas <span class="text-danger">*</span>
+                    </label>
+                    <p class="text-muted small mb-2">
+                        @if($ujian->mapel)
+                            <span class="badge bg-primary">{{ $ujian->mapel->nama_mapel }} - Kelas {{ $ujian->mapel->kelas }}</span>
+                            adalah mapel yang sedang diedit.
+                        @endif
+                        Centang mapel lain untuk <strong>menduplikasi</strong> ujian ini ke kelas tersebut sekaligus.
+                    </p>
+
+                    {{-- Tombol bantu --}}
+                    <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
+                        <input type="text" id="searchMapel" class="form-control" style="max-width:220px;" placeholder="🔍 Cari nama mapel...">
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="pilihSemuaMapel">✔ Pilih Semua</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="hapusSemuaMapel">✖ Hapus Semua</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="pilihTingkat('VII')">Kelas VII</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="pilihTingkat('VIII')">Kelas VIII</button>
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="pilihTingkat('IX')">Kelas IX</button>
+                    </div>
+
+                    <div class="border rounded p-3" style="max-height:280px; overflow-y:auto;" id="mapelCheckboxList">
+                        @php
+                            $mapelGrouped = $mapels->groupBy('nama_mapel');
+                            $selectedIds  = old('mapel_ids', [$ujian->mapel_id]);
+                        @endphp
+
+                        @foreach ($mapelGrouped as $namaMapel => $items)
+                            <div class="mapel-group mb-2">
+                                <strong class="text-primary small">{{ $namaMapel }}</strong>
+                                <div class="ps-2 mt-1 d-flex flex-wrap gap-3">
+                                    @foreach ($items as $mapel)
+                                        <div class="form-check mapel-item" data-nama="{{ strtolower($namaMapel) }}" data-kelas="{{ $mapel->kelas }}">
+                                            <input class="form-check-input mapel-check" type="checkbox"
+                                                name="mapel_ids[]"
+                                                value="{{ $mapel->id }}"
+                                                id="mapel_{{ $mapel->id }}"
+                                                {{ in_array($mapel->id, $selectedIds) ? 'checked' : '' }}>
+                                            <label class="form-check-label small" for="mapel_{{ $mapel->id }}">
+                                                Kelas {{ $mapel->kelas }}
+                                                @if($mapel->id == $ujian->mapel_id)
+                                                    <span class="badge bg-primary ms-1" style="font-size:10px;">Aktif</span>
+                                                @endif
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <hr class="my-1">
+                        @endforeach
+
+                        @if($mapels->isEmpty())
+                            <p class="text-muted">Belum ada mata pelajaran. <a href="{{ route('mapel.create') }}">Tambah mapel dulu</a>.</p>
+                        @endif
+                    </div>
+
+                    @error('mapel_ids')
+                        <small class="text-danger d-block mt-1">{{ $message }}</small>
+                    @enderror
+                </div>
+
               </div>
             </div>
 
@@ -192,7 +248,7 @@
 
             <div class="card">
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary me-2">Simpan Perubahan Ujian</button>
+                    <button type="submit" class="btn btn-primary me-2">Update &amp; Duplikasi</button>
                     <a href="{{ route('ujian.index') }}" class="btn btn-light">Kembali</a>
                 </div>
             </div>
@@ -206,6 +262,7 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== Tambah / hapus soal =====
     const container = document.getElementById('soal-container');
     const btnAdd = document.getElementById('btn-add-soal');
 
@@ -232,6 +289,36 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.closest('.soal-item').remove();
             updateSoalUI();
         }
+    });
+
+    // ===== Pilih semua / hapus semua mapel =====
+    document.getElementById('pilihSemuaMapel').addEventListener('click', function() {
+        document.querySelectorAll('.mapel-check').forEach(cb => {
+            if (cb.closest('.mapel-item').style.display !== 'none') cb.checked = true;
+        });
+    });
+    document.getElementById('hapusSemuaMapel').addEventListener('click', function() {
+        document.querySelectorAll('.mapel-check').forEach(cb => cb.checked = false);
+    });
+
+    // ===== Filter tingkat kelas =====
+    window.pilihTingkat = function(tingkat) {
+        document.querySelectorAll('.mapel-item').forEach(item => {
+            const kelas = item.dataset.kelas || '';
+            if (kelas.startsWith(tingkat)) {
+                const cb = item.querySelector('.mapel-check');
+                cb.checked = !cb.checked;
+            }
+        });
+    };
+
+    // ===== Search mapel =====
+    document.getElementById('searchMapel').addEventListener('input', function() {
+        const keyword = this.value.toLowerCase().trim();
+        document.querySelectorAll('.mapel-group').forEach(group => {
+            const nama = group.querySelector('strong').textContent.toLowerCase();
+            group.style.display = nama.includes(keyword) ? '' : 'none';
+        });
     });
 });
 </script>

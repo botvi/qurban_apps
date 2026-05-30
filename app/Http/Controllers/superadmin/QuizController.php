@@ -120,41 +120,45 @@ class QuizController extends Controller
     public function update(Request $request, Quiz $quiz)
     {
         $request->validate([
-            'materi_id' => 'required|exists:materis,id',
-            'pertanyaan' => 'nullable|array',
-            'a' => 'nullable|array',
-            'b' => 'nullable|array',
-            'c' => 'nullable|array',
-            'd' => 'nullable|array',
-            'jawaban' => 'required|array',
-            'gambar_pertanyaan' => 'nullable|array',
+            'materi_ids'          => 'required|array|min:1',
+            'materi_ids.*'        => 'required|exists:materis,id',
+            'pertanyaan'          => 'nullable|array',
+            'a'                   => 'nullable|array',
+            'b'                   => 'nullable|array',
+            'c'                   => 'nullable|array',
+            'd'                   => 'nullable|array',
+            'jawaban'             => 'required|array',
+            'gambar_pertanyaan'   => 'nullable|array',
             'gambar_pertanyaan.*' => 'nullable|image|max:2048',
-            'gambar_a' => 'nullable|array',
-            'gambar_a.*' => 'nullable|image|max:2048',
-            'gambar_b' => 'nullable|array',
-            'gambar_b.*' => 'nullable|image|max:2048',
-            'gambar_c' => 'nullable|array',
-            'gambar_c.*' => 'nullable|image|max:2048',
-            'gambar_d' => 'nullable|array',
-            'gambar_d.*' => 'nullable|image|max:2048',
+            'gambar_a'            => 'nullable|array',
+            'gambar_a.*'          => 'nullable|image|max:2048',
+            'gambar_b'            => 'nullable|array',
+            'gambar_b.*'          => 'nullable|image|max:2048',
+            'gambar_c'            => 'nullable|array',
+            'gambar_c.*'          => 'nullable|image|max:2048',
+            'gambar_d'            => 'nullable|array',
+            'gambar_d.*'          => 'nullable|image|max:2048',
+        ], [
+            'materi_ids.required' => 'Pilih minimal satu materi / kelas.',
         ]);
 
-        $soal = [];
+        $soal       = [];
+        $fileFields = ['gambar_pertanyaan', 'gambar_a', 'gambar_b', 'gambar_c', 'gambar_d'];
         $jawabanCount = count($request->jawaban ?? []);
+
         for ($i = 0; $i < $jawabanCount; $i++) {
             $item = [
                 'pertanyaan' => $request->pertanyaan[$i] ?? null,
-                'a' => $request->a[$i] ?? null,
-                'b' => $request->b[$i] ?? null,
-                'c' => $request->c[$i] ?? null,
-                'd' => $request->d[$i] ?? null,
-                'jawaban' => $request->jawaban[$i] ?? null,
+                'a'          => $request->a[$i] ?? null,
+                'b'          => $request->b[$i] ?? null,
+                'c'          => $request->c[$i] ?? null,
+                'd'          => $request->d[$i] ?? null,
+                'jawaban'    => $request->jawaban[$i] ?? null,
             ];
 
-            $fileFields = ['gambar_pertanyaan', 'gambar_a', 'gambar_b', 'gambar_c', 'gambar_d'];
             foreach ($fileFields as $field) {
                 if ($request->hasFile("{$field}.{$i}")) {
-                    $file = $request->file("{$field}.{$i}");
+                    $file     = $request->file("{$field}.{$i}");
                     $filename = time() . "_{$field}_{$i}_" . $file->getClientOriginalName();
                     $file->move(public_path('uploads/quizzes'), $filename);
                     $item[$field] = 'uploads/quizzes/' . $filename;
@@ -165,12 +169,54 @@ class QuizController extends Controller
             $soal[] = $item;
         }
 
+        $materiIds    = $request->input('materi_ids');
+        $materiLama   = $quiz->materi_id;
+
+        // Tentukan materi utama: jika materi lama masih dicentang → pakai itu,
+        // jika tidak → pakai yang pertama dipilih
+        $materiPrimary = in_array($materiLama, $materiIds) ? $materiLama : $materiIds[0];
+
+        // Update record utama
         $quiz->update([
-            'materi_id' => $request->materi_id,
-            'soal' => $soal,
+            'materi_id' => $materiPrimary,
+            'soal'      => $soal,
         ]);
 
-        Alert::success('Success', 'Quiz berhasil diupdate');
+        // Duplikasi ke materi tambahan
+        $dupCount = 0;
+        foreach ($materiIds as $idx => $materiId) {
+            if ($materiId == $materiPrimary) continue; // sudah diupdate
+
+            // Salin file gambar agar path unik per kelas
+            $soalForThis = $soal;
+            foreach ($soalForThis as &$item) {
+                foreach ($fileFields as $field) {
+                    if (!empty($item[$field])) {
+                        $originalPath = public_path($item[$field]);
+                        if (file_exists($originalPath)) {
+                            $newName = time() . "_dup{$dupCount}_" . basename($item[$field]);
+                            $newPath = public_path('uploads/quizzes/' . $newName);
+                            copy($originalPath, $newPath);
+                            $item[$field] = 'uploads/quizzes/' . $newName;
+                        }
+                    }
+                }
+            }
+            unset($item);
+
+            Quiz::create([
+                'materi_id' => $materiId,
+                'soal'      => $soalForThis,
+            ]);
+            $dupCount++;
+        }
+
+        $msg = 'Quiz berhasil diupdate.';
+        if ($dupCount > 0) {
+            $msg .= " Diduplikasi ke {$dupCount} kelas baru.";
+        }
+
+        Alert::success('Success', $msg);
         return redirect()->route('quiz.index');
     }
 

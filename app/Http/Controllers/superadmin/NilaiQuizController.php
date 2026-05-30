@@ -11,7 +11,7 @@ class NilaiQuizController extends Controller
 {
     public function index(Request $request)
     {
-        $query = NilaiQuiz::with(['user', 'materi', 'materi.mapel'])->latest();
+        $query = NilaiQuiz::with(['user', 'user.siswa', 'materi', 'materi.mapel'])->latest();
 
         if ($request->filled('kelas')) {
             $query->whereHas('materi.mapel', function($q) use ($request) {
@@ -44,7 +44,7 @@ class NilaiQuizController extends Controller
 
     public function print(Request $request)
     {
-        $query = NilaiQuiz::with(['user', 'materi', 'materi.mapel'])->latest();
+        $query = NilaiQuiz::with(['user', 'user.siswa', 'materi', 'materi.mapel'])->latest();
 
         if ($request->filled('kelas')) {
             $query->whereHas('materi.mapel', function($q) use ($request) {

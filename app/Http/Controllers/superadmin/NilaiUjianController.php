@@ -11,7 +11,7 @@ class NilaiUjianController extends Controller
 {
     public function index(Request $request)
     {
-        $query = NilaiUjian::with(['user', 'ujian', 'ujian.mapel'])->latest();
+        $query = NilaiUjian::with(['user', 'user.siswa', 'ujian', 'ujian.mapel'])->latest();
 
         if ($request->filled('kelas')) {
             $query->whereHas('ujian.mapel', function($q) use ($request) {
@@ -44,7 +44,7 @@ class NilaiUjianController extends Controller
 
     public function print(Request $request)
     {
-        $query = NilaiUjian::with(['user', 'ujian', 'ujian.mapel'])->latest();
+        $query = NilaiUjian::with(['user', 'user.siswa', 'ujian', 'ujian.mapel'])->latest();
 
         if ($request->filled('kelas')) {
             $query->whereHas('ujian.mapel', function($q) use ($request) {

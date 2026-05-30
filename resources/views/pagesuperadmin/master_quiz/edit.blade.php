@@ -28,18 +28,72 @@
             @csrf
             @method('PUT')
             <div class="card mb-3">
-              <div class="card-header">
+              <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>Materi Quiz</h5>
+                <small class="text-muted">
+                  Materi aktif sudah tercentang. Centang materi lain untuk <strong>menduplikasi</strong> quiz ke kelas tersebut.
+                </small>
               </div>
               <div class="card-body">
                 <div class="form-group">
-                    <label class="form-label">Pilih Materi</label>
-                    <select name="materi_id" class="form-control" required>
-                        <option value="">-- Pilih Materi --</option>
-                        @foreach($materis as $materi)
-                        <option value="{{ $materi->id }}" {{ $quiz->materi_id == $materi->id ? 'selected' : '' }}>{{ $materi->mapel ? $materi->mapel->nama_mapel . ' - Kelas ' . $materi->mapel->kelas . ' - ' : '' }}{{ $materi->bab }} ({{ $materi->judul }})</option>
+                    <label class="form-label fw-semibold">
+                        Pilih Materi / Kelas <span class="text-danger">*</span>
+                    </label>
+                    <p class="text-muted small mb-2">
+                        @if($quiz->materi && $quiz->materi->mapel)
+                            <span class="badge bg-primary">{{ $quiz->materi->mapel->nama_mapel }} - Kelas {{ $quiz->materi->mapel->kelas }} — {{ $quiz->materi->bab }} ({{ $quiz->materi->judul }})</span>
+                            adalah materi yang sedang diedit.
+                        @endif
+                        Centang materi lain untuk <strong>menduplikasi</strong> quiz ini ke kelas tersebut sekaligus.
+                    </p>
+
+                    {{-- Tombol bantu --}}
+                    <div class="mb-2 d-flex gap-2 flex-wrap align-items-center">
+                        <input type="text" id="searchMateri" class="form-control" style="max-width:220px;" placeholder="🔍 Cari nama materi...">
+                        <button type="button" class="btn btn-sm btn-outline-primary" id="pilihSemuaMateri">✔ Pilih Semua</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="hapusSemuaMateri">✖ Hapus Semua</button>
+                    </div>
+
+                    <div class="border rounded p-3" style="max-height:280px; overflow-y:auto;" id="materiCheckboxList">
+                        @php
+                            $materiGrouped = $materis->groupBy(function($m) {
+                                return ($m->mapel ? $m->mapel->nama_mapel : '?') . ' — ' . $m->bab . ' (' . $m->judul . ')';
+                            });
+                            $selectedIds = old('materi_ids', [$quiz->materi_id]);
+                        @endphp
+
+                        @foreach ($materiGrouped as $groupLabel => $items)
+                            <div class="materi-group mb-2">
+                                <strong class="text-primary small">{{ $groupLabel }}</strong>
+                                <div class="ps-2 mt-1 d-flex flex-wrap gap-3">
+                                    @foreach ($items as $materi)
+                                        <div class="form-check materi-item" data-nama="{{ strtolower($groupLabel) }}">
+                                            <input class="form-check-input materi-check" type="checkbox"
+                                                name="materi_ids[]"
+                                                value="{{ $materi->id }}"
+                                                id="materi_{{ $materi->id }}"
+                                                {{ in_array($materi->id, $selectedIds) ? 'checked' : '' }}>
+                                            <label class="form-check-label small" for="materi_{{ $materi->id }}">
+                                                Kelas {{ $materi->mapel ? $materi->mapel->kelas : '-' }}
+                                                @if($materi->id == $quiz->materi_id)
+                                                    <span class="badge bg-primary ms-1" style="font-size:10px;">Aktif</span>
+                                                @endif
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <hr class="my-1">
                         @endforeach
-                    </select>
+
+                        @if($materis->isEmpty())
+                            <p class="text-muted">Belum ada materi. <a href="{{ route('materi.create') }}">Tambah materi dulu</a>.</p>
+                        @endif
+                    </div>
+
+                    @error('materi_ids')
+                        <small class="text-danger d-block mt-1">{{ $message }}</small>
+                    @enderror
                 </div>
               </div>
             </div>
@@ -182,7 +236,7 @@
 
             <div class="card">
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary me-2">Simpan Perubahan Quiz</button>
+                    <button type="submit" class="btn btn-primary me-2">Update &amp; Duplikasi</button>
                     <a href="{{ route('quiz.index') }}" class="btn btn-light">Kembali</a>
                 </div>
             </div>
@@ -196,6 +250,7 @@
 @section('script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== Tambah / hapus soal =====
     const container = document.getElementById('soal-container');
     const btnAdd = document.getElementById('btn-add-soal');
 
@@ -216,11 +271,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const items = container.querySelectorAll('.soal-item');
         const firstItem = items[0];
         const newItem = firstItem.cloneNode(true);
-        
+
         // Clear inputs in cloned element
         const inputs = newItem.querySelectorAll('input, textarea');
         inputs.forEach(input => input.value = '');
-        
+
         const selects = newItem.querySelectorAll('select');
         selects.forEach(select => select.selectedIndex = 0);
 
@@ -235,6 +290,25 @@ document.addEventListener('DOMContentLoaded', function() {
             item.remove();
             updateSoalUI();
         }
+    });
+
+    // ===== Pilih semua / hapus semua materi =====
+    document.getElementById('pilihSemuaMateri').addEventListener('click', function() {
+        document.querySelectorAll('.materi-check').forEach(cb => {
+            if (cb.closest('.materi-item').style.display !== 'none') cb.checked = true;
+        });
+    });
+    document.getElementById('hapusSemuaMateri').addEventListener('click', function() {
+        document.querySelectorAll('.materi-check').forEach(cb => cb.checked = false);
+    });
+
+    // ===== Filter / search materi =====
+    document.getElementById('searchMateri').addEventListener('input', function() {
+        const keyword = this.value.toLowerCase().trim();
+        document.querySelectorAll('.materi-group').forEach(group => {
+            const nama = group.querySelector('strong').textContent.toLowerCase();
+            group.style.display = nama.includes(keyword) ? '' : 'none';
+        });
     });
 });
 </script>

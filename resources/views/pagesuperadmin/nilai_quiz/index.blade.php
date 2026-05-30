@@ -75,6 +75,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Siswa</th>
+                                            <th>Kelas Siswa</th>
                                             <th>Materi</th>
                                             <th>Nilai</th>
                                             <th>Keterangan</th>
@@ -87,6 +88,7 @@
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
                                                 <td>{{ $item->user->name ?? 'Unknown' }}</td>
+                                                <td>{{ $item->user->siswa->kelas ?? '-' }}</td>
                                                 <td>{{ $item->materi->judul ?? 'Unknown' }}</td>
                                                 <td>
                                                     @if ($item->nilai_quiz < 72)
