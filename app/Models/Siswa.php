@@ -15,6 +15,8 @@ class Siswa extends Model
         'nama_lengkap',
         'alamat',
         'kelas',
+        'nilai_absensi',
+        'nilai_sikap',
     ];
 
     public function user()

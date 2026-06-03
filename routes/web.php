@@ -20,6 +20,7 @@ use App\Http\Controllers\superadmin\{
     NilaiQuizController,
     MapelController,
     NilaiAkhirController,
+    NilaiUjianController,
 };
 use App\Http\Controllers\user\{
     PreviewController,
@@ -83,11 +84,13 @@ Route::group(['middleware' => ['role:superadmin']], function () {
     Route::resource('siswa', SiswaController::class);
     Route::get('nilai-quiz/print', [NilaiQuizController::class, 'print'])->name('nilai-quiz.print');
     Route::resource('nilai-quiz', NilaiQuizController::class)->only(['index', 'destroy']);
-    Route::get('nilai-ujian/print', [App\Http\Controllers\superadmin\NilaiUjianController::class, 'print'])->name('nilai-ujian.print');
-    Route::resource('nilai-ujian', App\Http\Controllers\superadmin\NilaiUjianController::class)->only(['index', 'destroy']);
+    Route::get('nilai-ujian/print', [NilaiUjianController::class, 'print'])->name('nilai-ujian.print');
+    Route::resource('nilai-ujian', NilaiUjianController::class)->only(['index', 'destroy']);
 
     Route::get('nilai-akhir', [NilaiAkhirController::class, 'index'])->name('nilai-akhir.index');
     Route::get('nilai-akhir/print', [NilaiAkhirController::class, 'print'])->name('nilai-akhir.print');
+    Route::get('nilai-akhir/input-nilai', [NilaiAkhirController::class, 'inputNilai'])->name('nilai-akhir.input-nilai');
+    Route::post('nilai-akhir/simpan-nilai', [NilaiAkhirController::class, 'simpanNilai'])->name('nilai-akhir.simpan-nilai');
 });
 
 

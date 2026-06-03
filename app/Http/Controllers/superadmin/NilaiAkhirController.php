@@ -10,13 +10,14 @@ use App\Models\Materi;
 use App\Models\NilaiQuiz;
 use App\Models\NilaiUjian;
 use App\Models\Ujian;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class NilaiAkhirController extends Controller
 {
     /**
      * Hitung nilai akhir per siswa per mapel.
-     * Formula:
-     *   Rata-rata Quiz × 40% + Nilai UTS × 20% + Nilai UAS × 40%
+     * Formula baru:
+     *   Rata-rata Quiz × 20% + Absensi × 10% + Sikap × 10% + UTS × 30% + UAS × 30%
      */
     public function index(Request $request)
     {
@@ -59,6 +60,10 @@ class NilaiAkhirController extends Controller
                     ? round($nilaiQuizzes->avg(), 2)
                     : null;
 
+                // --- Nilai Absensi & Sikap (dari data siswa) ---
+                $nilaiAbsensi = $siswa->nilai_absensi;
+                $nilaiSikap   = $siswa->nilai_sikap;
+
                 // --- Nilai UTS ---
                 $ujianUTS = Ujian::where('mapel_id', $mapel->id)
                     ->whereRaw('LOWER(judul) LIKE ?', ['%uts%'])
@@ -90,29 +95,74 @@ class NilaiAkhirController extends Controller
                 }
 
                 // --- Nilai Akhir ---
-                // Hanya hitung jika minimal ada satu komponen nilai
+                // Formula: Quiz(20%) + Absensi(10%) + Sikap(10%) + UTS(30%) + UAS(30%)
                 $nilaiAkhir = null;
-                if ($rataQuiz !== null || $nilaiUTS !== null || $nilaiUAS !== null) {
-                    $q   = $rataQuiz ?? 0;
-                    $uts = $nilaiUTS  ?? 0;
-                    $uas = $nilaiUAS  ?? 0;
-                    $nilaiAkhir = round(($q * 0.4) + ($uts * 0.2) + ($uas * 0.4), 2);
+                if ($rataQuiz !== null || $nilaiUTS !== null || $nilaiUAS !== null || $nilaiAbsensi !== null || $nilaiSikap !== null) {
+                    $q   = $rataQuiz    ?? 0;
+                    $abs = $nilaiAbsensi ?? 0;
+                    $sik = $nilaiSikap  ?? 0;
+                    $uts = $nilaiUTS    ?? 0;
+                    $uas = $nilaiUAS    ?? 0;
+                    $nilaiAkhir = round(($q * 0.20) + ($abs * 0.10) + ($sik * 0.10) + ($uts * 0.30) + ($uas * 0.30), 2);
                 }
 
                 $hasil[] = [
-                    'siswa'        => $siswa,
-                    'mapel'        => $mapel,
-                    'rata_quiz'    => $rataQuiz,
-                    'nilai_uts'    => $nilaiUTS,
-                    'nilai_uas'    => $nilaiUAS,
-                    'nilai_akhir'  => $nilaiAkhir,
-                    'lulus'        => $nilaiAkhir !== null && $nilaiAkhir >= 72,
-                    'ada_remedial' => $quizAdaRemedial || $utsAdaRemedial || $uasAdaRemedial,
+                    'siswa'          => $siswa,
+                    'mapel'          => $mapel,
+                    'rata_quiz'      => $rataQuiz,
+                    'nilai_absensi'  => $nilaiAbsensi,
+                    'nilai_sikap'    => $nilaiSikap,
+                    'nilai_uts'      => $nilaiUTS,
+                    'nilai_uas'      => $nilaiUAS,
+                    'nilai_akhir'    => $nilaiAkhir,
+                    'lulus'          => $nilaiAkhir !== null && $nilaiAkhir >= 72,
+                    'ada_remedial'   => $quizAdaRemedial || $utsAdaRemedial || $uasAdaRemedial,
                 ];
             }
         }
 
         return view('pagesuperadmin.nilaiakhirsiswa.rekap', compact('hasil', 'mapels', 'kelasFilter', 'mapelFilter'));
+    }
+
+    /**
+     * Form input nilai absensi & sikap siswa
+     */
+    public function inputNilai(Request $request)
+    {
+        $kelasFilter = $request->input('kelas');
+
+        $siswaQuery = Siswa::with('user');
+        if ($kelasFilter) {
+            $siswaQuery->where('kelas', $kelasFilter);
+        }
+        $siswas = $siswaQuery->orderBy('kelas')->orderBy('nama_lengkap')->get();
+
+        return view('pagesuperadmin.nilaiakhirsiswa.input_nilai', compact('siswas', 'kelasFilter'));
+    }
+
+    /**
+     * Simpan nilai absensi & sikap siswa (bulk update)
+     */
+    public function simpanNilai(Request $request)
+    {
+        $request->validate([
+            'nilai' => 'required|array',
+            'nilai.*.nilai_absensi' => 'nullable|integer|min:0|max:100',
+            'nilai.*.nilai_sikap'   => 'nullable|integer|min:0|max:100',
+        ]);
+
+        foreach ($request->nilai as $siswaId => $nilaiData) {
+            $siswa = Siswa::find($siswaId);
+            if ($siswa) {
+                $siswa->update([
+                    'nilai_absensi' => $nilaiData['nilai_absensi'] ?? null,
+                    'nilai_sikap'   => $nilaiData['nilai_sikap']   ?? null,
+                ]);
+            }
+        }
+
+        Alert::success('Berhasil', 'Nilai absensi dan sikap berhasil disimpan!');
+        return redirect()->route('nilai-akhir.input-nilai', ['kelas' => $request->input('kelas_filter')]);
     }
 
     /**
@@ -152,6 +202,9 @@ class NilaiAkhirController extends Controller
 
                 $rataQuiz = $nilaiQuizzes->count() > 0 ? round($nilaiQuizzes->avg(), 2) : null;
 
+                $nilaiAbsensi = $siswa->nilai_absensi;
+                $nilaiSikap   = $siswa->nilai_sikap;
+
                 $ujianUTS = Ujian::where('mapel_id', $mapel->id)->whereRaw('LOWER(judul) LIKE ?', ['%uts%'])->first();
                 $nilaiUTS = null;
                 $utsAdaRemedial = false;
@@ -171,19 +224,26 @@ class NilaiAkhirController extends Controller
                 }
 
                 $nilaiAkhir = null;
-                if ($rataQuiz !== null || $nilaiUTS !== null || $nilaiUAS !== null) {
-                    $nilaiAkhir = round((($rataQuiz ?? 0) * 0.4) + (($nilaiUTS ?? 0) * 0.2) + (($nilaiUAS ?? 0) * 0.4), 2);
+                if ($rataQuiz !== null || $nilaiUTS !== null || $nilaiUAS !== null || $nilaiAbsensi !== null || $nilaiSikap !== null) {
+                    $q   = $rataQuiz    ?? 0;
+                    $abs = $nilaiAbsensi ?? 0;
+                    $sik = $nilaiSikap  ?? 0;
+                    $uts = $nilaiUTS    ?? 0;
+                    $uas = $nilaiUAS    ?? 0;
+                    $nilaiAkhir = round(($q * 0.20) + ($abs * 0.10) + ($sik * 0.10) + ($uts * 0.30) + ($uas * 0.30), 2);
                 }
 
                 $hasil[] = [
-                    'siswa'        => $siswa,
-                    'mapel'        => $mapel,
-                    'rata_quiz'    => $rataQuiz,
-                    'nilai_uts'    => $nilaiUTS,
-                    'nilai_uas'    => $nilaiUAS,
-                    'nilai_akhir'  => $nilaiAkhir,
-                    'lulus'        => $nilaiAkhir !== null && $nilaiAkhir >= 72,
-                    'ada_remedial' => $quizAdaRemedial || $utsAdaRemedial || $uasAdaRemedial,
+                    'siswa'         => $siswa,
+                    'mapel'         => $mapel,
+                    'rata_quiz'     => $rataQuiz,
+                    'nilai_absensi' => $nilaiAbsensi,
+                    'nilai_sikap'   => $nilaiSikap,
+                    'nilai_uts'     => $nilaiUTS,
+                    'nilai_uas'     => $nilaiUAS,
+                    'nilai_akhir'   => $nilaiAkhir,
+                    'lulus'         => $nilaiAkhir !== null && $nilaiAkhir >= 72,
+                    'ada_remedial'  => $quizAdaRemedial || $utsAdaRemedial || $uasAdaRemedial,
                 ];
             }
         }

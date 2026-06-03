@@ -24,12 +24,18 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <h5 class="mb-0">Nilai Akhir Siswa</h5>
-                        <a href="{{ route('nilai-akhir.print', request()->query()) }}" target="_blank"
-                            class="btn btn-primary btn-sm">
-                            <i class="fas fa-print"></i> Cetak Laporan
-                        </a>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ route('nilai-akhir.input-nilai', ['kelas' => $kelasFilter]) }}"
+                                class="btn btn-success btn-sm">
+                                <i class="fas fa-clipboard-list me-1"></i> Input Nilai Absensi & Sikap
+                            </a>
+                            <a href="{{ route('nilai-akhir.print', request()->query()) }}" target="_blank"
+                                class="btn btn-primary btn-sm">
+                                <i class="fas fa-print me-1"></i> Cetak Laporan
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
 
@@ -73,13 +79,22 @@
                         </form>
 
                         {{-- Keterangan Formula --}}
-                        <div class="alert alert-info d-flex align-items-center gap-2 mb-3" style="font-size:0.88em;">
-                            <i class="fas fa-info-circle"></i>
-                            <span>
-                                <strong>Formula Nilai Akhir:</strong>
-                                (Rata-rata Quiz × 40%) + (Nilai UTS × 20%) + (Nilai UAS × 40%)
-                                &nbsp;|&nbsp; KKM: <strong>72</strong>
-                            </span>
+                        <div class="alert alert-info d-flex align-items-start gap-2 mb-3" style="font-size:0.88em;">
+                            <i class="fas fa-info-circle mt-1"></i>
+                            <div>
+                                <strong>Formula Nilai Akhir (Bobot Persentase):</strong>
+                                <div class="mt-2 d-flex flex-wrap gap-2">
+                                    <span class="badge" style="background:#dc2626;font-size:0.88em;padding:5px 10px;">UAS – 30%</span>
+                                    <span class="badge" style="background:#dc2626;font-size:0.88em;padding:5px 10px;">UTS – 30%</span>
+                                    <span class="badge" style="background:#2563eb;font-size:0.88em;padding:5px 10px;">Quiz – 20%</span>
+                                    <span class="badge" style="background:#059669;font-size:0.88em;padding:5px 10px;">Absensi – 10%</span>
+                                    <span class="badge" style="background:#7c3aed;font-size:0.88em;padding:5px 10px;">Sikap – 10%</span>
+                                </div>
+                                <div class="mt-1 text-muted">
+                                    Nilai Akhir = (Quiz×0.20) + (Absensi×0.10) + (Sikap×0.10) + (UTS×0.30) + (UAS×0.30)
+                                    &nbsp;|&nbsp; KKM: <strong>72</strong>
+                                </div>
+                            </div>
                         </div>
 
                         {{-- Tabel --}}
@@ -91,9 +106,11 @@
                                         <th>Nama Siswa</th>
                                         <th>Kelas</th>
                                         <th>Mata Pelajaran</th>
-                                        <th class="text-center">Rata-rata Quiz<br><small class="fw-normal">(40%)</small></th>
-                                        <th class="text-center">Nilai UTS<br><small class="fw-normal">(20%)</small></th>
-                                        <th class="text-center">Nilai UAS<br><small class="fw-normal">(40%)</small></th>
+                                        <th class="text-center">Rata-rata Quiz<br><small class="fw-normal">(20%)</small></th>
+                                        <th class="text-center">Absensi<br><small class="fw-normal">(10%)</small></th>
+                                        <th class="text-center">Sikap<br><small class="fw-normal">(10%)</small></th>
+                                        <th class="text-center">Nilai UTS<br><small class="fw-normal">(30%)</small></th>
+                                        <th class="text-center">Nilai UAS<br><small class="fw-normal">(30%)</small></th>
                                         <th class="text-center">Nilai Akhir</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
@@ -105,6 +122,8 @@
                                             <td>{{ $row['siswa']->nama_lengkap }}</td>
                                             <td>{{ $row['siswa']->kelas }}</td>
                                             <td>{{ $row['mapel']->nama_mapel }}</td>
+
+                                            {{-- Quiz --}}
                                             <td class="text-center">
                                                 @if($row['rata_quiz'] !== null)
                                                     <span class="badge {{ $row['rata_quiz'] >= 72 ? 'bg-success' : 'bg-danger' }}">
@@ -114,6 +133,38 @@
                                                     <span class="text-muted">–</span>
                                                 @endif
                                             </td>
+
+                                            {{-- Absensi --}}
+                                            <td class="text-center">
+                                                @if($row['nilai_absensi'] !== null)
+                                                    <span class="badge {{ $row['nilai_absensi'] >= 72 ? 'bg-success' : 'bg-danger' }}">
+                                                        {{ $row['nilai_absensi'] }}
+                                                    </span>
+                                                @else
+                                                    <a href="{{ route('nilai-akhir.input-nilai', ['kelas' => $row['siswa']->kelas]) }}"
+                                                        class="badge bg-warning text-dark text-decoration-none"
+                                                        title="Klik untuk input nilai">
+                                                        <i class="fas fa-plus-circle me-1"></i>Input
+                                                    </a>
+                                                @endif
+                                            </td>
+
+                                            {{-- Sikap --}}
+                                            <td class="text-center">
+                                                @if($row['nilai_sikap'] !== null)
+                                                    <span class="badge {{ $row['nilai_sikap'] >= 72 ? 'bg-success' : 'bg-danger' }}">
+                                                        {{ $row['nilai_sikap'] }}
+                                                    </span>
+                                                @else
+                                                    <a href="{{ route('nilai-akhir.input-nilai', ['kelas' => $row['siswa']->kelas]) }}"
+                                                        class="badge bg-warning text-dark text-decoration-none"
+                                                        title="Klik untuk input nilai">
+                                                        <i class="fas fa-plus-circle me-1"></i>Input
+                                                    </a>
+                                                @endif
+                                            </td>
+
+                                            {{-- UTS --}}
                                             <td class="text-center">
                                                 @if($row['nilai_uts'] !== null)
                                                     <span class="badge {{ $row['nilai_uts'] >= 72 ? 'bg-success' : 'bg-danger' }}">
@@ -123,6 +174,8 @@
                                                     <span class="text-muted">–</span>
                                                 @endif
                                             </td>
+
+                                            {{-- UAS --}}
                                             <td class="text-center">
                                                 @if($row['nilai_uas'] !== null)
                                                     <span class="badge {{ $row['nilai_uas'] >= 72 ? 'bg-success' : 'bg-danger' }}">
@@ -132,6 +185,8 @@
                                                     <span class="text-muted">–</span>
                                                 @endif
                                             </td>
+
+                                            {{-- Nilai Akhir --}}
                                             <td class="text-center fw-bold">
                                                 @if($row['nilai_akhir'] !== null)
                                                     <span style="font-size:1.05em;color:{{ $row['lulus'] ? '#198754' : '#dc3545' }}">
@@ -141,6 +196,8 @@
                                                     <span class="text-muted">–</span>
                                                 @endif
                                             </td>
+
+                                            {{-- Keterangan --}}
                                             <td class="text-center">
                                                 @if($row['nilai_akhir'] !== null)
                                                     @if($row['lulus'])
@@ -163,7 +220,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="9" class="text-center text-muted py-4">
+                                            <td colspan="11" class="text-center text-muted py-4">
                                                 <i class="fas fa-database me-2"></i>Tidak ada data nilai akhir.
                                             </td>
                                         </tr>
