@@ -51,11 +51,11 @@ class RegisterController extends Controller
             ]);
 
             Auth::login($user);
-            Alert::success('Pendaftaran berhasil!', 'Selamat datang di Linkskuy!');
+            Alert::success('Pendaftaran Berhasil', 'Selamat datang Guru SMP Negeri 1 Benai.');
             return redirect()->route('index');
-            
+
         } catch (\Exception $e) {
-            Alert::error('Gagal mendaftar', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+            Alert::error('Pendaftaran Gagal', 'Terjadi kesalahan saat mendaftar. Silakan coba kembali.');
             return back()->withInput();
         }
     }
