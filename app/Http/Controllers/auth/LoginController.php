@@ -39,10 +39,10 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if ($user->role == 'superadmin') {
-                Alert::success('Login Berhasil', 'Selamat datang kembali, Guru SMP Negeri 1 Benai.');
+                Alert::success('Login Berhasil', 'Selamat datang kembali di E-Learning MTs Nurul Islam Gunung Toar.');
                 return redirect()->route('dashboard-superadmin');
             } else if ($user->role == 'user') {
-                Alert::success('Login Berhasil', 'Selamat datang kembali di SMP Negeri 1 Benai.');
+                Alert::success('Login Berhasil', 'Selamat datang di E-Learning MTs Nurul Islam Gunung Toar.');
                 return redirect()->route('index');
             } else {
                 Auth::logout();

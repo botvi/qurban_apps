@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('mapels', function (Blueprint $table) {
             $table->id();
             $table->string('nama_mapel');
-            $table->enum('kelas', ['VII A', 'VII B', 'VII C', 'VIII A', 'VIII B', 'VIII C', 'IX A', 'IX B', 'IX C']);
+            $table->enum('kelas', ['VII1', 'VII2', 'VII3', 'VIII1', 'VIII2', 'VIII3', 'IX1', 'IX2', 'IX3']);
             $table->timestamps();
         });
     }

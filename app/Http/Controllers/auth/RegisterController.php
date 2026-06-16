@@ -51,7 +51,7 @@ class RegisterController extends Controller
             ]);
 
             Auth::login($user);
-            Alert::success('Pendaftaran Berhasil', 'Selamat datang Guru SMP Negeri 1 Benai.');
+            Alert::success('Pendaftaran Berhasil', 'Selamat datang di E-Learning MTs Nurul Islam Gunung Toar.');
             return redirect()->route('index');
 
         } catch (\Exception $e) {

@@ -43,41 +43,26 @@
                                         <input type="text" name="nama_lengkap" class="form-control"
                                             value="{{ $siswa->nama_lengkap }}" required>
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label class="form-label">Kelas</label>
-                                        <select name="kelas" class="form-control" required>
-                                            <optgroup label="Kelas VII">
-                                                <option value="VII A" {{ $siswa->kelas == 'VII A' ? 'selected' : '' }}>VII
-                                                    A
-                                                </option>
-                                                <option value="VII B" {{ $siswa->kelas == 'VII B' ? 'selected' : '' }}>VII
-                                                    B
-                                                </option>
-                                                <option value="VII C" {{ $siswa->kelas == 'VII C' ? 'selected' : '' }}>VII
-                                                    C
-                                                </option>
-                                            </optgroup>
-                                            <optgroup label="Kelas VIII">
-                                                <option value="VIII A" {{ $siswa->kelas == 'VIII A' ? 'selected' : '' }}>
-                                                    VIII A
-                                                </option>
-                                                <option value="VIII B" {{ $siswa->kelas == 'VIII B' ? 'selected' : '' }}>
-                                                    VIII B
-                                                </option>
-                                                <option value="VIII C" {{ $siswa->kelas == 'VIII C' ? 'selected' : '' }}>
-                                                    VIII C
-                                                </option>
-                                            </optgroup>
-                                            <optgroup label="Kelas IX">
-                                                <option value="IX A" {{ $siswa->kelas == 'IX A' ? 'selected' : '' }}>IX A
-                                                </option>
-                                                <option value="IX B" {{ $siswa->kelas == 'IX B' ? 'selected' : '' }}>IX B
-                                                </option>
-                                                <option value="IX C" {{ $siswa->kelas == 'IX C' ? 'selected' : '' }}>IX C
-                                                </option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
+                                     <div class="col-md-6 form-group">
+                                         <label class="form-label">Kelas</label>
+                                         <select name="kelas" class="form-control" required>
+                                             <optgroup label="Kelas VII">
+                                                 <option value="VII1" {{ $siswa->kelas == 'VII1' ? 'selected' : '' }}>VII1</option>
+                                                 <option value="VII2" {{ $siswa->kelas == 'VII2' ? 'selected' : '' }}>VII2</option>
+                                                 <option value="VII3" {{ $siswa->kelas == 'VII3' ? 'selected' : '' }}>VII3</option>
+                                             </optgroup>
+                                             <optgroup label="Kelas VIII">
+                                                 <option value="VIII1" {{ $siswa->kelas == 'VIII1' ? 'selected' : '' }}>VIII1</option>
+                                                 <option value="VIII2" {{ $siswa->kelas == 'VIII2' ? 'selected' : '' }}>VIII2</option>
+                                                 <option value="VIII3" {{ $siswa->kelas == 'VIII3' ? 'selected' : '' }}>VIII3</option>
+                                             </optgroup>
+                                             <optgroup label="Kelas IX">
+                                                 <option value="IX1" {{ $siswa->kelas == 'IX1' ? 'selected' : '' }}>IX1</option>
+                                                 <option value="IX2" {{ $siswa->kelas == 'IX2' ? 'selected' : '' }}>IX2</option>
+                                                 <option value="IX3" {{ $siswa->kelas == 'IX3' ? 'selected' : '' }}>IX3</option>
+                                             </optgroup>
+                                         </select>
+                                     </div>
                                     <div class="col-md-6 form-group">
                                         <label class="form-label">Alamat</label>
                                         <input type="text" name="alamat" class="form-control"

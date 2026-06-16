@@ -15,7 +15,7 @@ class NilaiUjianController extends Controller
 
         if ($request->filled('kelas')) {
             $query->whereHas('ujian.mapel', function($q) use ($request) {
-                $q->where('kelas', $request->kelas);
+                $q->where('kelas', 'like', $request->kelas . '%');
             });
         }
 
@@ -48,7 +48,7 @@ class NilaiUjianController extends Controller
 
         if ($request->filled('kelas')) {
             $query->whereHas('ujian.mapel', function($q) use ($request) {
-                $q->where('kelas', $request->kelas);
+                $q->where('kelas', 'like', $request->kelas . '%');
             });
         }
 

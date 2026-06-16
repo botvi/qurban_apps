@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMP Negeri 1 Benai — Pilih Mapel</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap"
-        rel="stylesheet">
+    <title>MTs Nurul Islam Gunung Toar — Pilih Mata Pelajaran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #f8fafc;
+            --green-dark: #022c22;
+            --green-medium: #064e3b;
+            --green: #059669;
+            --green-bright: #10b981;
+            --green-pale: #e6fbf2;
+            --gold: #d97706;
+            --gold-light: #f59e0b;
+            --bg: #f4fbf7;
             --card: #ffffff;
-            --border: #e2e8f0;
-            --neon-b: #0ea5e9;
-            --neon-p: #8b5cf6;
-            --neon-g: #10b981;
-            --neon-y: #eab308;
-            --neon-r: #f43f5e;
+            --border: #e2f5ec;
             --text: #0f172a;
             --muted: #64748b;
+            --red: #ef4444;
+            --primary-glow: rgba(16, 185, 129, 0.15);
         }
 
         * {
@@ -30,304 +31,519 @@
         }
 
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            padding: 0;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.03) 0px, transparent 50%);
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image: linear-gradient(rgba(14, 165, 233, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes gridMove {
-            from {
-                transform: translateY(0)
-            }
-
-            to {
-                transform: translateY(50px)
-            }
-        }
-
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            pointer-events: none;
-            opacity: .12;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .orb1 {
-            width: 350px;
-            height: 350px;
-            background: var(--neon-b);
-            top: -80px;
-            left: -80px;
-        }
-
-        .orb2 {
-            width: 300px;
-            height: 300px;
-            background: var(--neon-p);
-            bottom: -60px;
-            right: -60px;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translate(0, 0)
-            }
-
-            50% {
-                transform: translate(15px, -15px)
-            }
-        }
-
+        /* Topbar */
         .topbar {
             position: sticky;
             top: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 28px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
+            padding: 16px 40px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             z-index: 100;
+            box-shadow: 0 4px 30px rgba(2, 44, 34, 0.02);
         }
 
         .logo {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.2em;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--neon-b), var(--neon-p));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--green-medium), var(--green));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            box-shadow: 0 8px 16px rgba(6, 78, 59, 0.15);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text .name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95em;
+            font-weight: 800;
+            color: var(--green-dark);
+            letter-spacing: 0.3px;
+        }
+
+        .logo-text .sub {
+            font-size: 0.7em;
+            color: var(--muted);
+            font-weight: 500;
         }
 
         .nav-btns {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
 
         .btn-nav {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--border);
             color: var(--muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-family: 'Nunito', sans-serif;
-            font-size: 0.88em;
-            font-weight: 700;
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85em;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: all .2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .btn-nav:hover {
-            border-color: var(--neon-b);
-            color: var(--neon-b);
+            border-color: var(--green);
+            color: var(--green-dark);
+            background: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.08);
         }
 
         .btn-out {
-            border-color: var(--neon-r);
-            color: var(--neon-r);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: var(--red);
         }
 
         .btn-out:hover {
-            background: var(--neon-r);
+            background: var(--red);
             color: #fff;
-            box-shadow: 0 0 14px var(--neon-r);
+            border-color: var(--red);
+            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.2);
         }
 
+        /* Container */
         .container {
-            max-width: 960px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 40px 24px;
         }
 
-        .page-header {
-            text-align: center;
+        /* Welcome Banner */
+        .welcome-banner {
+            position: relative;
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-medium) 60%, var(--green) 100%);
+            border-radius: 24px;
+            padding: 40px 48px;
+            color: white;
+            overflow: hidden;
+            box-shadow: 0 16px 36px rgba(2, 44, 34, 0.15);
             margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .page-header h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--neon-b), var(--neon-p));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        .page-header p {
-            color: var(--muted);
-            font-size: 1em;
+        .welcome-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .welcome-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.6rem, 5vw, 2.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .welcome-text p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+            font-weight: 400;
+            max-width: 500px;
+        }
+
+        .welcome-illu {
+            font-size: 5.5rem;
+            opacity: 0.9;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.15));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .alert {
-            background: rgba(255, 79, 123, 0.1);
-            border: 1px solid var(--neon-r);
-            color: var(--neon-r);
-            padding: 12px 24px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 700;
+            padding: 16px 24px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            font-size: 0.92em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-err {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            color: var(--red);
         }
 
         .alert-success {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: var(--neon-g);
-            color: var(--neon-g);
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            color: var(--green-medium);
         }
 
-        .books-grid {
+        /* Section Title */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            margin-bottom: 24px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--green);
+        }
+
+        /* Subjects Grid */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 24px;
         }
 
+        /* Book Card */
         .book-card {
-            width: 180px;
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px 16px;
-            text-align: center;
+            border-radius: 24px;
+            padding: 32px 28px;
             text-decoration: none;
             color: var(--text);
-            transition: all .3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 20px rgba(2, 44, 34, 0.02);
         }
 
-        .book-card::after {
+        .book-card::before {
             content: '';
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-b), var(--neon-p));
-            opacity: 0;
-            transition: opacity .3s;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--green), var(--green-bright));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .book-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
-            border-color: var(--neon-b);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 36px rgba(2, 44, 34, 0.07);
+            border-color: rgba(16, 185, 129, 0.3);
         }
 
-        .book-card:hover::after {
-            opacity: 1;
+        .book-card:hover::before {
+            transform: scaleX(1);
         }
 
-        .book-card .book-icon {
-            font-size: 2.5em;
-            margin-bottom: 14px;
-            display: block;
+        .card-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
         }
 
-        .book-card .book-title {
-            font-family: 'Orbitron', monospace;
+        .book-icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--green-pale);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            transition: all 0.3s;
+        }
+
+        .book-card:hover .book-icon-box {
+            background: linear-gradient(135deg, var(--green), var(--green-bright));
+            color: white;
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
+        }
+
+        .book-badge-class {
+            font-size: 0.72em;
+            font-weight: 700;
+            color: var(--green);
+            background: rgba(16, 185, 129, 0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .book-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15em;
+            font-weight: 800;
+            color: var(--green-dark);
+            line-height: 1.3;
+            margin-bottom: 12px;
+            flex-grow: 1;
+        }
+
+        /* Progress Tracker */
+        .progress-box {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 0.75em;
             font-weight: 700;
-            letter-spacing: 1px;
-            line-height: 1.4;
-            background: linear-gradient(135deg, var(--neon-b), var(--neon-p));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .book-card .book-sub {
-            margin-top: 8px;
-            font-size: 0.78em;
             color: var(--muted);
-            background: rgba(0, 200, 255, 0.08);
-            border: 1px solid rgba(0, 200, 255, 0.15);
-            padding: 3px 10px;
-            border-radius: 20px;
-            display: inline-block;
+            margin-bottom: 8px;
         }
 
+        .progress-bar-container {
+            width: 100%;
+            height: 7px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--green-bright));
+            border-radius: 10px;
+            transition: width 0.8s ease-out;
+        }
+
+        .action-link {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.2s;
+        }
+
+        .book-card:hover .action-link {
+            color: var(--green-medium);
+            gap: 10px;
+        }
+
+        /* Empty State */
         .empty-state {
+            grid-column: 1 / -1;
             text-align: center;
-            padding: 60px 20px;
+            background: var(--card);
+            border: 1px dashed rgba(16, 185, 129, 0.2);
+            border-radius: 24px;
+            padding: 80px 40px;
             color: var(--muted);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.01);
         }
 
         .empty-state i {
             font-size: 4rem;
-            color: var(--border);
+            color: rgba(16, 185, 129, 0.15);
             margin-bottom: 20px;
+            display: block;
+        }
+
+        .empty-state p {
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .topbar {
+                padding: 16px 20px;
+            }
+            .welcome-banner {
+                padding: 30px 24px;
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .welcome-illu {
+                display: none;
+            }
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-
 <body>
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-
     <div class="topbar">
-        <span class="logo">⬡ SMP NEGERI 1 BENAI</span>
+        <a href="{{ route('index') }}" class="logo">
+            <div class="logo-icon">🕌</div>
+            <div class="logo-text">
+                <div class="name">MTs Nurul Islam Gunung Toar</div>
+                <div class="sub">E-Learning Platform</div>
+            </div>
+        </a>
         <div class="nav-btns">
-            <a href="{{ route('index') }}" class="btn-nav"><i class="fas fa-home"></i> Menu</a>
+            <a href="{{ route('index') }}" class="btn-nav"><i class="fas fa-home"></i> Menu Utama</a>
             @if (Auth::check())
                 <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display:none;">@csrf</form>
-                <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();"
-                    class="btn-nav btn-out"><i class="fas fa-power-off"></i> Keluar</a>
+                <a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn-nav btn-out"><i class="fas fa-power-off"></i> Keluar</a>
             @endif
         </div>
     </div>
 
     <div class="container">
-        <div class="page-header">
-            <h1><i class="fas fa-satellite-dish"></i> Pilih Mata Pelajaran</h1>
-            <p>Pilih pelajaran yang ingin kamu pelajari hari ini!</p>
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="welcome-text">
+                <h1>Assalamualaikum, {{ Auth::check() ? Auth::user()->name : 'Siswa' }}!</h1>
+                <p>Selamat datang kembali di kelas digitalmu. Siap untuk menjelajahi dan menguasai materi baru hari ini?</p>
+            </div>
+            <div class="welcome-illu">📚</div>
         </div>
 
         @if (session('error'))
-            <div class="alert"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
+            <div class="alert alert-err"><i class="fas fa-exclamation-circle"></i> {{ session('error') }}</div>
         @endif
         @if (session('success'))
             <div class="alert alert-success"><i class="fas fa-check-circle"></i> {{ session('success') }}</div>
         @endif
 
+        <div class="section-title">
+            <i class="fas fa-bookmark"></i> Daftar Pelajaran Kamu
+        </div>
+
         <div class="books-grid">
             @forelse($mapels as $mapel)
+                @php
+                    $totalMateri = $mapel->materis->count();
+                    $completedMateri = 0;
+                    if (Auth::check() && $totalMateri > 0) {
+                        $materiIds = $mapel->materis->pluck('id');
+                        $completedMateri = \App\Models\NilaiQuiz::where('user_id', Auth::id())
+                            ->whereIn('materi_id', $materiIds)
+                            ->count();
+                    }
+                    $progressPercent = $totalMateri > 0 ? round(($completedMateri / $totalMateri) * 100) : 0;
+
+                    // Choose an illustrative icon based on key words in the course name
+                    $iconClass = "fa-book";
+                    $mapelLower = strtolower($mapel->nama_mapel);
+                    if (str_contains($mapelLower, 'matematika') || str_contains($mapelLower, 'mtk')) {
+                        $iconClass = "fa-calculator";
+                    } elseif (str_contains($mapelLower, 'islam') || str_contains($mapelLower, 'agama') || str_contains($mapelLower, 'fiqih') || str_contains($mapelLower, 'al-qur') || str_contains($mapelLower, 'akidah') || str_contains($mapelLower, 'sjarah kebudayaan') || str_contains($mapelLower, 'ski')) {
+                        $iconClass = "fa-mosque";
+                    } elseif (str_contains($mapelLower, 'ipa') || str_contains($mapelLower, 'sains') || str_contains($mapelLower, 'fisika') || str_contains($mapelLower, 'biologi') || str_contains($mapelLower, 'kimia')) {
+                        $iconClass = "fa-flask-vial";
+                    } elseif (str_contains($mapelLower, 'inggris') || str_contains($mapelLower, 'bahasa') || str_contains($mapelLower, 'indonesia') || str_contains($mapelLower, 'arab')) {
+                        $iconClass = "fa-language";
+                    } elseif (str_contains($mapelLower, 'ips') || str_contains($mapelLower, 'sejarah') || str_contains($mapelLower, 'geografi')) {
+                        $iconClass = "fa-globe-asia";
+                    } elseif (str_contains($mapelLower, 'komputer') || str_contains($mapelLower, 'informatika') || str_contains($mapelLower, 'tik')) {
+                        $iconClass = "fa-laptop-code";
+                    } elseif (str_contains($mapelLower, 'penjas') || str_contains($mapelLower, 'olahraga') || str_contains($mapelLower, 'pjok')) {
+                        $iconClass = "fa-running";
+                    } elseif (str_contains($mapelLower, 'seni') || str_contains($mapelLower, 'prakarya')) {
+                        $iconClass = "fa-palette";
+                    }
+                @endphp
+                
                 <a href="{{ route('user.materi.mapel', $mapel->id) }}" class="book-card">
-                    <span class="book-icon"><i class="fas fa-atom"></i></span>
+                    <div class="card-header-main">
+                        <div class="book-icon-box">
+                            <i class="fas {{ $iconClass }}"></i>
+                        </div>
+                        <span class="book-badge-class">Kelas {{ $mapel->kelas }}</span>
+                    </div>
+                    
                     <div class="book-title">{{ $mapel->nama_mapel }}</div>
-                    <div class="book-sub">Kelas {{ $mapel->kelas }}</div>
+                    
+                    <!-- Progress Tracker -->
+                    <div class="progress-box">
+                        <div class="progress-header">
+                            <span>Progres Belajar</span>
+                            <span>{{ $progressPercent }}%</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: {{ $progressPercent }}%;"></div>
+                        </div>
+                        <div class="action-link">
+                            <span>Mulai Belajar</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
                 </a>
             @empty
-                <div class="empty-state"><i class="fas fa-satellite"></i>
-                    <p>Belum ada mata pelajaran tersedia.</p>
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <p>Mata pelajaran belum tersedia untuk kelas Anda saat ini.</p>
                 </div>
             @endforelse
         </div>
     </div>
 </body>
-
 </html>

@@ -4,207 +4,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMP Negeri 1 Benai — Login</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap"
-        rel="stylesheet">
+    <title>MTs Nurul Islam Gunung Toar — Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --border: #e2e8f0;
-            --nb: #0ea5e9;
-            --np: #8b5cf6;
-            --ng: #10b981;
-            --tx: #0f172a;
-            --mu: #64748b;
+            --green-dark: #064e3b;
+            --green-mid: #065f46;
+            --green-light: #059669;
+            --green-bright: #10b981;
+            --gold: #d97706;
+            --gold-light: #f59e0b;
+            --cream: #fef3c7;
+            --white: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-muted: #6b7280;
+            --border: rgba(255,255,255,0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--tx);
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 70%, #059669 100%);
         }
 
+        /* Decorative circles */
+        .bg-circle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .bc1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(16,185,129,0.25) 0%, transparent 70%);
+            top: -200px; left: -200px;
+            animation: pulse1 8s ease-in-out infinite;
+        }
+        .bc2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(217,119,6,0.2) 0%, transparent 70%);
+            bottom: -150px; right: -150px;
+            animation: pulse2 10s ease-in-out infinite;
+        }
+        .bc3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse1 12s ease-in-out infinite reverse;
+        }
+        @keyframes pulse1 {
+            0%, 100% { transform: scale(1) translate(0,0); }
+            50% { transform: scale(1.1) translate(20px,-20px); }
+        }
+        @keyframes pulse2 {
+            0%, 100% { transform: scale(1) translate(0,0); }
+            50% { transform: scale(1.08) translate(-20px,20px); }
+        }
+
+        /* Islamic pattern overlay */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            background-image: linear-gradient(rgba(14, 165, 233, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, .1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: grid 25s linear infinite;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 30px),
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 30px);
             pointer-events: none;
         }
 
-        @keyframes grid {
-            to {
-                transform: translateY(50px)
-            }
-        }
-
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: .15;
-            pointer-events: none;
-        }
-
-        .o1 {
-            width: 450px;
-            height: 450px;
-            background: var(--nb);
-            top: -150px;
-            left: -150px;
-            animation: fl 10s ease-in-out infinite;
-        }
-
-        .o2 {
-            width: 400px;
-            height: 400px;
-            background: var(--np);
-            bottom: -130px;
-            right: -130px;
-            animation: fl 8s ease-in-out infinite reverse;
-        }
-
-        @keyframes fl {
-
-            0%,
-            100% {
-                transform: translate(0, 0)
-            }
-
-            50% {
-                transform: translate(25px, -25px)
-            }
-        }
-
-        .card {
-            background: rgba(255, 255, 255, .9);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 44px 40px;
+        .wrapper {
+            display: flex;
+            gap: 0;
             width: 100%;
-            max-width: 440px;
+            max-width: 900px;
+            min-height: 540px;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08);
             position: relative;
             z-index: 1;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 0 60px rgba(0, 200, 255, .08), 0 0 0 1px rgba(0, 200, 255, .07);
-            animation: popIn .6s cubic-bezier(.175, .885, .32, 1.275);
             margin: 20px;
         }
 
-        @keyframes popIn {
-            0% {
-                transform: scale(.9);
-                opacity: 0
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1
-            }
+        /* Left panel - branding */
+        .panel-left {
+            flex: 1;
+            background: linear-gradient(160deg, rgba(6,78,59,0.95) 0%, rgba(4,120,87,0.9) 100%);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 40px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .panel-left::before {
+            content: '☽';
+            position: absolute;
+            font-size: 200px;
+            color: rgba(255,255,255,0.03);
+            top: -30px;
+            right: -30px;
+            line-height: 1;
+        }
+        .panel-left::after {
+            content: '✦';
+            position: absolute;
+            font-size: 120px;
+            color: rgba(245,158,11,0.06);
+            bottom: 20px;
+            left: 10px;
+            line-height: 1;
         }
 
-        .brand {
-            text-align: center;
+        .school-emblem {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            margin-bottom: 24px;
+            box-shadow: 0 0 30px rgba(217,119,6,0.5), 0 0 60px rgba(217,119,6,0.2);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(217,119,6,0.4), 0 0 40px rgba(217,119,6,0.15); }
+            to { box-shadow: 0 0 40px rgba(217,119,6,0.7), 0 0 80px rgba(217,119,6,0.3); }
+        }
+
+        .school-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4em;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 1px;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+        .school-name span {
+            color: var(--gold-light);
+        }
+        .school-location {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.65);
+            font-weight: 400;
+            margin-bottom: 28px;
+        }
+        .tagline {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-size: 0.82em;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+            font-style: italic;
+        }
+        .tagline strong {
+            color: var(--gold-light);
+            font-style: normal;
+        }
+
+        /* Right panel - form */
+        .panel-right {
+            flex: 1.1;
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(20px);
+            padding: 50px 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-title {
+            font-size: 1.7em;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 4px;
+        }
+        .form-subtitle {
+            font-size: 0.85em;
+            color: var(--text-muted);
             margin-bottom: 30px;
         }
 
-        .brand-logo {
-            height: 64px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-
-        .brand-name {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.6em;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--nb), var(--np));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 3px;
-        }
-
-        .brand-sub {
-            color: var(--mu);
-            font-size: .88em;
-            margin-top: 4px;
-        }
-
         .alert-err {
-            background: rgba(255, 79, 123, .1);
-            border: 1px solid rgba(255, 79, 123, .4);
-            color: #ff7fa0;
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #dc2626;
             padding: 12px 16px;
             border-radius: 12px;
-            font-size: .88em;
+            font-size: .85em;
             margin-bottom: 18px;
         }
+        .alert-err ul { list-style: none; padding: 0; }
 
-        .alert-err ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
+        .form-group { margin-bottom: 18px; }
 
         .form-label {
             display: block;
-            font-size: .82em;
-            font-weight: 700;
-            color: var(--mu);
+            font-size: .8em;
+            font-weight: 600;
+            color: var(--green-dark);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 7px;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--green-light);
+            font-size: 0.9em;
         }
 
         .form-input {
             width: 100%;
-            background: rgba(0, 0, 0, .03);
-            border: 1px solid var(--border);
-            color: var(--tx);
-            padding: 12px 16px;
+            background: #f0fdf4;
+            border: 1.5px solid #d1fae5;
+            color: var(--text-dark);
+            padding: 12px 16px 12px 40px;
             border-radius: 12px;
-            font-family: 'Nunito';
-            font-size: .95em;
+            font-family: 'Poppins', sans-serif;
+            font-size: .92em;
             outline: none;
-            transition: .2s;
+            transition: all 0.25s;
         }
-
         .form-input:focus {
-            border-color: var(--nb);
-            box-shadow: 0 0 14px rgba(0, 200, 255, .15);
+            border-color: var(--green-bright);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
         }
-
-        .form-input::placeholder {
-            color: var(--mu);
-        }
-
-        .pw-wrap {
-            position: relative;
-        }
-
-        .pw-wrap .form-input {
-            padding-right: 44px;
-        }
+        .form-input::placeholder { color: #9ca3af; }
 
         .pw-toggle {
             position: absolute;
@@ -213,108 +263,117 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: var(--mu);
+            color: var(--text-muted);
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.9em;
             transition: .2s;
+            padding: 4px;
         }
-
-        .pw-toggle:hover {
-            color: var(--nb);
-        }
+        .pw-toggle:hover { color: var(--green-light); }
 
         .btn-login {
             width: 100%;
             padding: 14px;
-            margin-top: 6px;
-            background: linear-gradient(135deg, var(--nb), var(--np));
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-light) 100%);
             color: #fff;
             border: none;
             border-radius: 12px;
-            font-family: 'Orbitron', monospace;
-            font-size: .9em;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-family: 'Poppins', sans-serif;
+            font-size: .95em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            transition: .3s;
-            box-shadow: 0 0 20px rgba(0, 200, 255, .25);
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(6,78,59,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-
         .btn-login:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 200, 255, .4);
-        }
-
-        .footer-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: .88em;
-            color: var(--mu);
-        }
-
-        .footer-link a {
-            color: var(--nb);
-            font-weight: 700;
-            text-decoration: none;
-            transition: .2s;
-        }
-
-        .footer-link a:hover {
-            color: var(--np);
+            box-shadow: 0 8px 25px rgba(6,78,59,0.45);
+            background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-bright) 100%);
         }
 
         .divider {
             border: none;
-            border-top: 1px solid var(--border);
-            margin: 20px 0;
+            border-top: 1px solid #e5e7eb;
+            margin: 24px 0 0;
+        }
+
+        @media (max-width: 640px) {
+            .panel-left { display: none; }
+            .panel-right { padding: 36px 28px; }
+            .wrapper { max-width: 420px; }
         }
     </style>
 </head>
 
 <body>
-    <div class="orb o1"></div>
-    <div class="orb o2"></div>
+    <div class="bg-circle bc1"></div>
+    <div class="bg-circle bc2"></div>
+    <div class="bg-circle bc3"></div>
 
-    <div class="card">
-        <div class="brand">
-            {{-- <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo"> --}}
-            <div class="brand-name">SMP NEGERI 1 BENAI</div>
-            <div class="brand-sub">Platform Pembelajaran Digital Terpadu</div>
+    <div class="wrapper">
+        <!-- Left branding panel -->
+        <div class="panel-left">
+            <div class="school-emblem">🕌</div>
+            <div class="school-name">MTs <span>Nurul Islam</span></div>
+            <div class="school-name" style="font-size:1.1em; margin-top:-6px;">Gunung Toar</div>
+            <div class="school-location">Kabupaten Kuantan Singingi, Riau</div>
+            <div class="tagline">
+                <strong>E-Learning Platform</strong><br>
+                Media pembelajaran digital terpadu untuk siswa/i MTs Nurul Islam Gunung Toar
+            </div>
         </div>
 
-        @if ($errors->any())
-            <div class="alert-err">
-                <ul>
-                    @foreach ($errors->all() as $e)
-                        <li><i class="fas fa-exclamation-circle"></i> {{ $e }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <!-- Right form panel -->
+        <div class="panel-right">
+            <div class="form-title">Selamat Datang! 👋</div>
+            <div class="form-subtitle">Masuk ke akun Anda untuk melanjutkan pembelajaran</div>
 
-        @include('sweetalert::alert')
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="form-group">
-                <label class="form-label"><i class="fas fa-user"></i> Username atau Email</label>
-                <input type="text" name="username" class="form-input" placeholder="Masukkan username atau email"
-                    value="{{ old('username') }}" required>
-            </div>
-            <div class="form-group">
-                <label class="form-label"><i class="fas fa-lock"></i> Password</label>
-                <div class="pw-wrap">
-                    <input type="password" name="password" id="pw" class="form-input"
-                        placeholder="Masukkan password" required>
-                    <button type="button" class="pw-toggle" onclick="togglePw()"><i class="fas fa-eye"
-                            id="pwIcon"></i></button>
+            @if ($errors->any())
+                <div class="alert-err">
+                    <ul>
+                        @foreach ($errors->all() as $e)
+                            <li><i class="fas fa-exclamation-circle"></i> {{ $e }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-            </div>
-            <button type="submit" class="btn-login"><i class="fas fa-sign-in-alt"></i> &nbsp; MASUK</button>
-        </form>
+            @endif
 
-        <hr class="divider">
-        {{-- <div class="footer-link">Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a></div> --}}
+            @include('sweetalert::alert')
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-user"></i> Username atau Email</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" name="username" class="form-input" placeholder="Masukkan username atau email"
+                            value="{{ old('username') }}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                    <div class="input-wrap">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" name="password" id="pw" class="form-input"
+                            placeholder="Masukkan password" required style="padding-right:44px;">
+                        <button type="button" class="pw-toggle" onclick="togglePw()">
+                            <i class="fas fa-eye" id="pwIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Masuk Sekarang
+                </button>
+            </form>
+
+            <hr class="divider">
+        </div>
     </div>
 
     <script>

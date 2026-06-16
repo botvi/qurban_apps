@@ -25,7 +25,7 @@ class MapelController extends Controller
         $request->validate([
             'nama_mapel' => 'required|string|max:255',
             'kelas'      => 'required|array|min:1',
-            'kelas.*'    => 'required|in:VII A,VII B,VII C,VIII A,VIII B,VIII C,IX A,IX B,IX C',
+            'kelas.*'    => 'required|in:VII1,VII2,VII3,VIII1,VIII2,VIII3,IX1,IX2,IX3',
         ], [
             'kelas.required' => 'Pilih minimal satu kelas.',
             'kelas.array'    => 'Format kelas tidak valid.',
@@ -67,7 +67,7 @@ class MapelController extends Controller
         $request->validate([
             'nama_mapel' => 'required|string|max:255',
             'kelas'      => 'required|array|min:1',
-            'kelas.*'    => 'required|in:VII A,VII B,VII C,VIII A,VIII B,VIII C,IX A,IX B,IX C',
+            'kelas.*'    => 'required|in:VII1,VII2,VII3,VIII1,VIII2,VIII3,IX1,IX2,IX3',
         ], [
             'kelas.required' => 'Pilih minimal satu kelas.',
             'kelas.array'    => 'Format kelas tidak valid.',

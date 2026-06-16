@@ -61,7 +61,7 @@
                                     <label class="form-label fw-semibold">Filter Kelas</label>
                                     <select name="kelas" class="form-control">
                                         <option value="">Semua Kelas</option>
-                                        @foreach(['VII A','VII B','VII C','VIII A','VIII B','VIII C','IX A','IX B','IX C'] as $k)
+                                        @foreach(['VII1','VII2','VII3','VIII1','VIII2','VIII3','IX1','IX2','IX3'] as $k)
                                             <option value="{{ $k }}" {{ $kelasFilter == $k ? 'selected' : '' }}>{{ $k }}</option>
                                         @endforeach
                                     </select>

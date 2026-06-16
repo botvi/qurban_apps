@@ -1,163 +1,90 @@
-<header class="pc-header">
-    <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
+<header class="pc-header" style="background: #ffffff; border-bottom: 2px solid #d1fae5; box-shadow: 0 2px 12px rgba(6,78,59,0.06);">
+    <div class="header-wrapper">
+        <!-- [Mobile Media Block] start -->
         <div class="me-auto pc-mob-drp">
             <ul class="list-unstyled">
-                <!-- ======= Menu collapse Icon ===== -->
+                <!-- Menu collapse Icon -->
                 <li class="pc-h-item pc-sidebar-collapse">
-                    <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+                    <a href="#" class="pc-head-link ms-0" id="sidebar-hide" style="color:#064e3b;">
                         <i class="ti ti-menu-2"></i>
                     </a>
                 </li>
                 <li class="pc-h-item pc-sidebar-popup">
-                    <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
+                    <a href="#" class="pc-head-link ms-0" id="mobile-collapse" style="color:#064e3b;">
                         <i class="ti ti-menu-2"></i>
                     </a>
                 </li>
-                <li class="dropdown pc-h-item d-inline-flex d-md-none">
-                    <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#"
-                        role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="ti ti-search"></i>
-                    </a>
-                    <div class="dropdown-menu pc-h-dropdown drp-search">
-                        <form class="px-3">
-                            <div class="form-group mb-0 d-flex align-items-center">
-                                <i data-feather="search"></i>
-                                <input type="search" class="form-control border-0 shadow-none"
-                                    placeholder="Search here. . .">
-                            </div>
-                        </form>
+                <!-- Breadcrumb / school name -->
+                <li class="pc-h-item d-none d-md-inline-flex ms-3">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size:0.72em;font-weight:700;color:#059669;text-transform:uppercase;letter-spacing:1px;">
+                            🕌 MTs Nurul Islam Gunung Toar
+                        </span>
                     </div>
-                </li>
-                <li class="pc-h-item d-none d-md-inline-flex">
-                    <form class="header-search">
-                        <i data-feather="search" class="icon-search"></i>
-                        <input type="search" class="form-control" placeholder="Search here. . .">
-                    </form>
                 </li>
             </ul>
         </div>
         <!-- [Mobile Media Block end] -->
+
         <div class="ms-auto">
             <ul class="list-unstyled">
-                <li class="dropdown pc-h-item">
-
-                    <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
-                        <div class="dropdown-header d-flex align-items-center justify-content-between">
-                            <h5 class="m-0">Message</h5>
-                            <a href="#!" class="pc-head-link bg-transparent"><i
-                                    class="ti ti-x text-danger"></i></a>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-header px-0 text-wrap header-notification-scroll position-relative"
-                            style="max-height: calc(100vh - 215px)">
-                            <div class="list-group list-group-flush w-100">
-                                <a class="list-group-item list-group-item-action">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="{{ asset('admin') }}/assets/images/user/avatar-2.jpg"
-                                                alt="user-image" class="user-avtar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-1">
-                                            <span class="float-end text-muted">3:00 AM</span>
-                                            <p class="text-body mb-1">It's <b>Cristina danny's</b> birthday today.
-                                            </p>
-                                            <span class="text-muted">2 min ago</span>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="list-group-item list-group-item-action">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="{{ asset('admin') }}/assets/images/user/avatar-1.jpg"
-                                                alt="user-image" class="user-avtar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-1">
-                                            <span class="float-end text-muted">6:00 PM</span>
-                                            <p class="text-body mb-1"><b>Aida Burg</b> commented your post.</p>
-                                            <span class="text-muted">5 August</span>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="list-group-item list-group-item-action">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="{{ asset('admin') }}/assets/images/user/avatar-3.jpg"
-                                                alt="user-image" class="user-avtar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-1">
-                                            <span class="float-end text-muted">2:45 PM</span>
-                                            <p class="text-body mb-1"><b>There was a failure to your setup.</b></p>
-                                            <span class="text-muted">7 hours ago</span>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="list-group-item list-group-item-action">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="{{ asset('admin') }}/assets/images/user/avatar-4.jpg"
-                                                alt="user-image" class="user-avtar">
-                                        </div>
-                                        <div class="flex-grow-1 ms-1">
-                                            <span class="float-end text-muted">9:10 PM</span>
-                                            <p class="text-body mb-1"><b>Cristina Danny </b> invited to join <b>
-                                                    Meeting.</b></p>
-                                            <span class="text-muted">Daily scrum meeting time</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="text-center py-2">
-                            <a href="#!" class="link-primary">View all</a>
-                        </div>
-                    </div>
-                </li>
                 <li class="dropdown pc-h-item header-user-profile">
                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
-                        role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+                        role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false"
+                        style="gap:10px; background:#f0fdf4; border:1px solid #d1fae5; border-radius:50px; padding:6px 14px 6px 6px;">
                         @php
                             $fotoProfile = Auth::user()->foto_profile ?? null;
                             if ($fotoProfile) {
-                                // Jika sudah berupa URL lengkap
                                 if (Str::startsWith($fotoProfile, ['http://', 'https://'])) {
                                     $srcFoto = $fotoProfile;
                                 } else {
-                                    // Jika path lokal, gunakan asset()
                                     $srcFoto = asset('uploads/foto_profile/' . $fotoProfile);
                                 }
                             } else {
-                                $srcFoto = asset('admin') . '/assets/images/user/avatar-2.jpg';
+                                $srcFoto = null;
                             }
                         @endphp
-                        <img src="{{ $srcFoto }}" alt="user-image" class="user-avtar">
-                        <span>{{ Auth::user()->name }}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-                        <div class="dropdown-header">
-                            <div class="d-flex mb-1">
-                                <div class="flex-shrink-0">
-                                    <img src="{{ $srcFoto }}" alt="user-image" class="user-avtar wid-35">
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">{{ Auth::user()->name }}</h6>
-                                    <span>{{ Auth::user()->role }}</span>
-                                </div>
 
+                        @if($srcFoto)
+                            <img src="{{ $srcFoto }}" alt="user-image" class="user-avtar" style="border:2px solid #059669;">
+                        @else
+                            <div style="width:34px;height:34px;background:linear-gradient(135deg,#064e3b,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85em;flex-shrink:0;">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </div>
+                        @endif
+                        <div style="line-height:1.2;">
+                            <div style="font-size:0.82em;font-weight:600;color:#064e3b;">{{ Auth::user()->name }}</div>
+                            <div style="font-size:0.68em;color:#6b7280;text-transform:capitalize;">{{ Auth::user()->role }}</div>
+                        </div>
+                        <i class="ti ti-chevron-down" style="color:#6b7280;font-size:0.8em;"></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown" style="border:1px solid #d1fae5;border-radius:16px;box-shadow:0 10px 30px rgba(6,78,59,0.12);min-width:220px;overflow:hidden;">
+                        <div style="background:linear-gradient(135deg,#064e3b,#059669);padding:20px;text-align:center;">
+                            @if($srcFoto)
+                                <img src="{{ $srcFoto }}" alt="user-image" style="width:60px;height:60px;border-radius:50%;border:3px solid rgba(255,255,255,0.3);margin-bottom:10px;">
+                            @else
+                                <div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5em;font-weight:700;color:white;margin:0 auto 10px;">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </div>
+                            @endif
+                            <div style="font-weight:700;color:white;font-size:0.9em;">{{ Auth::user()->name }}</div>
+                            <div style="font-size:0.72em;color:rgba(255,255,255,0.7);text-transform:capitalize;background:rgba(255,255,255,0.15);border-radius:20px;padding:2px 10px;display:inline-block;margin-top:4px;">
+                                {{ Auth::user()->role }}
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between px-3 py-2">
-                            <a href="{{ route('profil-superadmin') }}" class="btn btn-outline-primary w-100 me-2">
-                                <i class="ti ti-user"></i> Profil
+                        <div style="padding:16px;">
+                            <a href="{{ route('profil-superadmin') }}" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#064e3b;text-decoration:none;font-size:0.85em;font-weight:500;transition:background 0.2s;" onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background='transparent'">
+                                <i class="ti ti-user" style="color:#059669;"></i> Profil Saya
                             </a>
+                            <div style="border-top:1px solid #d1fae5;margin:8px 0;"></div>
                             <form method="POST" action="/logout">
                                 @csrf
-                                <button type="submit" class="btn btn-outline-danger w-100 ms-2">
-                                    <i class="ti ti-power"></i> Logout
+                                <button type="submit" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#dc2626;background:transparent;border:none;width:100%;font-size:0.85em;font-weight:500;cursor:pointer;font-family:'Poppins',sans-serif;transition:background 0.2s;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
+                                    <i class="ti ti-power"></i> Keluar
                                 </button>
                             </form>
                         </div>
-
                     </div>
                 </li>
             </ul>

@@ -65,7 +65,7 @@
                                         <div class="col-md-4">
                                             <div class="card border p-3">
                                                 <h6 class="text-primary mb-2">Kelas VII</h6>
-                                                @foreach(['VII A', 'VII B', 'VII C'] as $kls)
+                                                @foreach(['VII1', 'VII2', 'VII3'] as $kls)
                                                     <div class="form-check mb-1">
                                                         <input class="form-check-input kelas-check kelas-VII" type="checkbox"
                                                             name="kelas[]" value="{{ $kls }}"
@@ -86,7 +86,7 @@
                                         <div class="col-md-4">
                                             <div class="card border p-3">
                                                 <h6 class="text-success mb-2">Kelas VIII</h6>
-                                                @foreach(['VIII A', 'VIII B', 'VIII C'] as $kls)
+                                                @foreach(['VIII1', 'VIII2', 'VIII3'] as $kls)
                                                     <div class="form-check mb-1">
                                                         <input class="form-check-input kelas-check kelas-VIII" type="checkbox"
                                                             name="kelas[]" value="{{ $kls }}"
@@ -107,7 +107,7 @@
                                         <div class="col-md-4">
                                             <div class="card border p-3">
                                                 <h6 class="text-warning mb-2">Kelas IX</h6>
-                                                @foreach(['IX A', 'IX B', 'IX C'] as $kls)
+                                                @foreach(['IX1', 'IX2', 'IX3'] as $kls)
                                                     <div class="form-check mb-1">
                                                         <input class="form-check-input kelas-check kelas-IX" type="checkbox"
                                                             name="kelas[]" value="{{ $kls }}"

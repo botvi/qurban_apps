@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('nisn')->unique();
             $table->string('nama_lengkap');
             $table->string('alamat');
-            $table->enum('kelas', ['VII A', 'VII B', 'VII C', 'VIII A', 'VIII B', 'VIII C', 'IX A', 'IX B', 'IX C'])->default('VII A');
+            $table->enum('kelas', ['VII1', 'VII2', 'VII3', 'VIII1', 'VIII2', 'VIII3', 'IX1', 'IX2', 'IX3'])->default('VII1');
             $table->timestamps();
         });
     }

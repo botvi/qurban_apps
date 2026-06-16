@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMP Negeri 1 Benai — Daftar Akun</title>
+<title>MTs Nurul Islam Gunung Toar — Daftar Akun</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -20,7 +20,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 .brand{text-align:center;margin-bottom:28px;}
 .brand-logo{height:56px;object-fit:contain;margin-bottom:8px;}
-.brand-name{font-family:'Orbitron',monospace;font-size:1.4em;font-weight:900;background:linear-gradient(135deg,var(--nb),var(--np));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;}
+.brand-name{font-family:'Poppins',sans-serif;font-size:1.4em;font-weight:900;background:linear-gradient(135deg,var(--nb),var(--np));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:3px;}
 .brand-sub{color:var(--mu);font-size:.84em;margin-top:4px;}
 
 .alert-err{background:rgba(255,79,123,.1);border:1px solid rgba(255,79,123,.4);color:#ff7fa0;padding:12px 16px;border-radius:12px;font-size:.85em;margin-bottom:16px;}
@@ -47,7 +47,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .check-row a{color:var(--nb);text-decoration:none;}
 .check-row a:hover{color:var(--np);}
 
-.btn-reg{width:100%;padding:13px;background:linear-gradient(135deg,var(--nb),var(--np));color:#fff;border:none;border-radius:12px;font-family:'Orbitron',monospace;font-size:.88em;font-weight:700;letter-spacing:2px;cursor:pointer;transition:.3s;box-shadow:0 0 20px rgba(0,200,255,.2);}
+.btn-reg{width:100%;padding:13px;background:linear-gradient(135deg,var(--nb),var(--np));color:#fff;border:none;border-radius:12px;font-family:'Poppins',sans-serif;font-size:.88em;font-weight:700;letter-spacing:2px;cursor:pointer;transition:.3s;box-shadow:0 0 20px rgba(0,200,255,.2);}
 .btn-reg:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,200,255,.35);}
 
 .divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
@@ -61,8 +61,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 <div class="card">
     <div class="brand">
-        {{-- <img src="{{ asset('env/logo.png') }}" alt="SMP Negeri 1 Benai" class="brand-logo"> --}}
-        <div class="brand-name">SMP NEGERI 1 BENAI</div>
+        {{-- <img src="{{ asset('env/logo.png') }}" alt="MTs Nurul Islam Gunung Toar" class="brand-logo"> --}}
+        <div class="brand-name">MTs Nurul Islam Gunung Toar</div>
         <div class="brand-sub">Buat akun untuk mulai belajar!</div>
     </div>
 
@@ -123,7 +123,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
         <div class="check-row">
             <input type="checkbox" id="terms" name="agree-terms" required>
-            <label for="terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> SMP Negeri 1 Benai</label>
+            <label for="terms">Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a> MTs Nurul Islam Gunung Toar</label>
         </div>
 
         <button type="submit" class="btn-reg"><i class="fas fa-rocket"></i> &nbsp; DAFTAR SEKARANG</button>

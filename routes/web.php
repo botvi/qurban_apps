@@ -116,6 +116,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/ujian/{id}/remedial', [App\Http\Controllers\user\UserUjianController::class, 'showRemedial'])->name('user.ujian.remedial');
     Route::post('/ujian/{id}/remedial', [App\Http\Controllers\user\UserUjianController::class, 'submitRemedial'])->name('user.ujian.remedial.submit');
 
-    Route::get('/game', [App\Http\Controllers\user\GameController::class, 'index'])->name('user.game');
-    Route::post('/game/save', [App\Http\Controllers\user\GameController::class, 'saveProgress'])->name('user.game.save');
 });

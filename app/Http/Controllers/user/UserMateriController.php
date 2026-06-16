@@ -16,7 +16,7 @@ class UserMateriController extends Controller
     {
         $user_id = Auth::id() ?? 1;
         $siswa = \App\Models\Siswa::where('user_id', $user_id)->first();
-        $kelasSiswa = $siswa ? $siswa->kelas : 'VII'; // Default if not found
+        $kelasSiswa = $siswa ? $siswa->kelas : 'VII1'; // Default if not found
 
         // Get mapels matching student's class
         $mapels = Mapel::where('kelas', $kelasSiswa)->get();

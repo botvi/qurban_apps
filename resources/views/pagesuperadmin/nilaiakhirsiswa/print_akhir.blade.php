@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -89,7 +89,7 @@
                     alt="Logo" style="width:80px;height:auto;">
             </td>
             <td style="width:76%;text-align:center;border:none;">
-                <h1 style="margin:0;font-size:18px;text-transform:uppercase;">SMP NEGERI 1 BENAI</h1>
+                <h1 style="margin:0;font-size:18px;text-transform:uppercase;">MTs Nurul Islam Gunung Toar</h1>
                 <p style="margin:4px 0 0;font-size:11px;">Kecamatan Benai, Kabupaten Kuantan Singingi, Riau</p>
             </td>
             <td style="width:12%;text-align:right;border:none;">

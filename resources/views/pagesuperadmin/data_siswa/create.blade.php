@@ -46,19 +46,19 @@
                                         <label class="form-label">Kelas</label>
                                         <select name="kelas" class="form-control" required>
                                             <optgroup label="Kelas VII">
-                                                <option value="VII A">VII A</option>
-                                                <option value="VII B">VII B</option>
-                                                <option value="VII C">VII C</option>
+                                                <option value="VII1">VII1</option>
+                                                <option value="VII2">VII2</option>
+                                                <option value="VII3">VII3</option>
                                             </optgroup>
                                             <optgroup label="Kelas VIII">
-                                                <option value="VIII A">VIII A</option>
-                                                <option value="VIII B">VIII B</option>
-                                                <option value="VIII C">VIII C</option>
+                                                <option value="VIII1">VIII1</option>
+                                                <option value="VIII2">VIII2</option>
+                                                <option value="VIII3">VIII3</option>
                                             </optgroup>
                                             <optgroup label="Kelas IX">
-                                                <option value="IX A">IX A</option>
-                                                <option value="IX B">IX B</option>
-                                                <option value="IX C">IX C</option>
+                                                <option value="IX1">IX1</option>
+                                                <option value="IX2">IX2</option>
+                                                <option value="IX3">IX3</option>
                                             </optgroup>
                                         </select>
                                     </div>
