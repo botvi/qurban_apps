@@ -250,7 +250,7 @@
     <!-- Top Nav -->
     <nav class="topnav">
         <a href="/" class="nav-brand" style="text-decoration:none;">
-            <div class="nav-logo">🕌</div>
+            <div class="nav-logo"><i class="fa-solid fa-mosque"></i></div>
             <div>
                 <div class="nav-title">MTs Nurul Islam Gunung Toar</div>
                 <div class="nav-sub">E-Learning Platform</div>
@@ -293,22 +293,22 @@
     <!-- Features -->
     <div class="features">
         <div class="feature-card">
-            <span class="feature-icon">📚</span>
+            <span class="feature-icon"><i class="fa-solid fa-book-open"></i></span>
             <div class="feature-label">Materi Digital</div>
             <div class="feature-sub">Video & modul lengkap</div>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">📝</span>
+            <span class="feature-icon"><i class="fa-solid fa-pen-nib"></i></span>
             <div class="feature-label">Quiz Interaktif</div>
             <div class="feature-sub">Latihan soal online</div>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">🏆</span>
+            <span class="feature-icon"><i class="fa-solid fa-trophy"></i></span>
             <div class="feature-label">Ujian Online</div>
             <div class="feature-sub">Evaluasi belajar</div>
         </div>
         <div class="feature-card">
-            <span class="feature-icon">🎮</span>
+            <span class="feature-icon"><i class="fa-solid fa-gamepad"></i></span>
             <div class="feature-label">Mini Game</div>
             <div class="feature-sub">Belajar menyenangkan</div>
         </div>

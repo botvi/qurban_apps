@@ -24,12 +24,10 @@ class LoginController extends Controller
         $username = $request->username;
         $password = $request->password;
         
-        // Coba login dengan username atau email
         $credentials = [
             'password' => $password
         ];
         
-        // Jika input mengandung @, anggap sebagai email
         if (strpos($username, '@') !== false) {
             $credentials['email'] = $username;
         } else {
@@ -38,12 +36,12 @@ class LoginController extends Controller
     
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->role == 'superadmin') {
-                Alert::success('Login Berhasil', 'Selamat datang kembali di E-Learning MTs Nurul Islam Gunung Toar.');
-                return redirect()->route('dashboard-superadmin');
-            } else if ($user->role == 'user') {
-                Alert::success('Login Berhasil', 'Selamat datang di E-Learning MTs Nurul Islam Gunung Toar.');
-                return redirect()->route('index');
+            if ($user->role == 'admin') {
+                Alert::success('Login Berhasil', 'Selamat datang kembali di Panel Admin Tabungan Qurban.');
+                return redirect()->route('dashboard');
+            } else if ($user->role == 'pimpinan') {
+                Alert::success('Login Berhasil', 'Selamat datang kembali di Panel Pimpinan Tabungan Qurban.');
+                return redirect()->route('dashboard');
             } else {
                 Auth::logout();
                 Alert::error('Akses Ditolak', 'Anda tidak memiliki hak akses untuk masuk ke halaman ini.');
@@ -61,6 +59,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         Alert::success('Keluar Berhasil', 'Anda telah berhasil keluar dari sistem.');
-        return redirect('/');
+        return redirect('/login');
     }
 }

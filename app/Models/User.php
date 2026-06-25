@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,13 +18,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'username',
-        'no_wa',
         'email',
+        'username',
         'password',
         'role',
-        'google_id',
-        'foto_profile',
     ];
 
     /**
@@ -48,8 +44,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function siswa()
+    public function deposits()
     {
-        return $this->hasOne(Siswa::class);
+        return $this->hasMany(Deposit::class);
+    }
+
+    public function withdrawals()
+    {
+        return $this->hasMany(Withdrawal::class);
     }
 }

@@ -4,18 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MTs Nurul Islam Gunung Toar — Login</title>
+    <title>Masjid Nurul Iman Sungai Perupuk — Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
         :root {
-            --green-dark: #064e3b;
-            --green-mid: #065f46;
-            --green-light: #059669;
-            --green-bright: #10b981;
+            --green-dark: #0d5c54;
+            --green-mid: #0f766e;
+            --green-light: #0d9488;
+            --green-bright: #2dd4bf;
             --gold: #d97706;
             --gold-light: #f59e0b;
-            --cream: #fef3c7;
+            --cream: #ccfbf1;
             --white: #ffffff;
             --text-dark: #1a1a2e;
             --text-muted: #6b7280;
@@ -32,7 +33,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 70%, #059669 100%);
+            background: linear-gradient(135deg, #0d5c54 0%, #0f766e 40%, #115e59 70%, #0d9488 100%);
         }
 
         /* Decorative circles */
@@ -43,7 +44,7 @@
         }
         .bc1 {
             width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(16,185,129,0.25) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(45,212,191,0.25) 0%, transparent 70%);
             top: -200px; left: -200px;
             animation: pulse1 8s ease-in-out infinite;
         }
@@ -97,7 +98,7 @@
         /* Left panel - branding */
         .panel-left {
             flex: 1;
-            background: linear-gradient(160deg, rgba(6,78,59,0.95) 0%, rgba(4,120,87,0.9) 100%);
+            background: linear-gradient(160deg, rgba(13,92,84,0.95) 0%, rgba(15,118,110,0.9) 100%);
             backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
@@ -110,7 +111,9 @@
             overflow: hidden;
         }
         .panel-left::before {
-            content: '☽';
+            content: '\f186';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             position: absolute;
             font-size: 200px;
             color: rgba(255,255,255,0.03);
@@ -119,7 +122,9 @@
             line-height: 1;
         }
         .panel-left::after {
-            content: '✦';
+            content: '\f005';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             position: absolute;
             font-size: 120px;
             color: rgba(245,158,11,0.06);
@@ -239,8 +244,8 @@
 
         .form-input {
             width: 100%;
-            background: #f0fdf4;
-            border: 1.5px solid #d1fae5;
+            background: #f0fdfa;
+            border: 1.5px solid #ccfbf1;
             color: var(--text-dark);
             padding: 12px 16px 12px 40px;
             border-radius: 12px;
@@ -252,7 +257,7 @@
         .form-input:focus {
             border-color: var(--green-bright);
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+            box-shadow: 0 0 0 3px rgba(13,148,136,0.12);
         }
         .form-input::placeholder { color: #9ca3af; }
 
@@ -319,20 +324,20 @@
     <div class="wrapper">
         <!-- Left branding panel -->
         <div class="panel-left">
-            <div class="school-emblem">🕌</div>
-            <div class="school-name">MTs <span>Nurul Islam</span></div>
-            <div class="school-name" style="font-size:1.1em; margin-top:-6px;">Gunung Toar</div>
-            <div class="school-location">Kabupaten Kuantan Singingi, Riau</div>
+            <div class="school-emblem" style="color:white;font-size:2.5em;margin-bottom:15px;"><i class="fa-solid fa-mosque"></i></div>
+            <div class="school-name">Masjid <span>Nurul Iman</span></div>
+            <div class="school-name" style="font-size:1.1em; margin-top:-6px;">Sungai Perupuk</div>
+            <div class="school-location">Kota Padang, Sumatera Barat</div>
             <div class="tagline">
-                <strong>E-Learning Platform</strong><br>
-                Media pembelajaran digital terpadu untuk siswa/i MTs Nurul Islam Gunung Toar
+                <strong>Tabungan Qurban</strong><br>
+                Sistem pengelolaan tabungan qurban jamaah Masjid Nurul Iman Sungai Perupuk
             </div>
         </div>
 
         <!-- Right form panel -->
         <div class="panel-right">
-            <div class="form-title">Selamat Datang! 👋</div>
-            <div class="form-subtitle">Masuk ke akun Anda untuk melanjutkan pembelajaran</div>
+            <div class="form-title">Selamat Datang!</div>
+            <div class="form-subtitle">Masuk ke Panel Pengelolaan Tabungan Qurban</div>
 
             @if ($errors->any())
                 <div class="alert-err">

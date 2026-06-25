@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('withdrawals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('username')->unique();
-            $table->string('password'); 
-            $table->enum('role', ['admin', 'pimpinan'])->default('admin');
-            $table->rememberToken();
+            $table->foreignId('participant_id')->constrained()->cascadeOnDelete();
+            $table->date('tanggal');
+            $table->decimal('jumlah', 15, 2);
+            $table->text('alasan')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('withdrawals');
     }
 };

@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('qurban_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('username')->unique();
-            $table->string('password'); 
-            $table->enum('role', ['admin', 'pimpinan'])->default('admin');
-            $table->rememberToken();
+            $table->string('kode_kategori')->unique();
+            $table->string('nama_kategori');
+            $table->decimal('target_dana', 15, 2);
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('qurban_categories');
     }
 };
