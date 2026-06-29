@@ -62,7 +62,31 @@
                                 <tr>
                                     <td>{{ $deposits->firstItem() + $idx }}</td>
                                     <td>{{ date('d/m/Y', strtotime($deposit->tanggal)) }}</td>
-                                    <td><strong>{{ $deposit->participant->nama }}</strong></td>
+                                    <td>
+                                        <strong>{{ $deposit->participant->nama }}</strong>
+                                        @php
+                                            $activeTarget = $deposit->participant->activeTarget();
+                                        @endphp
+                                        @if($activeTarget)
+                                            @php
+                                                $pct = $activeTarget->target_dana > 0 ? ($deposit->participant->balance / $activeTarget->target_dana) * 100 : 0;
+                                                $pctClamped = min(max($pct, 0), 100);
+                                            @endphp
+                                            <div style="font-size: 0.78em; margin-top: 4px; color: #4b5563;">
+                                                <div class="mb-1">Target: <span class="badge bg-light-primary text-primary" style="font-size: 0.9em; padding: 2px 6px; font-weight: bold;">{{ $activeTarget->category->nama_kategori }} ({{ $activeTarget->tahun_qurban }})</span></div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div class="progress" style="height: 5px; width: 85px; margin-bottom: 0; background-color: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ $pctClamped }}%"></div>
+                                                    </div>
+                                                    <span style="font-weight: 700; color: #047857;">{{ round($pct, 1) }}% (Rp {{ number_format($deposit->participant->balance, 0, ',', '.') }})</span>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div style="font-size: 0.75em; color: #9ca3af; margin-top: 4px;">
+                                                <i class="fa fa-info-circle me-1"></i> Belum ada target aktif
+                                            </div>
+                                        @endif
+                                    </td>
                                     <td class="text-success font-weight-bold">Rp {{ number_format($deposit->jumlah, 0, ',', '.') }}</td>
                                     <td>{{ $deposit->keterangan ?? '-' }}</td>
                                     <td><code>{{ $deposit->user->name }}</code></td>

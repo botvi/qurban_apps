@@ -62,7 +62,33 @@
                                 <tr>
                                     <td>{{ $withdrawals->firstItem() + $idx }}</td>
                                     <td>{{ date('d/m/Y', strtotime($withdrawal->tanggal)) }}</td>
-                                    <td><strong>{{ $withdrawal->participant->nama }}</strong></td>
+                                    <td>
+                                        <strong>{{ $withdrawal->participant->nama }}</strong>
+                                        @php
+                                            $activeTarget = $withdrawal->participant->activeTarget();
+                                            $currentBalance = $withdrawal->participant->balance;
+                                        @endphp
+                                        <div style="font-size: 0.78em; margin-top: 4px; color: #4b5563;">
+                                            <div>Saldo Tabungan Saat Ini: <strong style="color: #047857;">Rp {{ number_format($currentBalance, 0, ',', '.') }}</strong></div>
+                                            @if($activeTarget)
+                                                @php
+                                                    $pct = $activeTarget->target_dana > 0 ? ($currentBalance / $activeTarget->target_dana) * 100 : 0;
+                                                    $pctClamped = min(max($pct, 0), 100);
+                                                @endphp
+                                                <div class="mt-1">Target: <span class="badge bg-light-primary text-primary" style="font-size: 0.9em; padding: 2px 6px; font-weight: bold;">{{ $activeTarget->category->nama_kategori }} ({{ $activeTarget->tahun_qurban }})</span></div>
+                                                <div class="d-flex align-items-center gap-2 mt-1">
+                                                    <div class="progress" style="height: 5px; width: 85px; margin-bottom: 0; background-color: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ $pctClamped }}%"></div>
+                                                    </div>
+                                                    <span style="font-weight: 700; color: #047857;">{{ round($pct, 1) }}% (Target: Rp {{ number_format($activeTarget->target_dana, 0, ',', '.') }})</span>
+                                                </div>
+                                            @else
+                                                <div style="font-size: 0.95em; color: #9ca3af; margin-top: 2px;">
+                                                    <i class="fa fa-info-circle me-1"></i> Belum ada target aktif
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="text-danger font-weight-bold">Rp {{ number_format($withdrawal->jumlah, 0, ',', '.') }}</td>
                                     <td>{{ $withdrawal->alasan }}</td>
                                     <td><code>{{ $withdrawal->user->name }}</code></td>

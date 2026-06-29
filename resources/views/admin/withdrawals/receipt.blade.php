@@ -131,6 +131,30 @@
             <td>:</td>
             <td>{{ $withdrawal->alasan }}</td>
         </tr>
+        @php
+            $activeTarget = $withdrawal->participant->activeTarget();
+            $sisaSaldo = $withdrawal->participant->balance;
+        @endphp
+        <tr>
+            <td>Sisa Saldo Tabungan</td>
+            <td>:</td>
+            <td style="font-weight: bold;">Rp {{ number_format($sisaSaldo, 0, ',', '.') }}</td>
+        </tr>
+        @if($activeTarget)
+        <tr>
+            <td>Target Program</td>
+            <td>:</td>
+            <td>{{ $activeTarget->category->nama_kategori }} ({{ $activeTarget->tahun_qurban }}) - Target: Rp {{ number_format($activeTarget->target_dana, 0, ',', '.') }}</td>
+        </tr>
+        <tr>
+            <td>Progres Target</td>
+            <td>:</td>
+            <td style="font-weight: bold;">
+                Rp {{ number_format($sisaSaldo, 0, ',', '.') }} dari Rp {{ number_format($activeTarget->target_dana, 0, ',', '.') }} 
+                ({{ round(($sisaSaldo / $activeTarget->target_dana) * 100, 1) }}%)
+            </td>
+        </tr>
+        @endif
     </table>
 
     <div class="amount-box">

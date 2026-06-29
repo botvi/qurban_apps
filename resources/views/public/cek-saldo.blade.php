@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Status Transfer — Tabungan Qurban Masjid Nurul Iman</title>
-    <meta name="description" content="Cek status pengajuan transfer tabungan qurban Anda di Masjid Nurul Iman Sungai Perupuk.">
+    <title>Cek Saldo & Target — Tabungan Qurban Masjid Nurul Iman</title>
+    <meta name="description" content="Periksa saldo tabungan qurban dan progres pencapaian target Anda secara mandiri di Masjid Nurul Iman.">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
@@ -84,7 +84,7 @@
             overflow:hidden;
         }
         .search-header::before {
-            content:'\f002';
+            content:'\f53d';
             font-family:'Font Awesome 6 Free';
             font-weight:900;
             position:absolute; font-size:5em; opacity:.07;
@@ -191,12 +191,12 @@
             box-shadow:0 6px 20px rgba(0,0,0,.12);
             text-align:center;
         }
-        .sum-pill .pill-num{font-size:1.6em;font-weight:900;line-height:1;margin-bottom:3px;}
+        .sum-pill .pill-num{font-size:1.4em;font-weight:900;line-height:1;margin-bottom:3px;}
         .sum-pill .pill-lbl{font-size:.72em;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
         .pill-pending  .pill-num{color:#d97706;}
         .pill-approved .pill-num{color:#10b981;}
         .pill-rejected .pill-num{color:#ef4444;}
-        .pill-total    .pill-num{color:#0d9488;font-size:1.2em;}
+        .pill-total    .pill-num{color:#0d9488;}
 
         /* Transfer cards */
         .transfer-list{display:flex;flex-direction:column;gap:12px;}
@@ -211,52 +211,6 @@
             display:flex; align-items:center; gap:14px;
             padding:16px 20px;
         }
-        .tf-card-icon{font-size:1.5em;flex-shrink:0;}
-        .tf-card-main{flex:1;}
-        .tf-card-main .tf-jumlah{font-size:1.15em;font-weight:800;color:#064e3b;}
-        .tf-card-main .tf-meta{font-size:.77em;color:#6b7280;margin-top:2px;}
-        .tf-badge {
-            padding:5px 14px; border-radius:50px;
-            font-size:.76em; font-weight:700;
-            white-space:nowrap;
-        }
-        .tf-badge.pending  {background:#fef3c7;color:#b45309;}
-        .tf-badge.approved {background:#d1fae5;color:#065f46;}
-        .tf-badge.rejected {background:#fee2e2;color:#991b1b;}
-
-        .tf-card-bottom {
-            display:none;
-            border-top:1px solid #f0fdfa;
-            padding:12px 20px;
-            font-size:.8em;
-            color:#6b7280;
-            background:#fafffe;
-            gap:16px;
-            flex-wrap:wrap;
-        }
-        .tf-card-bottom.show{display:flex;}
-        .tf-detail-item{}
-        .tf-detail-item strong{color:#374151;display:block;margin-bottom:1px;}
-        .tf-card-bottom .catatan-admin{
-            flex-basis:100%;
-            background:#fef2f2; border-left:3px solid #ef4444;
-            padding:8px 12px; border-radius:0 8px 8px 0;
-            color:#991b1b; font-size:.9em;
-        }
-        .tf-card-bottom .catatan-acc{
-            flex-basis:100%;
-            background:#f0fdf4; border-left:3px solid #10b981;
-            padding:8px 12px; border-radius:0 8px 8px 0;
-            color:#065f46; font-size:.9em;
-        }
-
-        .tf-toggle{
-            background:none;border:none;color:#0d9488;
-            font-size:.75em;font-weight:600;cursor:pointer;
-            padding:0 20px 12px; display:block; width:100%; text-align:left;
-            transition:.15s;
-        }
-        .tf-toggle:hover{color:#064e3b;}
 
         /* Empty state */
         .empty-state{
@@ -267,15 +221,6 @@
         .empty-state .e-icon{font-size:3em;margin-bottom:14px;}
         .empty-state h3{font-size:1.1em;font-weight:700;color:#064e3b;margin-bottom:6px;}
         .empty-state p{font-size:.85em;color:#6b7280;line-height:1.7;}
-        .empty-state a{
-            display:inline-flex;align-items:center;gap:8px;
-            background:linear-gradient(135deg,#064e3b,#0d9488);
-            color:#fff;padding:11px 22px;border-radius:10px;
-            text-decoration:none;font-size:.85em;font-weight:700;
-            margin-top:16px;box-shadow:0 4px 12px rgba(6,78,59,.3);
-            transition:.25s;
-        }
-        .empty-state a:hover{transform:translateY(-2px);}
 
         /* Loading spinner */
         .loading-state{
@@ -313,8 +258,8 @@
         <a href="{{ route('landing') }}" class="top-btn">
             <i class="fas fa-home"></i> <span>Beranda</span>
         </a>
-        <a href="{{ route('cek.saldo') }}" class="top-btn">
-            <i class="fa-solid fa-wallet"></i> <span>Cek Saldo & Target</span>
+        <a href="{{ route('cek.transfer') }}" class="top-btn">
+            <i class="fas fa-search"></i> <span>Cek Status TF</span>
         </a>
         <a href="{{ route('transfer.create') }}" class="top-btn accent">
             <i class="fas fa-paper-plane"></i> <span>Kirim Transfer</span>
@@ -327,9 +272,9 @@
     <!-- Search Card -->
     <div class="search-card">
         <div class="search-header">
-            <div class="icon" style="color:white;"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <h1>Cek Status Transfer</h1>
-            <p>Masukkan nama atau NIK Anda untuk melihat riwayat dan status pengajuan transfer tabungan qurban.</p>
+            <div class="icon" style="color:white;"><i class="fa-solid fa-wallet"></i></div>
+            <h1>Cek Saldo & Progres Qurban</h1>
+            <p>Masukkan nama atau NIK Anda untuk melihat total saldo tabungan dan progres pencapaian target qurban Anda.</p>
         </div>
         <div class="search-body">
             <div class="search-wrap" id="searchWrap">
@@ -355,8 +300,8 @@
                 <i class="fas fa-exclamation-circle"></i> Pilih nama Anda dari hasil pencarian terlebih dahulu.
             </div>
 
-            <button class="btn-cek" id="btnCek" disabled onclick="loadRiwayat()">
-                <i class="fas fa-search"></i> Lihat Status Transfer Saya
+            <button class="btn-cek" id="btnCek" disabled onclick="loadTabungan()">
+                <i class="fas fa-search"></i> Cek Saldo & Progres Saya
             </button>
         </div>
     </div>
@@ -463,15 +408,15 @@
         else if (e.key === 'Escape') hideList();
     });
 
-    // Load riwayat transfer
-    function loadRiwayat() {
+    // Load data tabungan
+    function loadTabungan() {
         if (!selectedId) { errMsg.style.display='block'; return; }
 
         resultWrap.style.display = 'block';
-        resultWrap.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin" style="font-size:2em;margin-bottom:10px;display:block;"></i>Memuat data transfer...</div>';
+        resultWrap.innerHTML = '<div class="loading-state"><i class="fas fa-spinner fa-spin" style="font-size:2em;margin-bottom:10px;display:block;"></i>Memuat data tabungan...</div>';
         resultWrap.scrollIntoView({ behavior:'smooth', block:'start' });
 
-        fetch('/api/transfer/riwayat?participant_id=' + selectedId)
+        fetch('/api/peserta/tabungan?participant_id=' + selectedId)
             .then(r => r.json())
             .then(data => {
                 if (data.error) { renderError(data.error); return; }
@@ -482,7 +427,49 @@
 
     function renderResult(data) {
         const p  = data.peserta;
-        const tf = data.transfers;
+        const dep = data.deposits;
+        const wd = data.withdrawals;
+        const tg = data.target;
+
+        let targetHtml = '';
+        if (tg) {
+            targetHtml = `
+            <div class="card mb-4" style="background:#fff; border-radius:20px; padding:24px 28px; box-shadow:0 8px 30px rgba(0,0,0,.15); border-left: 6px solid #0d9488; margin-bottom: 20px;">
+                <h3 style="font-size:1.1em;font-weight:800;color:#064e3b;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                    <i class="fa-solid fa-bullseye" style="color:#0d9488;"></i> Progres Target Qurban
+                </h3>
+                <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+                    <div style="flex:1; min-width:160px;">
+                        <span style="font-size:.76em;color:#6b7280;text-transform:uppercase;font-weight:600;display:block;">Kategori Program</span>
+                        <strong style="font-size:1.1em;color:#111827;">${escHtml(tg.kategori)} (${escHtml(tg.tahun)})</strong>
+                    </div>
+                    <div style="flex:1; min-width:160px;">
+                        <span style="font-size:.76em;color:#6b7280;text-transform:uppercase;font-weight:600;display:block;">Target Dana</span>
+                        <strong style="font-size:1.1em;color:#111827;">${escHtml(tg.target_dana_fmt)}</strong>
+                    </div>
+                    <div style="flex:1; min-width:160px;">
+                        <span style="font-size:.76em;color:#6b7280;text-transform:uppercase;font-weight:600;display:block;">Kekurangan Dana</span>
+                        <strong style="font-size:1.1em;color:#dc2626;">${escHtml(tg.kekurangan_fmt)}</strong>
+                    </div>
+                </div>
+                <div>
+                    <div style="display:flex;justify-content:space-between;font-size:0.82em;font-weight:600;margin-bottom:6px;">
+                        <span style="color:#4b5563;">Progres Pencapaian</span>
+                        <span style="color:#047857;font-weight:bold;">${tg.persen}% (${tg.terkumpul_fmt} terkumpul)</span>
+                    </div>
+                    <div class="progress-bar-wrap" style="background:#e5e7eb; border-radius:50px; height:10px; overflow:hidden; width:100%;">
+                        <div class="progress-bar-fill" style="height:100%; width:${Math.min(tg.persen, 100)}%; background:linear-gradient(90deg, #0d9488, #2dd4bf); border-radius:50px; transition:width 0.5s;"></div>
+                    </div>
+                </div>
+            </div>
+            `;
+        } else {
+            targetHtml = `
+            <div class="card mb-4" style="background:#fff; border-radius:20px; padding:20px 24px; box-shadow:0 8px 30px rgba(0,0,0,.15); text-align:center; color:#6b7280; font-size:.85em; font-style:italic; margin-bottom: 20px;">
+                <i class="fa-solid fa-circle-info text-muted me-1"></i> Peserta ini belum mendaftarkan target program qurban tahun ini.
+            </div>
+            `;
+        }
 
         let html = `
         <div class="peserta-header">
@@ -494,98 +481,119 @@
         </div>
 
         <div class="summary-row">
-            <div class="sum-pill pill-pending">
-                <div class="pill-num">${data.count_pending}</div>
-                <div class="pill-lbl"><i class="fa-solid fa-hourglass-half me-1" style="color:#d97706;"></i> Menunggu</div>
-            </div>
             <div class="sum-pill pill-approved">
-                <div class="pill-num">${data.count_approved}</div>
-                <div class="pill-lbl"><i class="fa-solid fa-circle-check me-1" style="color:#10b981;"></i> Dikonfirmasi</div>
+                <div class="pill-num" style="color: #10b981; font-weight: 900;">${data.total_deposits_fmt}</div>
+                <div class="pill-lbl"><i class="fa-solid fa-money-bill-trend-up me-1" style="color:#10b981;"></i> Total Setoran</div>
             </div>
             <div class="sum-pill pill-rejected">
-                <div class="pill-num">${data.count_rejected}</div>
-                <div class="pill-lbl"><i class="fa-solid fa-circle-xmark me-1" style="color:#ef4444;"></i> Ditolak</div>
+                <div class="pill-num" style="color: #ef4444; font-weight: 900;">${data.total_withdrawals_fmt}</div>
+                <div class="pill-lbl"><i class="fa-solid fa-money-bill-transfer me-1" style="color:#ef4444;"></i> Total Penarikan</div>
             </div>
             <div class="sum-pill pill-total">
-                <div class="pill-num">${data.total_disetujui}</div>
-                <div class="pill-lbl"><i class="fa-solid fa-money-bill-wave me-1" style="color:#0d9488;"></i> Total Diterima</div>
+                <div class="pill-num" style="color: #0d9488; font-weight: 900; font-size: 1.5em;">${data.balance_fmt}</div>
+                <div class="pill-lbl"><i class="fa-solid fa-wallet me-1" style="color:#0d9488;"></i> Sisa Saldo Tabungan</div>
             </div>
-        </div>`;
+        </div>
 
-        if (!tf.length) {
-            html += `
-            <div class="empty-state">
-                <div class="e-icon"><i class="fa-solid fa-inbox text-muted"></i></div>
-                <h3>Belum Ada Pengajuan Transfer</h3>
-                <p>Anda belum pernah mengirim bukti transfer melalui sistem ini.<br>Klik tombol di bawah untuk mulai mengirim bukti transfer.</p>
-                <a href="{{ route('transfer.create') }}">
-                    <i class="fas fa-paper-plane"></i> Kirim Bukti Transfer Sekarang
-                </a>
-            </div>`;
-        } else {
-            html += `<div class="transfer-list">`;
-            tf.forEach((t, i) => {
-                const badgeClass = t.status === 'approved' ? 'approved' : (t.status === 'rejected' ? 'rejected' : 'pending');
-                const badgeText  = t.status === 'approved' ? '<i class="fa-solid fa-circle-check me-1"></i> Dikonfirmasi' : (t.status === 'rejected' ? '<i class="fa-solid fa-circle-xmark me-1"></i> Ditolak' : '<i class="fa-solid fa-hourglass-half me-1"></i> Menunggu Konfirmasi');
-                const icon       = t.status === 'approved' ? '<i class="fa-solid fa-circle text-success"></i>' : (t.status === 'rejected' ? '<i class="fa-solid fa-circle text-danger"></i>' : '<i class="fa-solid fa-circle text-warning"></i>');
+        ${targetHtml}
 
-                let bottomContent = `
-                    <div class="tf-detail-item"><strong>Tanggal Transfer</strong>${escHtml(t.tanggal_transfer)}</div>
-                    <div class="tf-detail-item"><strong>Bank Pengirim</strong>${escHtml(t.nama_bank)}</div>
-                    <div class="tf-detail-item"><strong>Dikirim Pada</strong>${escHtml(t.created_at)}</div>`;
+        <!-- Tabs Navigation -->
+        <div style="display:flex; gap:8px; border-bottom:2px solid rgba(255,255,255,0.15); margin-bottom:16px;">
+            <button class="tab-btn active" id="tabDepBtn" onclick="switchTab('dep')" style="background:none; border:none; padding:10px 20px; color:#fff; font-family:'Poppins',sans-serif; font-weight:700; font-size:.85em; cursor:pointer; opacity:1; border-bottom:3px solid #f59e0b; outline:none; transition:.2s;">
+                <i class="fa-solid fa-file-invoice-dollar me-1"></i> Riwayat Setoran (${dep.length})
+            </button>
+            <button class="tab-btn" id="tabWdBtn" onclick="switchTab('wd')" style="background:none; border:none; padding:10px 20px; color:#fff; font-family:'Poppins',sans-serif; font-weight:700; font-size:.85em; cursor:pointer; opacity:0.6; border-bottom:3px solid transparent; outline:none; transition:.2s;">
+                <i class="fa-solid fa-receipt me-1"></i> Riwayat Penarikan (${wd.length})
+            </button>
+        </div>
 
-                if (t.reviewed_at) {
-                    bottomContent += `<div class="tf-detail-item"><strong>Diproses Pada</strong>${escHtml(t.reviewed_at)}</div>`;
-                }
-                if (t.status === 'rejected' && t.catatan_admin) {
-                    bottomContent += `<div class="catatan-admin"><i class="fas fa-comment-alt"></i> <strong>Alasan Ditolak:</strong> ${escHtml(t.catatan_admin)}</div>`;
-                }
-                if (t.status === 'approved') {
-                    bottomContent += `<div class="catatan-acc"><i class="fas fa-check-circle"></i> Transfer Anda telah dikonfirmasi dan otomatis tercatat sebagai setoran tabungan.</div>`;
-                }
-                if (t.status === 'pending') {
-                    bottomContent += `<div class="catatan-acc" style="background:#fffbeb;border-color:#f59e0b;color:#92400e;"><i class="fas fa-clock"></i> Transfer Anda sedang dalam proses verifikasi oleh pengurus masjid (1&times;24 jam kerja).</div>`;
-                }
+        <!-- Tab Contents: Deposits -->
+        <div id="tabDepContent" class="tab-content" style="display:block;">
+            ${renderDepositsList(dep)}
+        </div>
 
-                html += `
-                <div class="tf-card" id="card-${i}">
-                    <div class="tf-card-top">
-                        <div class="tf-card-icon">${icon}</div>
-                        <div class="tf-card-main">
-                            <div class="tf-jumlah">${escHtml(t.jumlah_fmt)}</div>
-                            <div class="tf-meta">${escHtml(t.tanggal_transfer)} &bull; ${escHtml(t.nama_bank)}</div>
-                        </div>
-                        <span class="tf-badge ${badgeClass}">${badgeText}</span>
-                    </div>
-                    <div class="tf-card-bottom" id="bottom-${i}">
-                        ${bottomContent}
-                    </div>
-                    <button class="tf-toggle" onclick="toggleDetail(${i})">
-                        <i class="fas fa-chevron-down" id="chevron-${i}"></i> Detail Transaksi
-                    </button>
-                </div>`;
-            });
-            html += `</div>`;
-
-            // CTA kirim lagi
-            html += `
-            <div style="text-align:center;margin-top:20px;">
-                <a href="{{ route('transfer.create') }}" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);color:#fff;padding:12px 24px;border-radius:12px;text-decoration:none;font-size:.85em;font-weight:600;border:1.5px solid rgba(255,255,255,.3);transition:.25s;" onmouseover="this.style.background='rgba(255,255,255,.25)'" onmouseout="this.style.background='rgba(255,255,255,.15)'">
-                    <i class="fas fa-plus"></i> Kirim Transfer Baru
-                </a>
-            </div>`;
-        }
+        <!-- Tab Contents: Withdrawals -->
+        <div id="tabWdContent" class="tab-content" style="display:none;">
+            ${renderWithdrawalsList(wd)}
+        </div>
+        `;
 
         resultWrap.innerHTML = html;
     }
 
-    function toggleDetail(i) {
-        const bottom  = document.getElementById('bottom-' + i);
-        const chevron = document.getElementById('chevron-' + i);
-        const isOpen  = bottom.classList.contains('show');
-        bottom.classList.toggle('show', !isOpen);
-        chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
-        chevron.style.transition = '.2s';
+    function renderDepositsList(dep) {
+        if (!dep.length) {
+            return `
+            <div class="empty-state" style="padding: 30px; background:#fff; border-radius:16px;">
+                <div class="e-icon" style="font-size:2em;margin-bottom:8px;"><i class="fa-solid fa-folder-open text-muted"></i></div>
+                <h3 style="font-size: 1em;color:#064e3b;">Belum Ada Riwayat Setoran</h3>
+                <p style="font-size: 0.8em;color:#6b7280;">Peserta belum pernah menyetor uang tunai maupun transfer.</p>
+            </div>`;
+        }
+
+        let rows = dep.map((d, i) => `
+            <div class="tf-card" style="margin-bottom:10px; border-left: 5px solid #10b981; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+                <div class="tf-card-top" style="padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="width:34px; height:34px; background:#d1fae5; color:#065f46; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9em; flex-shrink:0;"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div>
+                            <div style="font-weight:800; color:#064e3b; font-size:1em;">+ ${escHtml(d.jumlah_fmt)}</div>
+                            <div style="font-size:0.78em; color:#6b7280; margin-top:2px;">${escHtml(d.tanggal)} &bull; ${escHtml(d.keterangan)}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        return `<div class="transfer-list">${rows}</div>`;
+    }
+
+    function renderWithdrawalsList(wd) {
+        if (!wd.length) {
+            return `
+            <div class="empty-state" style="padding: 30px; background:#fff; border-radius:16px;">
+                <div class="e-icon" style="font-size:2em;margin-bottom:8px;"><i class="fa-solid fa-folder-open text-muted"></i></div>
+                <h3 style="font-size: 1em;color:#064e3b;">Belum Ada Riwayat Penarikan</h3>
+                <p style="font-size: 0.8em;color:#6b7280;">Peserta belum pernah melakukan penarikan dana.</p>
+            </div>`;
+        }
+
+        let rows = wd.map((w, i) => `
+            <div class="tf-card" style="margin-bottom:10px; border-left: 5px solid #ef4444; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+                <div class="tf-card-top" style="padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <div style="width:34px; height:34px; background:#fee2e2; color:#991b1b; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9em; flex-shrink:0;"><i class="fa-solid fa-arrow-up"></i></div>
+                        <div>
+                            <div style="font-weight:800; color:#991b1b; font-size:1em;">- ${escHtml(w.jumlah_fmt)}</div>
+                            <div style="font-size:0.78em; color:#6b7280; margin-top:2px;">${escHtml(w.tanggal)} &bull; Alasan: ${escHtml(w.alasan)}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        return `<div class="transfer-list">${rows}</div>`;
+    }
+
+    function switchTab(type) {
+        const tabDepBtn = document.getElementById('tabDepBtn');
+        const tabWdBtn = document.getElementById('tabWdBtn');
+        const tabDepContent = document.getElementById('tabDepContent');
+        const tabWdContent = document.getElementById('tabWdContent');
+
+        if (type === 'dep') {
+            tabDepBtn.style.opacity = '1';
+            tabDepBtn.style.borderBottomColor = '#f59e0b';
+            tabWdBtn.style.opacity = '0.6';
+            tabWdBtn.style.borderBottomColor = 'transparent';
+            tabDepContent.style.display = 'block';
+            tabWdContent.style.display = 'none';
+        } else {
+            tabWdBtn.style.opacity = '1';
+            tabWdBtn.style.borderBottomColor = '#f59e0b';
+            tabDepBtn.style.opacity = '0.6';
+            tabDepBtn.style.borderBottomColor = 'transparent';
+            tabDepContent.style.display = 'none';
+            tabWdContent.style.display = 'block';
+        }
     }
 
     function renderError(msg) {

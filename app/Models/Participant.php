@@ -49,4 +49,10 @@ class Participant extends Model
     {
         return $this->total_deposits - $this->total_withdrawals;
     }
+
+    public function activeTarget()
+    {
+        return $this->targets()->where('tahun_qurban', date('Y'))->first()
+            ?? $this->targets()->orderBy('tahun_qurban', 'desc')->first();
+    }
 }

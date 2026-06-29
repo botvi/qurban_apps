@@ -646,6 +646,7 @@
         <a href="#tata-cara" class="nav-link">Tata Cara</a>
         <a href="#statistik" class="nav-link">Statistik</a>
         <a href="#tabungan" class="nav-link">Cara Menabung</a>
+        <a href="{{ route('cek.saldo') }}" class="nav-link" style="color:var(--gold-light);"><i class="fa-solid fa-wallet me-1"></i> Cek Saldo & Target</a>
         <a href="{{ route('cek.transfer') }}" class="nav-link" style="color:var(--gold-light);"><i class="fa-solid fa-magnifying-glass me-1"></i> Cek Status TF</a>
         <a href="{{ route('transfer.create') }}" class="nav-link nav-btn"><i class="fa-solid fa-money-bill-wave me-1"></i> Kirim Bukti TF</a>
         <a href="{{ route('login') }}" class="nav-link nav-btn-outline" style="border:1.5px solid rgba(255,255,255,.35); border-radius:10px;"><i class="fa-solid fa-lock me-1"></i> Login Admin</a>
@@ -678,6 +679,10 @@
             <a href="{{ route('transfer.create') }}" class="btn-hero-primary">
                 <i class="fas fa-paper-plane"></i>
                 Kirim Bukti Transfer
+            </a>
+            <a href="{{ route('cek.saldo') }}" class="btn-hero-outline" style="border-color: var(--gold-light); color: var(--gold-light);">
+                <i class="fa-solid fa-wallet"></i>
+                Cek Saldo & Target
             </a>
             <a href="{{ route('cek.transfer') }}" class="btn-hero-outline">
                 <i class="fas fa-search"></i>

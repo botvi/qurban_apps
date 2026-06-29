@@ -86,6 +86,105 @@
                 </div>
             </div>
 
+            @if($transfer->participant)
+            @php
+                $activeTarget = $transfer->participant->activeTarget();
+            @endphp
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5><i class="fa-solid fa-bullseye me-1"></i> Target Tabungan & Dampak</h5>
+                </div>
+                <div class="card-body">
+                    @if($activeTarget)
+                        @php
+                            $currentBalance = $transfer->participant->balance;
+                            $transferAmount = $transfer->jumlah;
+                            
+                            // If approved, the deposit is already created, so currentBalance already contains it.
+                            $balanceBefore = $transfer->status === 'approved' ? ($currentBalance - $transferAmount) : $currentBalance;
+                            $balanceAfter = $transfer->status === 'approved' ? $currentBalance : ($currentBalance + $transferAmount);
+                            
+                            $pctBefore = $activeTarget->target_dana > 0 ? ($balanceBefore / $activeTarget->target_dana) * 100 : 0;
+                            $pctAfter = $activeTarget->target_dana > 0 ? ($balanceAfter / $activeTarget->target_dana) * 100 : 0;
+                            
+                            $pctBeforeClamped = min(max($pctBefore, 0), 100);
+                            $pctAfterClamped = min(max($pctAfter, 0), 100);
+                        @endphp
+                        <table class="table table-borderless mb-2" style="font-size:.88em;">
+                            <tr>
+                                <td style="width:40%;color:#6b7280;font-weight:600;">Program Target</td>
+                                <td><span class="badge bg-light-primary text-primary" style="font-weight: bold; font-size: 0.95em;">{{ $activeTarget->category->nama_kategori }} ({{ $activeTarget->tahun_qurban }})</span></td>
+                            </tr>
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Target Dana</td>
+                                <td><strong>Rp {{ number_format($activeTarget->target_dana, 0, ',', '.') }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Saldo Sebelumnya</td>
+                                <td>Rp {{ number_format($balanceBefore, 0, ',', '.') }} ({{ round($pctBefore, 1) }}%)</td>
+                            </tr>
+                            @if($transfer->status === 'pending')
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Setoran Transfer</td>
+                                <td style="color: #047857; font-weight: bold;">+ Rp {{ number_format($transferAmount, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Estimasi Saldo</td>
+                                <td style="color: #047857; font-weight: bold;">Rp {{ number_format($balanceAfter, 0, ',', '.') }} ({{ round($pctAfter, 1) }}%)</td>
+                            </tr>
+                            @else
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Saldo Akhir</td>
+                                <td style="color: #047857; font-weight: bold;">Rp {{ number_format($balanceAfter, 0, ',', '.') }} ({{ round($pctAfter, 1) }}%)</td>
+                            </tr>
+                            @endif
+                        </table>
+                        
+                        <div class="mt-3">
+                            <div class="d-flex justify-content-between mb-1" style="font-size: 0.85em; font-weight: 600;">
+                                <span>Progres Pencapaian</span>
+                                <span class="text-success">{{ round($pctAfter, 1) }}%</span>
+                            </div>
+                            <div class="progress" style="height: 6px; background-color: #e5e7eb; border-radius: 4px; overflow: hidden;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $pctAfterClamped }}%"></div>
+                            </div>
+                        </div>
+                    @else
+                        @php
+                            $currentBalance = $transfer->participant->balance;
+                            $transferAmount = $transfer->jumlah;
+                            $balanceBefore = $transfer->status === 'approved' ? ($currentBalance - $transferAmount) : $currentBalance;
+                            $balanceAfter = $transfer->status === 'approved' ? $currentBalance : ($currentBalance + $transferAmount);
+                        @endphp
+                        <table class="table table-borderless mb-2" style="font-size:.88em;">
+                            <tr>
+                                <td style="width:40%;color:#6b7280;font-weight:600;">Saldo Sebelum</td>
+                                <td>Rp {{ number_format($balanceBefore, 0, ',', '.') }}</td>
+                            </tr>
+                            @if($transfer->status === 'pending')
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Setoran Transfer</td>
+                                <td style="color: #047857; font-weight: bold;">+ Rp {{ number_format($transferAmount, 0, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Estimasi Sisa Saldo</td>
+                                <td style="color: #047857; font-weight: bold;">Rp {{ number_format($balanceAfter, 0, ',', '.') }}</td>
+                            </tr>
+                            @else
+                            <tr>
+                                <td style="color:#6b7280;font-weight:600;">Saldo Akhir</td>
+                                <td style="color: #047857; font-weight: bold;">Rp {{ number_format($balanceAfter, 0, ',', '.') }}</td>
+                            </tr>
+                            @endif
+                        </table>
+                        <div style="font-size: 0.78em; color: #9ca3af; margin-top: 6px;">
+                            *Peserta ini belum terdaftar mengikuti program target qurban.
+                        </div>
+                    @endif
+                </div>
+            </div>
+            @endif
+
             <div class="card mb-3">
                 <div class="card-header">
                     <h5><i class="fa-solid fa-money-bill-wave me-1"></i> Detail Transfer</h5>

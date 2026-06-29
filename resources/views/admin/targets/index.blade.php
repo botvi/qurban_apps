@@ -50,17 +50,35 @@
                                     <th>Nama Peserta</th>
                                     <th>Kategori Qurban</th>
                                     <th>Target Dana</th>
+                                    <th>Progres Tabungan</th>
                                     <th>Tahun Qurban</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($targets as $idx => $target)
+                                @php
+                                    $balance = $target->participant->balance;
+                                    $targetDana = $target->target_dana;
+                                    $percent = $targetDana > 0 ? ($balance / $targetDana) * 100 : 0;
+                                    $percentClamped = min(max($percent, 0), 100);
+                                @endphp
                                 <tr>
                                     <td>{{ $targets->firstItem() + $idx }}</td>
                                     <td><strong>{{ $target->participant->nama }}</strong></td>
                                     <td><span class="badge bg-light-primary text-primary">{{ $target->category->nama_kategori }}</span></td>
-                                    <td><strong>Rp {{ number_format($target->target_dana, 0, ',', '.') }}</strong></td>
+                                    <td><strong>Rp {{ number_format($targetDana, 0, ',', '.') }}</strong></td>
+                                    <td>
+                                        <div class="d-flex flex-column" style="min-width: 160px;">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span style="font-size: 0.85em; font-weight: 700; color: #15803d;">Rp {{ number_format($balance, 0, ',', '.') }}</span>
+                                                <span class="badge bg-light-success text-success" style="font-size: 0.8em; font-weight: bold;">{{ round($percent, 1) }}%</span>
+                                            </div>
+                                            <div class="progress" style="height: 6px; background-color: #e5e7eb;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $percentClamped }}%" aria-valuenow="{{ $percentClamped }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td><span class="badge bg-light-warning text-warning" style="font-size:0.9em; font-weight:bold;">{{ $target->tahun_qurban }}</span></td>
                                     <td>
                                         <div class="d-flex gap-1">
@@ -79,7 +97,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6" class="text-center py-4 text-muted">Belum ada data target qurban peserta.</td>
+                                    <td colspan="7" class="text-center py-4 text-muted">Belum ada data target qurban peserta.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

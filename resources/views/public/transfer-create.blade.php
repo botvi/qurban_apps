@@ -356,9 +356,17 @@
                 <div class="t2">Tabungan Qurban</div>
             </div>
         </a>
-        <a href="{{ route('landing') }}" class="top-back">
-            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
-        </a>
+        <div class="top-nav" style="display:flex; gap:8px;">
+            <a href="{{ route('landing') }}" class="top-back">
+                <i class="fas fa-home"></i> <span>Beranda</span>
+            </a>
+            <a href="{{ route('cek.saldo') }}" class="top-back">
+                <i class="fa-solid fa-wallet"></i> <span>Cek Saldo & Target</span>
+            </a>
+            <a href="{{ route('cek.transfer') }}" class="top-back">
+                <i class="fas fa-search"></i> <span>Cek Status TF</span>
+            </a>
+        </div>
     </div>
 
     <div class="page-wrap">

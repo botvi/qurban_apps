@@ -50,6 +50,85 @@ Route::get('/cek-transfer', function () {
     return view('public.cek-transfer');
 })->name('cek.transfer');
 
+// Public cek saldo & progres target
+Route::get('/cek-saldo', function () {
+    return view('public.cek-saldo');
+})->name('cek.saldo');
+
+// API: saldo & progres target peserta (publik)
+Route::get('/api/peserta/tabungan', function (\Illuminate\Http\Request $request) {
+    $participantId = $request->get('participant_id');
+    if (!$participantId) return response()->json(['error' => 'participant_id diperlukan'], 422);
+
+    $peserta = \App\Models\Participant::where('id', $participantId)
+        ->where('status', 'aktif')
+        ->first();
+
+    if (!$peserta) return response()->json(['error' => 'Peserta tidak ditemukan'], 404);
+
+    $activeTarget = $peserta->activeTarget();
+    
+    $deposits = $peserta->deposits()
+        ->select('jumlah', 'tanggal', 'keterangan')
+        ->orderBy('tanggal', 'desc')
+        ->get()
+        ->map(function ($d) {
+            return [
+                'jumlah' => $d->jumlah,
+                'jumlah_fmt' => 'Rp ' . number_format($d->jumlah, 0, ',', '.'),
+                'tanggal' => \Carbon\Carbon::parse($d->tanggal)->translatedFormat('d F Y'),
+                'keterangan' => $d->keterangan ?? '-',
+            ];
+        });
+
+    $withdrawals = $peserta->withdrawals()
+        ->select('jumlah', 'tanggal', 'alasan')
+        ->orderBy('tanggal', 'desc')
+        ->get()
+        ->map(function ($w) {
+            return [
+                'jumlah' => $w->jumlah,
+                'jumlah_fmt' => 'Rp ' . number_format($w->jumlah, 0, ',', '.'),
+                'tanggal' => \Carbon\Carbon::parse($w->tanggal)->translatedFormat('d F Y'),
+                'alasan' => $w->alasan,
+            ];
+        });
+
+    $targetInfo = null;
+    if ($activeTarget) {
+        $pct = $activeTarget->target_dana > 0 ? ($peserta->balance / $activeTarget->target_dana) * 100 : 0;
+        $targetInfo = [
+            'kategori' => $activeTarget->category->nama_kategori,
+            'tahun' => $activeTarget->tahun_qurban,
+            'target_dana' => $activeTarget->target_dana,
+            'target_dana_fmt' => 'Rp ' . number_format($activeTarget->target_dana, 0, ',', '.'),
+            'terkumpul' => $peserta->balance,
+            'terkumpul_fmt' => 'Rp ' . number_format($peserta->balance, 0, ',', '.'),
+            'persen' => round($pct, 1),
+            'kekurangan' => max(0, $activeTarget->target_dana - $peserta->balance),
+            'kekurangan_fmt' => 'Rp ' . number_format(max(0, $activeTarget->target_dana - $peserta->balance), 0, ',', '.'),
+        ];
+    }
+
+    return response()->json([
+        'peserta' => [
+            'id' => $peserta->id,
+            'nama' => $peserta->nama,
+            'nik' => $peserta->nik,
+            'alamat' => $peserta->alamat,
+        ],
+        'balance' => $peserta->balance,
+        'balance_fmt' => 'Rp ' . number_format($peserta->balance, 0, ',', '.'),
+        'total_deposits' => $peserta->total_deposits,
+        'total_deposits_fmt' => 'Rp ' . number_format($peserta->total_deposits, 0, ',', '.'),
+        'total_withdrawals' => $peserta->total_withdrawals,
+        'total_withdrawals_fmt' => 'Rp ' . number_format($peserta->total_withdrawals, 0, ',', '.'),
+        'target' => $targetInfo,
+        'deposits' => $deposits,
+        'withdrawals' => $withdrawals,
+    ]);
+})->name('api.peserta.tabungan');
+
 // API: riwayat transfer milik peserta (publik)
 Route::get('/api/transfer/riwayat', function (\Illuminate\Http\Request $request) {
     $participantId = $request->get('participant_id');

@@ -128,6 +128,24 @@
             <td>:</td>
             <td>{{ $deposit->keterangan ?? 'Setoran Tabungan Qurban' }}</td>
         </tr>
+        @php
+            $activeTarget = $deposit->participant->activeTarget();
+        @endphp
+        @if($activeTarget)
+        <tr>
+            <td>Target Program</td>
+            <td>:</td>
+            <td>{{ $activeTarget->category->nama_kategori }} ({{ $activeTarget->tahun_qurban }}) - Target: Rp {{ number_format($activeTarget->target_dana, 0, ',', '.') }}</td>
+        </tr>
+        <tr>
+            <td>Progres Target</td>
+            <td>:</td>
+            <td style="font-weight: bold;">
+                Rp {{ number_format($deposit->participant->balance, 0, ',', '.') }} dari Rp {{ number_format($activeTarget->target_dana, 0, ',', '.') }} 
+                ({{ round(($deposit->participant->balance / $activeTarget->target_dana) * 100, 1) }}%)
+            </td>
+        </tr>
+        @endif
     </table>
 
     <div class="amount-box">
