@@ -354,10 +354,10 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-group">
-                    <label class="form-label"><i class="fas fa-user"></i> Username atau Email</label>
+                    <label class="form-label"><i class="fas fa-user"></i> Username</label>
                     <div class="input-wrap">
                         <i class="fas fa-user input-icon"></i>
-                        <input type="text" name="username" class="form-input" placeholder="Masukkan username atau email"
+                        <input type="text" name="username" class="form-input" placeholder="Masukkan username"
                             value="{{ old('username') }}" required>
                     </div>
                 </div>
